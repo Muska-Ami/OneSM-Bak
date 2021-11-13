@@ -555,7 +555,7 @@ class Onedrive {
             $html = '
 <div>
     <form action="?Finish&disktag=' . $_GET['disktag'] . '&AddDisk=' . get_class($this) . '" method="post" onsubmit="return notnull(this);">
-        <label><input type="radio" name="DriveType" value="Onedrive" checked>' . 'Use Onedrive ' . getconstStr(' ') . '</label><br>';
+        <label><input type="radio" name="DriveType" value="Onedrive" checked>' . '使用 OneDrive ' . getconstStr(' ') . '</label><br>';
             if ($sites[0]!='') foreach ($sites as $k => $v) {
                 $html .= '
         <label>
@@ -572,7 +572,7 @@ class Onedrive {
         </label><br>
         ';
             $html .= '
-        <input type="submit" value="' . getconstStr('Submit') . '">
+        <input type="submit" value="' . getconstStr('Submit') . '" class="btn">
     </form>
 </div>
 <script>
@@ -757,7 +757,7 @@ class Onedrive {
         <br>';
         if ($_SERVER['language']=='zh-cn') $html .= '你要理解 scfonedrive.github.io 是github上的静态网站，<br><font color="red">除非github真的挂掉</font>了，<br>不然，稍后你如果<font color="red">连不上</font>，请检查你的运营商或其它“你懂的”问题！<br>';
         $html .='
-        <input type="submit" value="' . getconstStr('Submit') . '">
+        <input type="submit" value="' . getconstStr('Submit') . '" class="btn">
     </form>
 </div>
     <script>

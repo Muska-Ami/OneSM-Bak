@@ -246,7 +246,7 @@ function main($path)
                     }
                     $tmp = substr($tmp, 0, -1);
                 }
-                return output('Please visit <a href="' . $tmp . '">' . $tmp . '</a>.', 302, [ 'Location' => $tmp ]);
+                return output('请转至 <a href="' . $tmp . '">' . $tmp . '</a>.', 302, [ 'Location' => $tmp ]);
                 //return message('<meta http-equiv="refresh" content="2;URL='.$_SERVER['base_path'].'">Please visit from <a href="'.$_SERVER['base_path'].'">Home Page</a>.', 'Error', 404);
             }
             $path = substr($path, strlen('/' . $_SERVER['disktag']));
@@ -266,7 +266,7 @@ function main($path)
     if (isset($_GET['AddDisk'])) {
         if ($_GET['AddDisk']===true) {
             $tmp = path_format($_SERVER['base_path'] . '/' . $path);
-            return output('Please visit <a href="' . $tmp . '">' . $tmp . '</a>.', 301, [ 'Location' => $tmp ]);
+            return output('请转至 <a href="' . $tmp . '">' . $tmp . '</a>.', 301, [ 'Location' => $tmp ]);
         }
         if ($_SERVER['admin']) {
             if (!class_exists($_GET['AddDisk'])) require 'disk' . $slash . $_GET['AddDisk'] . '.php';
@@ -291,7 +291,7 @@ function main($path)
         }
     }
 
-    if (!isreferhost()) return message('Must visit from designated host', 'NOT_ALLOWED', 403);
+    if (!isreferhost()) return message('必须从指定的网址访问', 'NOT_ALLOWED', 403);
 
     // Show disks in root
     if ($files['showname'] == 'root') return render_list($path, $files);
@@ -387,7 +387,7 @@ function main($path)
                     if ($distfolder[1]=='') $tmpfolder = splitlast($distfolder[0], '/')[1];
                     else $tmpfolder = $distfolder[1];
                     if ($tmpfolder=='') $tmpfolder = '/';
-                    return output('No files in folder " ' . htmlspecialchars($tmpfolder) . ' ".', 404);
+                    return output('没有文件 " ' . htmlspecialchars($tmpfolder) . ' ".', 404);
                 }
                 $tmp = [];
                 foreach (array_keys($files['list']) as $filename) {
@@ -406,7 +406,7 @@ function main($path)
                     return output('', 302, $header);
                 } else return output('No "' . htmlspecialchars($_GET['random']) . '" files', 404);
             } else return output('Hidden', 401);
-        } else return output('must provide a suffix, like "?random=gif".', 401);
+        } else return output('必须提供后缀，例如 "?random=gif".', 401);
 
     // is file && not preview mode, download file
     if ($files['type']=='file' && !isset($_GET['preview'])) {
@@ -555,7 +555,7 @@ function compareadminsha1($adminsha1, $timestamp, $pass)
         return 'The timestamp in server is ' . time() . ' (' . date("Y-m-d H:i:s") . ' UTC),<br>and your posted timestamp is ' . $timestamp . ' (' . date("Y-m-d H:i:s", $timestamp) . ' UTC)';
     }
     if ($adminsha1 == sha1($timestamp . $pass)) return '';
-    else return 'Error password';
+    else return '密码错误';
 }
 
 function proxy_replace_domain($url, $domainforproxy, &$header)
@@ -1057,9 +1057,9 @@ function adminform($name = '', $pass = '', $storage = '', $path = '')
     ' . $name . '
     <form action="" method="post" onsubmit="return sha1loginpass(this);">
         <div>
-            <input id="password1" name="password1" type="password"/>
+            <input id="password1" name="password1" type="password" class="intext"/>
             <input name="timestamp" type="hidden"/>
-            <input type="submit" value="' . getconstStr('Login') . '">
+            <input type="submit" value="' . getconstStr('Login') . '" class="btn">
         </div>
     </form>
     </center>
@@ -1077,7 +1077,7 @@ function adminform($name = '', $pass = '', $storage = '', $path = '')
             f.password1.value = sha1(timestamp + "" + f.password1.value);
             return true;
         } catch {
-            alert("sha1.js not loaded.");
+            alert("sha1.js 未加载，可能正在加载");
             return false;
         }
     }
@@ -1404,7 +1404,7 @@ function EnvOpt($needUpdate = 0)
         $html .= '
 <form name="form1" method="POST" action="">
     <input id="inputarea" name="cmd" style="width:100%" value="' . $_POST['cmd'] . '"><br>
-    <input type="submit" value="post">
+    <input type="submit" value="post" class="btn">
 </form>';
         if ($_POST['cmd']!='') {
             $html .= '
@@ -1484,7 +1484,7 @@ output:
         </tr>';
     }
     $frame .= '
-        <tr><td><input type="submit" name="submit1" value="' . getconstStr('Setup') . '"></td><td></td></tr>
+        <tr><td><input type="submit" name="submit1" value="' . getconstStr('Setup') . '" class="btn"></td><td></td></tr>
     </form>
 </table><br>';
     } elseif (isset($_GET['disktag'])&&$_GET['disktag']!==true&&in_array($_GET['disktag'], $disktags)) {
@@ -1499,7 +1499,7 @@ output:
                 <input type="hidden" name="disktag_rename" value="' . $disktag . '">
                 <input name="_admin" type="hidden" value="">
                 <input type="text" name="disktag_newname" value="' . $disktag . '" placeholder="' . getconstStr('EnvironmentsDescription')['disktag'] . '">
-                <input type="submit" name="submit1" value="' . getconstStr('RenameDisk') . '">
+                <input type="submit" name="submit1" value="' . getconstStr('RenameDisk') . '" class="btn">
             </form>
         </td>
     </tr>
@@ -1510,14 +1510,14 @@ output:
         <form action="" method="post" style="margin: 0" onsubmit="return deldiskconfirm(this);">
             <input type="hidden" name="disktag_del" value="' . $disktag . '">
             <input name="_admin" type="hidden" value="">
-            <input type="submit" name="submit1" value="' . getconstStr('DelDisk') . '">
+            <input type="submit" name="submit1" value="' . getconstStr('DelDisk') . '" class="btn">
         </form>
     </td>
     <td>
         <form action="" method="post" style="margin: 0" onsubmit="return cpdiskconfirm(this);">
             <input type="hidden" name="disktag_copy" value="' . $disktag . '">
             <input name="_admin" type="hidden" value="">
-            <input type="submit" name="submit1" value="' . getconstStr('CopyDisk') . '">
+            <input type="submit" name="submit1" value="' . getconstStr('CopyDisk') . '" class="btn">
         </form>
     </td>
 </tr>
@@ -1554,7 +1554,7 @@ output:
     </tr>';
             }
             $frame .= '
-    <tr><td></td><td><input type="submit" name="submit1" value="' . getconstStr('Setup') . '"></td></tr>
+    <tr><td></td><td><input type="submit" name="submit1" value="' . getconstStr('Setup') . '" class="btn"></td></tr>
 </form>';
         } else {
             $frame .= '
@@ -1615,7 +1615,7 @@ output:
     }
 </style>
 <table border=1>
-    <form id="sortdisks_form" action="" method="post" style="margin: 0" onsubmit="return dragsort(this);">
+    <form id="sortdisks_form" action="" method="post" style="margin: 0" onsubmit="return dragsort(this);" class="btn">
     <tr id="sortdisks">
         <input type="hidden" name="disktag_sort" value="">';
             $num = 0;
@@ -1629,7 +1629,7 @@ output:
             $frame .= '
         <input name="_admin" type="hidden" value="">
     </tr>
-    <tr><td colspan="' . $num . '">' . getconstStr('DragSort') . '<input type="submit" name="submit1" value="' . getconstStr('SubmitSortdisks') . '"></td></tr>
+    <tr><td colspan="' . $num . '">' . getconstStr('DragSort') . '<input type="submit" name="submit1" value="' . getconstStr('SubmitSortdisks') . '" class="btn"></td></tr>
     </form>
 </table>
 <script>
@@ -1730,7 +1730,7 @@ output:
     <select name="branch">
         <option value="main">main</option>
     </select>
-    <input type="submit" name="updateProgram" value="' . getconstStr('updateProgram') . '">
+    <input type="submit" name="updateProgram" value="' . getconstStr('updateProgram') . '" class="btn">
 </form>
 <script>
     function querybranchs()
@@ -1776,24 +1776,24 @@ output:
     <form id="change_pass" name="change_pass" action="" method="POST" onsubmit="return changePassword(this);">
         <input name="_admin" type="hidden" value="">
     <tr>
-        <td>' . getconstStr('OldPassword') . ':</td><td><input type="password" name="oldPass">
+        <td>' . getconstStr('OldPassword') . ':</td><td><input type="password" name="oldPass" class="intext">
         <input type="hidden" name="timestamp"></td>
     </tr>
     <tr>
-        <td>' . getconstStr('NewPassword') . ':</td><td><input type="password" name="newPass1"></td>
+        <td>' . getconstStr('NewPassword') . ':</td><td><input type="password" name="newPass1" class="intext"></td>
     </tr>
     <tr>
-        <td>' . getconstStr('ReInput') . ':</td><td><input type="password" name="newPass2"></td>
+        <td>' . getconstStr('ReInput') . ':</td><td><input type="password" name="newPass2" class="intext"></td>
     </tr>
     <tr>
-        <td></td><td><button name="changePass" value="changePass">' . getconstStr('ChangAdminPassword') . '</button></td>
+        <td></td><td><button name="changePass" value="changePass" class="btn">' . getconstStr('ChangAdminPassword') . '</button></td>
     </tr>
     </form>
 </table><br>
 <table>
     <form id="config_f" name="config" action="" method="POST" onsubmit="return false;">
     <tr>
-        <td>' . getconstStr('AdminPassword') . ':<input type="password" name="pass">
+        <td>' . getconstStr('AdminPassword') . ':<input type="password" name="pass" class="intext">
         <button name="config_b" value="export" onclick="exportConfig(this);">' . getconstStr('export') . '</button></td>
     </tr>
     <tr>
@@ -1882,11 +1882,11 @@ output:
             return false;
         }
         if (f.oldPass.value==f.newPass1.value) {
-            alert("Same password");
+            alert("密码相同");
             return false;
         }
         if (f.newPass1.value!==f.newPass1.value) {
-            alert("Input twice new password");
+            alert("请重复密码");
             return false;
         }
         try {
@@ -1910,6 +1910,31 @@ output:
     <tr class="tabs">';
     if ($_GET['disktag']==''||$_GET['disktag']===true||!in_array($_GET['disktag'], $disktags)) {
         if ($_GET['setup']==='platform') $html .= '
+        <style>
+            table {
+                width: 95%;
+                border-collapse:collapse;
+                text-align: center;
+                border: solid;
+                border-width: 1px 0px 0px 1px;
+            }
+                th,td {
+                border-collapse:collapse;
+                border: solid;
+                border-width: 0px 1px 1px 0px;
+                padding: 10px;
+                }
+                th {
+                    background-color: #E6E6E6;
+                }
+                td {
+                    background-color: #F7F7F7;
+                }
+                img {
+                    width: 80%;
+                    height: auto;
+                }
+        </style>
         <td><a href="?setup">' . getconstStr('Home') . '</a></td>
         <td>' . getconstStr('PlatformConfig') . '</td>';
         else $html .= '
@@ -2137,7 +2162,7 @@ function render_list($path = '', $files = [])
             // 加密状态
             if (getConfig('useBasicAuth')) {
                 // use Basic Auth
-                return output('Need password.', 401, ['WWW-Authenticate'=>'Basic realm="Secure Area"']);
+                return output('需要密码', 401, ['WWW-Authenticate'=>'Basic realm="Secure Area"']);
             }
             /*$tmp[1] = 'a';
             while ($tmp[1]!='') {

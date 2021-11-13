@@ -157,8 +157,8 @@
                 <div style="padding:20px">
 	            <center>
 	                <form action="" method="post">
-		            <input id="password1" name="password1" type="password" placeholder="<!--constStr@InputPassword-->">
-		            <input type="submit" value="<!--constStr@Submit-->">
+		            <input id="password1" name="password1" type="password" placeholder="<!--constStr@InputPassword-->" class="intext">
+		            <input type="submit" value="<!--constStr@Submit-->" class="btn">
 	                </form>
                 </center>
                 </div>
@@ -171,7 +171,7 @@
                         <option value="1"><!--constStr@UploadFolder--></option>
                     </select>
                     <input id="upload_file" type="file" name="upload_filename" multiple="multiple">
-                    <input id="upload_submit" onclick="preup();" value="<!--constStr@Upload-->" type="button">
+                    <input id="upload_submit" onclick="preup();" value="<!--constStr@Upload-->" type="button" class="btn">
                 </div>
                 </div>
 <!--GuestUploadEnd-->
@@ -320,7 +320,7 @@
                         <option value="1"><!--constStr@UploadFolder--></option>
                     </select>
                     <input id="upload_file" type="file" name="upload_filename" multiple="multiple">
-                    <input id="upload_submit" onclick="preup();" value="<!--constStr@Upload-->" type="button">
+                    <input id="upload_submit" onclick="preup();" value="<!--constStr@Upload-->" type="button" class="btn">
                 </div>
                 </div>
 <!--AdminEnd-->
@@ -368,7 +368,7 @@
                 <input id="rename_fileid" name="rename_fileid" type="hidden" value="">
                 <input id="rename_hidden" name="rename_oldname" type="hidden" value="">
                 <input id="rename_input" name="rename_newname" type="text" value="">
-                <input name="operate_action" type="submit" value="<!--constStr@Rename-->">
+                <input name="operate_action" type="submit" value="<!--constStr@Rename-->" class="btn">
                 </form>
             </div>
         </div>
@@ -381,7 +381,7 @@
                 <input id="delete_sid" name="delete_sid" type="hidden" value="">
                 <input id="delete_fileid" name="delete_fileid" type="hidden" value="">
                 <input id="delete_hidden" name="delete_name" type="hidden" value="">
-                <input name="operate_action" type="submit" value="<!--constStr@Submit-->">
+                <input name="operate_action" type="submit" value="<!--constStr@Submit-->" class="btn">
                 </form>
             </div>
         </div>
@@ -392,8 +392,8 @@
                 <input id="encrypt_sid" name="encrypt_sid" type="hidden" value="">
                 <input id="encrypt_fileid" name="encrypt_fileid" type="hidden" value="">
                 <input id="encrypt_hidden" name="encrypt_folder" type="hidden" value="">
-                <input id="encrypt_input" name="encrypt_newpass" type="text" value="" placeholder="<!--constStr@InputPasswordUWant-->">
-                <!--EncryptBtnStart--><input name="operate_action" type="submit" value="<!--constStr@Encrypt-->"><!--EncryptBtnEnd--><!--EncryptAlertStart--><br><label><!--constStr@SetpassfileBfEncrypt--></label><!--EncryptAlertEnd-->
+                <input id="encrypt_input" name="encrypt_newpass" type="text" value="" placeholder="<!--constStr@InputPasswordUWant-->" class="intext">
+                <!--EncryptBtnStart--><input name="operate_action" type="submit" value="<!--constStr@Encrypt-->" class="btn"><!--EncryptBtnEnd--><!--EncryptAlertStart--><br><label><!--constStr@SetpassfileBfEncrypt--></label><!--EncryptAlertEnd-->
                 </form>
             </div>
         </div>
@@ -405,7 +405,7 @@
                 <input id="copy_fileid" name="copy_fileid" type="hidden" value="">
                 <input id="copy_hidden" name="copy_name" type="hidden" value="">
                 <input id="copy_input" name="copy_input" type="hidden" value="">
-                <input name="operate_action" type="submit" value="<!--constStr@Copy-->">
+                <input name="operate_action" type="submit" value="<!--constStr@Copy-->" class="btn">
                 </form>
             </div>
         </div>
@@ -457,7 +457,7 @@
                         </tr>
                         <tr>
                             <td>　　　</td>
-                            <td><input name="operate_action" type="submit" value="<!--constStr@Create-->"></td>
+                            <td><input name="operate_action" type="submit" value="<!--constStr@Create-->" class="btn"></td>
                         </tr>
                     </table>
                 </form>
@@ -472,9 +472,9 @@
             <a onclick="operatediv_close('login')" class="operatediv_close"><!--constStr@Close--></a>
             <center>
                 <form action="<!--IsPreview?-->admin" method="post" onsubmit="return sha1loginpass(this);">
-                    <input id="login_input" name="password1" type="password" placeholder="<!--constStr@InputPassword-->">
+                    <input id="login_input" name="password1" type="password" placeholder="<!--constStr@InputPassword-->" class="intext">
                     <input name="timestamp" type="hidden" value="">
-                    <input type="submit" value="<!--constStr@Login-->">
+                    <input type="submit" value="<!--constStr@Login-->" class="btn">
                 </form>
             </center>
         </div>
@@ -519,7 +519,7 @@
             f.password1.value = sha1(timestamp + "" + f.password1.value);
             return true;
         } catch {
-            alert("sha1.js not loaded.");
+            alert("sha1.js 未加载，可能正在加载");
             return false;
         }
     }

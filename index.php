@@ -10,7 +10,7 @@ echo '<center>
 a {
     color: gray;
 }
-#VercelToken,#adminpassword {
+#VercelToken,#adminpassword,.intext {
     border-top: none;
     border-left: none;
     border-right: none;

@@ -209,7 +209,7 @@ function install()
 <div id="formdiv" style="display: none">
     <form action="?install2" method="post" onsubmit="return notnull(this);">
         <input name="admin" type="password" placeholder="' . getconstStr('EnvironmentsDescription')['admin'] . '" size="' . strlen(getconstStr('EnvironmentsDescription')['admin']) . '" id="adminpassword"><br>
-        <input id="submitbtn" type="submit" value="'.getconstStr('Submit').'" disabled>
+        <input id="submitbtn" type="submit" value="'.getconstStr('Submit').'" disabled class="btn">
     </form>
 </div>
     <script>
