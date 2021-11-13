@@ -1,4 +1,5 @@
 # OneSM - 一个OneDrive管理器
+<img src="https://onesm.xmdisk.ga/OneSM-Logo.png" /><br />
 基于OneManager-php重写，目前仅支持Vercel和云虚拟机 / 服务器部署<br />
 ### 功能
 - OneDrive直链
