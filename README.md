@@ -1,6 +1,6 @@
 # OneSM - 一个OneDrive管理器
 基于OneManager-php重写，目前仅支持Vercel和虚拟机部署<br />
-###功能
+### 功能
 - OneDrive直链
 - 在线预览
 - 上传/删除文件
