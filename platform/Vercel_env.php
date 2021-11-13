@@ -234,15 +234,15 @@ language:<br>';
         function notnull(t)
         {
             if (t.admin.value==\'\') {
-                alert(\'input admin\');
+                alert(\'请填入管理员密码\');
                 return false;
             }
             if (t.APIKey.value==\'\') {
-                alert(\'input Token\');
+                alert(\'请填入Vercel Token\');
                 return false;
             }
             t.style.display = "none";
-            errordiv.innerHTML = "' . getconstStr('Wait') . '";
+            errordiv.innerHTML = "' . getconstStr('等待') . '";
             var xhr = new XMLHttpRequest();
             xhr.open("POST", t.action);
             xhr.onload = function(e) {
@@ -271,10 +271,10 @@ language:<br>';
                         if (deployStat=="READY") {
                             x = "";
                             min = 0;
-                            errordiv.innerHTML = "Deploy done.";
+                            errordiv.innerHTML = "部署成功";
                             location.href = "/";
                         } else {
-                            errordiv.innerHTML = deployStat + ", " + min + ".<br>' . getconstStr('Wait') . ' " + x;
+                            errordiv.innerHTML = deployStat + ", " + min + ".<br>' . getconstStr('等待') . ' " + x;
                             if (deployStat!=="ERROR") setTimeout(function() { getStatus(id, VercelToken) }, 1000);
                         }
                     } else {
@@ -338,7 +338,7 @@ function VercelUpdate($appId, $token, $sourcePath = "")
     $url = "https://api.vercel.com/v12/now/deployments";
     $header["Authorization"] = "Bearer " . $token;
     $header["Content-Type"] = "application/json";
-    $data["name"] = "OneSM";
+    $data["name"] = "OneManager";
     $data["project"] = $appId;
     $data["target"] = "production";
     $data["routes"][0]["src"] = "/(.*)";
@@ -398,7 +398,7 @@ function setConfigResponse($response)
     return json_decode($response, true);
 }
 
-function OnekeyUpate($auth = 'XiaMoHuaHuo-CN', $project = 'OneSM', $branch = 'master')
+function OnekeyUpate($auth = 'XiaMoHuaHuo-CN', $project = 'OneSM', $branch = 'main')
 {
     $tmppath = '/tmp';
 

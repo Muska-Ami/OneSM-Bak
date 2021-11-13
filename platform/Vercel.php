@@ -236,15 +236,15 @@ language:<br>';
         function notnull(t)
         {
             if (t.admin.value==\'\') {
-                alert(\'input admin\');
+                alert(\'请填入管理员密码\');
                 return false;
             }
             if (t.APIKey.value==\'\') {
-                alert(\'input Token\');
+                alert(\'请填入Vercel Token\');
                 return false;
             }
             t.style.display = "none";
-            errordiv.innerHTML = "' . getconstStr('Wait') . '";
+            errordiv.innerHTML = "' . getconstStr('等待') . '";
             var xhr = new XMLHttpRequest();
             xhr.open("POST", t.action);
             xhr.onload = function(e) {
@@ -273,7 +273,7 @@ language:<br>';
                         if (deployStat=="READY") {
                             x = "";
                             min = 0;
-                            errordiv.innerHTML = "Deploy done.";
+                            errordiv.innerHTML = "部署成功";
                             location.href = "/";
                         } else {
                             errordiv.innerHTML = deployStat + ", " + min + ".<br>' . getconstStr('Wait') . ' " + x;
@@ -297,9 +297,9 @@ language:<br>';
 
     if (substr($_SERVER["host"], -10)=="vercel.app") {
         $html .= '<a href="?install0">' . getconstStr('ClickInstall') . '</a>, ' . getconstStr('LogintoBind');
-        $html .= "<br>Remember: you MUST wait 30-60s after each operate / do some change, that make sure Vercel has done the building<br>" ;
+        $html .= "<br>请记住：每次操作/进行一些更改后，您必须等待 30-60 秒，以确保 Vercel 已完成构建<br>" ;
     } else {
-        $html.= "Please visit form *.vercel.app";
+        $html.= "请从 *.vercel.app 安装";
     }
     $title = '安装OneSM';
     return message($html, $title, 201);
@@ -347,7 +347,7 @@ function VercelUpdate($appId, $token, $sourcePath = "")
     $url = "https://api.vercel.com/v12/now/deployments";
     $header["Authorization"] = "Bearer " . $token;
     $header["Content-Type"] = "application/json";
-    $data["name"] = "OneSM";
+    $data["name"] = "OneManager";
     $data["project"] = $appId;
     $data["target"] = "production";
     $data["routes"][0]["src"] = "/(.*)";
@@ -407,7 +407,7 @@ function setConfigResponse($response)
     return json_decode($response, true);
 }
 
-function OnekeyUpate($auth = 'XiaMoHuaHuo-CN', $project = 'OneSM', $branch = 'master')
+function OnekeyUpate($auth = 'XiaMoHuaHuo-CN', $project = 'OneSM', $branch = 'main')
 {
     $tmppath = '/tmp';
 

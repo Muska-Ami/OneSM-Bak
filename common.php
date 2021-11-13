@@ -618,7 +618,7 @@ function filecache($disktag)
             if ( is_writable($tmp) ) $dir = $tmp;
         } elseif ( mkdir($tmp) ) $dir = $tmp;
     }
-    $tag = __DIR__ . '/OneSM/' . $disktag;
+    $tag = __DIR__ . '/OneManager/' . $disktag;
     while (strpos($tag, '/')>-1) $tag = str_replace('/', '_', $tag);
     if (strpos($tag, ':')>-1) {
         $tag = str_replace(':', '_', $tag);
@@ -949,7 +949,7 @@ function needUpdate()
     $current_ver = explode(urldecode('%0D'),$current_ver)[0];
     $split = splitfirst($current_version, '.' . $current_ver)[0] . '.' . $current_ver;
     if (!($github_version = getcache('github_version'))) {
-        $tmp = curl('GET', 'https://raw.githubusercontent.com/XiaMoHuaHuo-CN/OneSM/master/version');
+        $tmp = curl('GET', 'https://raw.githubusercontent.com/XiaMoHuaHuo-CN/OneSM/main/version');
         if ($tmp['stat']==0) return 0;
         $github_version = $tmp['body'];
         savecache('github_version', $github_version);
@@ -1249,7 +1249,7 @@ function EnvOpt($needUpdate = 0)
     //foreach ($EnvConfigs as $env => $v) if (isCommonEnv($env)) $envs .= '\'' . $env . '\', ';
     $envs = substr(json_encode(array_keys ($EnvConfigs)), 1, -1);
 
-    $html = '<title>OneSM '.getconstStr('Setup').'</title>';
+    $html = '<title>OneManager '.getconstStr('Setup').'</title>';
     if (isset($_POST['updateProgram'])&&$_POST['updateProgram']==getconstStr('updateProgram')) if (compareadminmd5('admin', getConfig('admin'), $_COOKIE['admin'], $_POST['_admin'])) {
         $response = setConfigResponse(OnekeyUpate($_POST['auth'], $_POST['project'], $_POST['branch']));
         if (api_error($response)) {
@@ -1728,7 +1728,7 @@ output:
     <input type="text" name="project" size="12" placeholder="project" value="OneSM">
     <button name="QueryBranchs" onclick="querybranchs();return false;">' . getconstStr('QueryBranchs') . '</button>
     <select name="branch">
-        <option value="master">master</option>
+        <option value="main">main</option>
     </select>
     <input type="submit" name="updateProgram" value="' . getconstStr('updateProgram') . '">
 </form>
@@ -1737,14 +1737,14 @@ output:
     {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "https://api.github.com/repos/"+document.updateform.auth.value+"/"+document.updateform.project.value+"/branches");
-        //xhr.setRequestHeader("User-Agent","XiaMoHuaHuo-CN/OneSM");
+        //xhr.setRequestHeader("User-Agent","XiaMoHuaHuo-CN/OneManager");
         xhr.onload = function(e){
             console.log(xhr.responseText+","+xhr.status);
             if (xhr.status==200) {
                 document.updateform.branch.options.length=0;
                 JSON.parse(xhr.responseText).forEach( function (e) {
                     document.updateform.branch.options.add(new Option(e.name,e.name));
-                    if ("master"==e.name) document.updateform.branch.options[document.updateform.branch.options.length-1].selected = true; 
+                    if ("main"==e.name) document.updateform.branch.options[document.updateform.branch.options.length-1].selected = true; 
                 });
                 document.updateform.QueryBranchs.style.display="none";
             } else {
@@ -1994,21 +1994,21 @@ function render_list($path = '', $files = [])
     date_default_timezone_set(get_timezone($_SERVER['timezone']));
     $authinfo = '
 <!--
-    OneSM: An index & manager of Onedrive auth by ysun.
+    OneManager: An index & manager of Onedrive auth by ysun.
     Github: https://github.com/XiaMoHuaHuo-CN/OneSM
 -->';
     //$authinfo = $path . '<br><pre>' . json_encode($files, JSON_PRETTY_PRINT) . '</pre>';
 
     //if (isset($_COOKIE['theme'])&&$_COOKIE['theme']!='') $theme = $_COOKIE['theme'];
     //if ( !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = '';
-    if ($_SERVER['admin']) $theme = 'OneDrive.html';
+    if ($_SERVER['admin']) $theme = 'classic.html';
     if ( $theme=='' ) {
         $tmp = getConfig('customTheme');
         if ( $tmp!='' ) $theme = $tmp;
     }
     if ( $theme=='' ) {
         $theme = getConfig('theme');
-        if ( $theme=='' || !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = 'OneDrive.html';
+        if ( $theme=='' || !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = 'classic.html';
     }
     if (substr($theme,-4)=='.php') {
         @ob_start();
@@ -2545,8 +2545,8 @@ function render_list($path = '', $files = [])
 
         $keywords = $n_path;
         if ($p_path!='') $keywords .= ', ' . $p_path;
-        if ($_SERVER['sitename']!='OneSM') $keywords .= ', ' . $_SERVER['sitename'] . ', OneSM';
-        else $keywords .= ', OneSM';
+        if ($_SERVER['sitename']!='OneManager') $keywords .= ', ' . $_SERVER['sitename'] . ', OneManager';
+        else $keywords .= ', OneManager';
         $html = str_replace('<!--Keywords-->', $keywords, $html);
 
         if ($_GET['preview']) {

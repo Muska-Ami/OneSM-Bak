@@ -312,7 +312,7 @@ function setConfigResponse($response)
     return json_decode($response, true);
 }
 
-function OnekeyUpate($auth = 'XiaMoHuaHuo-CN', $project = 'OneSM', $branch = 'master')
+function OnekeyUpate($auth = 'XiaMoHuaHuo-CN', $project = 'OneSM', $branch = 'main')
 {
     $slash = '/';
     if (strpos(__DIR__, ':')) $slash = '\\';

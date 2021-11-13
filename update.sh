@@ -5,13 +5,13 @@ if [ $# -eq 0 ]; then
 "$0" -i|u [-b branch]
         i       a new install with empty config.
         u       update use exist config.
-        b       install the branch after parameter b, default master
+        b       install the branch after parameter b, default main
 
 example:
         "$0" -i
         "$0" -u
-        "$0" -b master
-        "$0" -u -b master
+        "$0" -b main
+        "$0" -u -b main
         "$0" -ib test
 "
 #  exit
