@@ -1,6 +1,6 @@
 {
   "name": "OneSM",
-  "description": "Deploy OneManager to heroku",
+  "description": "Deploy OneSM to heroku",
   "website": "https://github.com/XiaMoHuaHuo-CN/OneSM",
   "repository": "https://github.com/XiaMoHuaHuo-CN/OneSM",
   "success_url": "/"

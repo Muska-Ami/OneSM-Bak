@@ -43,7 +43,7 @@ if (isset($_SERVER['HEROKU_APP_DIR'])&&$_SERVER['HEROKU_APP_DIR']==='/app') {
     if ($re['isBase64Encoded']) echo base64_decode($re['body']);
     else echo $re['body'];
 } elseif (isset($_SERVER['DOCUMENT_ROOT'])&&$_SERVER['DOCUMENT_ROOT']==='/var/task/user') {
-    if (getenv('ONEMANAGER_CONFIG_SAVE')=='env') include 'platform/Vercel_env.php';
+    if (getenv('ONESM_CONFIG_SAVE')=='env') include 'platform/Vercel_env.php';
     else include 'platform/Vercel.php';
     $path = getpath();
     //echo 'path:'. $path;
