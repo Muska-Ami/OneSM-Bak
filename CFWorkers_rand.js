@@ -2,9 +2,9 @@
 // Hosts Array
 // 服务器数组
 const H = [
-    'https://herooneindex.herokuapp.com/',
-    'https://ONESM.glitch.me/',
-    'https://ONESM-php.vercel.app/'
+    'https://example.com',
+    'https://example.com',
+    'https://example.com'
 ]
 
 // View Type
@@ -14,7 +14,7 @@ const H = [
 //     只有前两条记录有效，分别单双日运行
 // 3 , view random host
 //     所有记录随机访问
-const T = 1
+const T = 3
 
 // CF proxy all, true/false
 // 一切给CF代理，true或false
