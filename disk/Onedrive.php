@@ -595,7 +595,7 @@ class Onedrive {
             return message($html, $title, 201);
         }
 
-        if (isset($_GET['inst-c']) && isset($_GET['code'])) {
+        if (isset($_GET['install2']) && isset($_GET['code'])) {
             $tmp = curl('POST', $this->oauth_url . 'token', 'client_id=' . $this->client_id .'&client_secret=' . $this->client_secret . '&grant_type=authorization_code&requested_token_use=on_behalf_of&redirect_uri=' . $this->redirect_uri . '&code=' . $_GET['code']);
             if ($tmp['stat']==200) $ret = json_decode($tmp['body'], true);
             if (isset($ret['refresh_token'])) {
@@ -639,12 +639,12 @@ class Onedrive {
             //return message('<pre>' . json_encode($ret, JSON_PRETTY_PRINT) . '</pre>', 500);
         }
 
-        if (isset($_GET['inst-b'])) {
+        if (isset($_GET['install1'])) {
             if (get_class($this)=='Onedrive' || get_class($this)=='OnedriveCN') {
                 return message('
     <a href="" id="a1">' . getconstStr('JumptoOffice') . '</a>
     <script>
-        url=location.protocol + "//" + location.host + "' . $url . '?inst-c&disktag=' . $_GET['disktag'] . '&AddDisk=' . get_class($this) . '";
+        url=location.protocol + "//" + location.host + "' . $url . '?install2&disktag=' . $_GET['disktag'] . '&AddDisk=' . get_class($this) . '";
         url="' . $this->oauth_url . 'authorize?scope=' . $this->scope . '&response_type=code&client_id=' . $this->client_id . '&redirect_uri=' . $this->redirect_uri . '&state=' . '"+encodeURIComponent(url);
         document.getElementById(\'a1\').href=url;
         //window.open(url,"_blank");
@@ -652,11 +652,11 @@ class Onedrive {
     </script>
     ', getconstStr('Wait') . ' 1s', 201);
             } else {
-                return message('出现错误，几秒钟后重试', 'Retry', 201);
+                return message('Something error, retry after a few seconds.', 'Retry', 201);
             }
         }
 
-        if (isset($_GET['inst'])) {
+        if (isset($_GET['install0'])) {
             if ($_POST['disktag_add']!='') {
                 $_POST['disktag_add'] = preg_replace('/[^0-9a-zA-Z|_]/i', '', $_POST['disktag_add']);
                 $f = substr($_POST['disktag_add'], 0, 1);
@@ -700,7 +700,7 @@ class Onedrive {
                 } else {
                     $title = getconstStr('MayinEnv');
                     $html = getconstStr('Wait');
-                    if ($_POST['Drive_ver']!='Sharelink') $url .= '?inst-b&disktag=' . $_GET['disktag'] . '&AddDisk=' . $_POST['Drive_ver'];
+                    if ($_POST['Drive_ver']!='Sharelink') $url .= '?install1&disktag=' . $_GET['disktag'] . '&AddDisk=' . $_POST['Drive_ver'];
                     $html .= '<script>
                     var i = 0;
                     var status = "' . $response['DplStatus'] . '";
@@ -728,7 +728,7 @@ class Onedrive {
         <input type="text" name="diskname" placeholder="' . getconstStr('EnvironmentsDescription')['diskname'] . '" style="width:100%"><br>
         <br>
         <div>
-            <label><input type="radio" name="Drive_ver" value="Onedrive" onclick="document.getElementById(\'NT_custom\').style.display=\'\';document.getElementById(\'CN_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">Microsft: ' . getconstStr('DriveVerMS') . '</label><br>
+            <label><input type="radio" name="Drive_ver" value="Onedrive" onclick="document.getElementById(\'NT_custom\').style.display=\'\';document.getElementById(\'CN_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">MS: ' . getconstStr('DriveVerMS') . '</label><br>
             <div id="NT_custom" style="display:none;margin:0px 35px">
                 <label><input type="checkbox" name="NT_Drive_custom" onclick="document.getElementById(\'NT_secret\').style.display=(this.checked?\'\':\'none\');">' . getconstStr('CustomIdSecret') . '</label><br>
                 <div id="NT_secret" style="display:none;margin:10px 35px">
@@ -738,7 +738,7 @@ class Onedrive {
                     client_secret:<input type="text" name="NT_client_secret" style="width:100%"><br>
                 </div>
             </div><br>
-            <label><input type="radio" name="Drive_ver" value="OnedriveCN" onclick="document.getElementById(\'CN_custom\').style.display=\'\';document.getElementById(\'NT_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">VENT: ' . getconstStr('DriveVerCN') . '</label><br>
+            <label><input type="radio" name="Drive_ver" value="OnedriveCN" onclick="document.getElementById(\'CN_custom\').style.display=\'\';document.getElementById(\'NT_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">CN: ' . getconstStr('DriveVerCN') . '</label><br>
             <div id="CN_custom" style="display:none;margin:0px 35px">
                 <label><input type="checkbox" name="CN_Drive_custom" onclick="document.getElementById(\'CN_secret\').style.display=(this.checked?\'\':\'none\');">' . getconstStr('CustomIdSecret') . '</label><br>
                 <div id="CN_secret" style="display:none;margin:10px 35px">
@@ -800,7 +800,7 @@ class Onedrive {
                     }
                 }
             }
-            document.getElementById("form1").action="?inst&disktag=" + t.disktag_add.value + "&AddDisk=" + t.Drive_ver.value;
+            document.getElementById("form1").action="?install0&disktag=" + t.disktag_add.value + "&AddDisk=" + t.Drive_ver.value;
             //var expd = new Date();
             //expd.setTime(expd.getTime()+(2*60*60*1000));
             //var expires = "expires="+expd.toGMTString();

@@ -5,8 +5,26 @@ include 'vendor/autoload.php';
 include 'conststr.php';
 include 'common.php';
 
-//echo '<pre>'. json_encode($_SERVER, JSON_PRETTY_PRINT).'</pre>';
-//echo '<pre>'. json_encode($_ENV, JSON_PRETTY_PRINT).'</pre>';
+echo '<style>
+a {
+    color: gray;
+}
+#VercelToken,#adminpassword {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid rgb(90, 45, 196);
+    padding: 6px 14px;
+    font-size: 20px;
+}
+#submitbtn,.btn {
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+</style>';
 if (isset($_SERVER['DOCUMENT_ROOT'])&&$_SERVER['DOCUMENT_ROOT']==='/var/task/user') {
     if (getenv('OneSM_CONFIG_SAVE')=='env') include 'platform/Vercel_env.php';
     else include 'platform/Vercel.php';
@@ -25,7 +43,7 @@ if (isset($_SERVER['DOCUMENT_ROOT'])&&$_SERVER['DOCUMENT_ROOT']==='/var/task/use
 } else {
     include 'platform/Normal.php';
     if (!function_exists('curl_init')) {
-        return message('<font color="red">需要Curl组件，请安装Curl</font>', 'Error', 500);
+        return message('<font color="red">需要 Curl</font>, 请安装 PHP-Curl.', 'Error', 500);
     }
     $path = getpath();
     //echo 'path:'. $path;

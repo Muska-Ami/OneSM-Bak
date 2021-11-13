@@ -147,7 +147,7 @@ function main($path)
             $tmp = substr($tmp, 1);
             if ($tmp!='') $param = '?' . $tmp;
         }
-        return output('使用HTTPS访问', 302, [ 'Location' => 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . $param ]);
+        return output('visit via https.', 302, [ 'Location' => 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . $param ]);
     }
     if (in_array($_SERVER['firstacceptlanguage'], array_keys($constStr['languages']))) {
         $constStr['language'] = $_SERVER['firstacceptlanguage'];
@@ -358,7 +358,7 @@ function main($path)
     } else {
         $files = $drive->list_files($path1);
     }
-    if ($path!=='') if ( $files['type']=='folder' && substr($path, -1)!=='/' ) {
+    if ( $files['type']=='folder' && substr($path, -1)!=='/' ) {
         $tmp = path_format($_SERVER['base_disk_path'] . $path . '/');
         return output('<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
@@ -949,7 +949,7 @@ function needUpdate()
     $current_ver = explode(urldecode('%0D'),$current_ver)[0];
     $split = splitfirst($current_version, '.' . $current_ver)[0] . '.' . $current_ver;
     if (!($github_version = getcache('github_version'))) {
-        $tmp = curl('GET', 'https://onesm.xmdisk.ga/version');
+        $tmp = curl('GET', 'https://raw.githubusercontent.com/XiaMoHuaHuo-CN/OneSM/master/version');
         if ($tmp['stat']==0) return 0;
         $github_version = $tmp['body'];
         savecache('github_version', $github_version);
@@ -1082,7 +1082,7 @@ function adminform($name = '', $pass = '', $storage = '', $path = '')
         }
     }
 </script>
-<script src="sha1.min.js"></script>';
+<script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.min.js"></script>';
     $html .= '</html>';
     return output($html, $statusCode);
 }
@@ -2001,14 +2001,14 @@ function render_list($path = '', $files = [])
 
     //if (isset($_COOKIE['theme'])&&$_COOKIE['theme']!='') $theme = $_COOKIE['theme'];
     //if ( !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = '';
-    if ($_SERVER['admin']) $theme = 'classic.html';
+    if ($_SERVER['admin']) $theme = 'OneDrive.html';
     if ( $theme=='' ) {
         $tmp = getConfig('customTheme');
         if ( $tmp!='' ) $theme = $tmp;
     }
     if ( $theme=='' ) {
         $theme = getConfig('theme');
-        if ( $theme=='' || !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = 'classic.html';
+        if ( $theme=='' || !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = 'OneDrive.html';
     }
     if (substr($theme,-4)=='.php') {
         @ob_start();
