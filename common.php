@@ -949,7 +949,7 @@ function needUpdate()
     $current_ver = explode(urldecode('%0D'),$current_ver)[0];
     $split = splitfirst($current_version, '.' . $current_ver)[0] . '.' . $current_ver;
     if (!($github_version = getcache('github_version'))) {
-        $tmp = curl('GET', 'https://raw.githubusercontent.com/XiaMoHuaHuo-CN/OneSM/main/version');
+        $tmp = curl('GET', 'https://onesm.xmdisk.ga/version');
         if ($tmp['stat']==0) return 0;
         $github_version = $tmp['body'];
         savecache('github_version', $github_version);
