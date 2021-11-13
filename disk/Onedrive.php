@@ -728,7 +728,7 @@ class Onedrive {
         <input type="text" name="diskname" placeholder="' . getconstStr('EnvironmentsDescription')['diskname'] . '" style="width:100%"><br>
         <br>
         <div>
-            <label><input type="radio" name="Drive_ver" value="Onedrive" onclick="document.getElementById(\'NT_custom\').style.display=\'\';document.getElementById(\'CN_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">MS: ' . getconstStr('DriveVerMS') . '</label><br>
+            <label><input type="radio" name="Drive_ver" value="Onedrive" onclick="document.getElementById(\'NT_custom\').style.display=\'\';document.getElementById(\'CN_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">Mircosoft: ' . getconstStr('DriveVerMS') . '</label><br>
             <div id="NT_custom" style="display:none;margin:0px 35px">
                 <label><input type="checkbox" name="NT_Drive_custom" onclick="document.getElementById(\'NT_secret\').style.display=(this.checked?\'\':\'none\');">' . getconstStr('CustomIdSecret') . '</label><br>
                 <div id="NT_secret" style="display:none;margin:10px 35px">
@@ -738,7 +738,7 @@ class Onedrive {
                     client_secret:<input type="text" name="NT_client_secret" style="width:100%"><br>
                 </div>
             </div><br>
-            <label><input type="radio" name="Drive_ver" value="OnedriveCN" onclick="document.getElementById(\'CN_custom\').style.display=\'\';document.getElementById(\'NT_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">CN: ' . getconstStr('DriveVerCN') . '</label><br>
+            <label><input type="radio" name="Drive_ver" value="OnedriveCN" onclick="document.getElementById(\'CN_custom\').style.display=\'\';document.getElementById(\'NT_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">VENT: ' . getconstStr('DriveVerCN') . '</label><br>
             <div id="CN_custom" style="display:none;margin:0px 35px">
                 <label><input type="checkbox" name="CN_Drive_custom" onclick="document.getElementById(\'CN_secret\').style.display=(this.checked?\'\':\'none\');">' . getconstStr('CustomIdSecret') . '</label><br>
                 <div id="CN_secret" style="display:none;margin:10px 35px">
@@ -808,7 +808,7 @@ class Onedrive {
             return true;
         }
     </script>';
-        $title = 'Select Account Type';
+        $title = '选择OneDrive账户类型';
         return message($html, $title, 201);
     }
 

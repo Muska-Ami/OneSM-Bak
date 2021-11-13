@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><!--Title--></title>
-    <link rel="shortcut icon" href="//favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://p.sfx.ms/images/favicon.ico" type="image/x-icon">
     <!--https://p.sfx.ms/images//favicon.ico-->
     <style>
         /* 通用样式 */
@@ -316,7 +316,21 @@
                         <div id="video-a0"></div>
 <!--IsvideoFileEnd-->
 <!--IsmusicFileStart-->
-                        <audio src="<!--FileDownUrl-->" controls="controls" style="width: 100%"></audio>
+                        <div controls="controls" style="width: 100%">
+                            <div id="aplayer"></div>
+                            <script>
+                                const ap = new APlayer({
+                                    container: document.getElementById('aplayer'),
+                                    audio: [{
+                                        name: '<!--FileName-->',
+                                        artist: '来自云端',
+                                        url: '<!--FileDownUrl-->',
+                                        cover: 'https://onesm.xmdisk.ga/music.png'
+                                    }]
+                                });
+                            </script>
+                            </div>
+                        </div>
 <!--IsmusicFileEnd-->
 <!--IspdfFileStart-->
                         <div id="pdf-d">Loading PDF</div>

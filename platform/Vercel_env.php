@@ -242,7 +242,7 @@ language:<br>';
                 return false;
             }
             t.style.display = "none";
-            errordiv.innerHTML = "' . getconstStr('等待') . '";
+            errordiv.innerHTML = "' . getconstStr('Wait') . '";
             var xhr = new XMLHttpRequest();
             xhr.open("POST", t.action);
             xhr.onload = function(e) {
@@ -274,7 +274,7 @@ language:<br>';
                             errordiv.innerHTML = "部署成功";
                             location.href = "/";
                         } else {
-                            errordiv.innerHTML = deployStat + ", " + min + ".<br>' . getconstStr('等待') . ' " + x;
+                            errordiv.innerHTML = deployStat + ", " + min + ".<br>' . getconstStr('Wait') . ' " + x;
                             if (deployStat!=="ERROR") setTimeout(function() { getStatus(id, VercelToken) }, 1000);
                         }
                     } else {
@@ -295,7 +295,7 @@ language:<br>';
 
     if (substr($_SERVER["host"], -10)=="vercel.app") {
         $html .= '<a href="?install0">' . getconstStr('ClickInstall') . '</a>, ' . getconstStr('LogintoBind');
-        $html .= "<br>请记住：每次操作/进行一些更改后，您必须等待 30-60 秒，以确保 Vercel 已完成构建<br>" ;
+        $html .= "<br>请记住：每次操作/进行一些更改后，您必须Wait 30-60 秒，以确保 Vercel 已完成构建<br>" ;
     } else {
         $html.= "请从 *.vercel.app 安装";
     }
