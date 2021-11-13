@@ -21,8 +21,8 @@
     <meta name=viewport content="width=device-width,initial-scale=1">
     <meta name="keywords" content="<!--Keywords-->">
     <meta name="description" content="<!--Description-->">
-    <link rel="icon" href="<!--base_path-->favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="<!--base_path-->favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <style type="text/css">
         body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1em;color:#000;background-color:#f7f7f9;<!--BackgroundStart-->background-repeat:no-repeat;background-size:cover;background-attachment:fixed;background-image:url("<!--BackgroundUrl-->");<!--BackgroundEnd-->}
         a{color:#24292e;cursor:pointer;text-decoration:none}
@@ -105,7 +105,7 @@
     <div style='position:absolute;'><font color='red'><!--constStr@NeedUpdate--></font></div>
 <!--NeedUpdateEnd-->
     <h1 class="title" id="title">
-        <a href="<!--base_path-->"><!--Sitename--></a>
+        <a href=""><!--Sitename--></a>
     </h1>
 <!--MultiDiskAreaStart-->
     <div class="list-wrapper" id="more-disk-div">
@@ -150,7 +150,7 @@
     <div class="list-wrapper" id="list-div">
         <div class="list-container">
             <div class="list-header-container">
-                <h3 class="table-header"><a href="<!--base_path-->"><!--constStr@Home--></a><!--DiskPathArrayStart--> / <a href="<!--PathArrayLink-->"><!--PathArrayName--></a><!--DiskPathArrayEnd--></h3>
+                <h3 class="table-header"><a href=""><!--constStr@Home--></a><!--DiskPathArrayStart--> / <a href="<!--PathArrayLink-->"><!--PathArrayName--></a><!--DiskPathArrayEnd--></h3>
             </div>
             <div class="list-body-container">
 <!--EncryptedStart-->
@@ -1449,7 +1449,7 @@
         var expd = new Date();
         expd.setTime(expd.getTime()+1000);
         var expires = "expires="+expd.toGMTString();
-        document.cookie = "admin=; path=<!--base_path-->; "+expires;
+        document.cookie = "admin=; path=; "+expires;
         location.href = location.href;
     }
     /*for some mobile browser*/
