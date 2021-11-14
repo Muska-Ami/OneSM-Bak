@@ -97,6 +97,28 @@ $timezones = array(
     '12'=>'Asia/Kamchatka'
 );
 
+echo '<center>
+<style>
+a {
+    color: gray;
+}
+#VercelToken,#adminpassword,.intext {
+    background-color: #00000000;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid rgb(90, 45, 196);
+    padding: 6px 14px;
+    font-size: 20px;
+}
+#submitbtn,.btn {
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+</style>';
 function isCommonEnv($str)
 {
     global $EnvConfigs;
@@ -128,7 +150,7 @@ function isBase64Env($str)
 function main($path)
 {
     global $exts;
-    global $constStr;
+    global $i18n;
     global $slash;
     global $drive;
 
@@ -149,20 +171,20 @@ function main($path)
         }
         return output('visit via https.', 302, [ 'Location' => 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . $param ]);
     }
-    if (in_array($_SERVER['firstacceptlanguage'], array_keys($constStr['languages']))) {
-        $constStr['language'] = $_SERVER['firstacceptlanguage'];
+    if (in_array($_SERVER['firstacceptlanguage'], array_keys($i18n['languages']))) {
+        $i18n['language'] = $_SERVER['firstacceptlanguage'];
     } else {
         $prelang = splitfirst($_SERVER['firstacceptlanguage'], '-')[0];
-        foreach ( array_keys($constStr['languages']) as $lang) {
+        foreach ( array_keys($i18n['languages']) as $lang) {
             if ($prelang == splitfirst($lang, '-')[0]) {
-                $constStr['language'] = $lang;
+                $i18n['language'] = $lang;
                 break;
             }
         }
     }
-    if (isset($_COOKIE['language'])&&$_COOKIE['language']!='') $constStr['language'] = $_COOKIE['language'];
-    if ($constStr['language']=='') $constStr['language'] = 'en-us';
-    $_SERVER['language'] = $constStr['language'];
+    if (isset($_COOKIE['language'])&&$_COOKIE['language']!='') $i18n['language'] = $_COOKIE['language'];
+    if ($i18n['language']=='') $i18n['language'] = 'en-us';
+    $_SERVER['language'] = $i18n['language'];
     $_SERVER['timezone'] = getConfig('timezone');
     if (isset($_COOKIE['timezone'])&&$_COOKIE['timezone']!='') $_SERVER['timezone'] = $_COOKIE['timezone'];
     if ($_SERVER['timezone']=='') $_SERVER['timezone'] = 0;
@@ -202,7 +224,7 @@ function main($path)
             return EnvOpt($_SERVER['needUpdate']);
         } else {
             $url = path_format($_SERVER['PHP_SELF'] . '/');
-            return output('<script>alert(\''.getconstStr('SetSecretsFirst').'\');</script>', 302, [ 'Location' => $url ]);
+            return output('<script>alert(\''.geti18n('SetSecretsFirst').'\');</script>', 302, [ 'Location' => $url ]);
         }
     if (isset($_GET['WaitFunction'])) {
         $response = WaitFunction($_GET['WaitFunction']);
@@ -213,7 +235,7 @@ function main($path)
     }
 
     $_SERVER['sitename'] = getConfig('sitename');
-    if (empty($_SERVER['sitename'])) $_SERVER['sitename'] = getconstStr('defaultSitename');
+    if (empty($_SERVER['sitename'])) $_SERVER['sitename'] = geti18n('defaultSitename');
     $_SERVER['base_disk_path'] = $_SERVER['base_path'];
     $disktags = explode("|", getConfig('disktag'));
     //    echo 'count$disk:'.count($disktags);
@@ -287,7 +309,7 @@ function main($path)
                 if ($tmp!='') $url .= '?' . $tmp;
             }*/
             // not need GET adddisk, remove it
-            return output('<script>alert(\''.getconstStr('SetSecretsFirst').'\');</script>', 302, [ 'Location' => $url ]);
+            return output('<script>alert(\''.geti18n('SetSecretsFirst').'\');</script>', 302, [ 'Location' => $url ]);
         }
     }
 
@@ -321,7 +343,7 @@ function main($path)
             return $tmp;
         }
     } else {
-        if ($_SERVER['ajax']) return output(getconstStr('RefreshtoLogin'),401);
+        if ($_SERVER['ajax']) return output(geti18n('RefreshtoLogin'),401);
     }
     $_SERVER['ishidden'] = passhidden($path);
     if (isset($_GET['thumbnails'])) {
@@ -467,7 +489,7 @@ function main($path)
             $files['error']['code'] = 'unknownError';
             $files['error']['stat'] = 500;
         }
-        return message('<div style="margin:8px;"><pre>' . $files['error']['message'] . '</pre></div><a href="javascript:history.back(-1)">'.getconstStr('Back').'</a>', $files['error']['code'], $files['error']['stat']);
+        return message('<div style="margin:8px;"><pre>' . $files['error']['message'] . '</pre></div><a href="javascript:history.back(-1)">'.geti18n('Back').'</a>', $files['error']['code'], $files['error']['stat']);
     }
 }
 
@@ -649,11 +671,11 @@ function sortConfig(&$arr)
     return $arr;
 }
 
-function getconstStr($str)
+function geti18n($str)
 {
-    global $constStr;
-    if ($constStr[$str][$constStr['language']]!='') return $constStr[$str][$constStr['language']];
-    return $constStr[$str]['en-us'];
+    global $i18n;
+    if ($i18n[$str][$i18n['language']]!='') return $i18n[$str][$i18n['language']];
+    return $i18n[$str]['en-us'];
 }
 
 function getListpath($domain)
@@ -882,7 +904,7 @@ function message($message, $title = 'Message', $statusCode = 200, $wainstat = 0)
     <meta charset=utf-8>
     <meta name=viewport content="width=device-width,initial-scale=1">
     <body>
-        <a href="' . $_SERVER['base_path'] . '">' . getconstStr('Back') . getconstStr('Home') . '</a>
+        <a href="' . $_SERVER['base_path'] . '">' . geti18n('Back') . geti18n('Home') . '</a>
         <h1>' . $title . '</h1>
         <div id="dis" style="display: none;">
 
@@ -909,15 +931,16 @@ function message($message, $title = 'Message', $statusCode = 200, $wainstat = 0)
                 xhr.onload = function(e) {
                     if (xhr.status==200) {
                         //var deployStat = JSON.parse(xhr.responseText).readyState;
-                        if (xhr.responseText=="ok") {
+                        //if (xhr.responseText=="ok") {
                             errordiv.innerHTML = "";
                             dis.style.display = "";
-                        } else {
+                        /*}
+                        else {
                             errordiv.innerHTML = "ERROR<br>" + xhr.responseText;
                             //setTimeout(function() { getStatus() }, 1000);
-                        }
+                        }*/
                     } else if (xhr.status==206) {
-                        errordiv.innerHTML = min + "<br>' . getconstStr('Wait') . '" + x;
+                        errordiv.innerHTML = min + "<br>' . geti18n('Wait') . '" + x;
                         setTimeout(function() { getStatus() }, 1000);
                     } else {
                         errordiv.innerHTML = "ERROR<br>" + xhr.status + "<br>" + xhr.responseText;
@@ -1025,7 +1048,7 @@ function adminform($name = '', $pass = '', $storage = '', $path = '')
 {
     $html = '<html>
     <head>
-        <title>' . getconstStr('AdminLogin') . '</title>
+        <title>' . geti18n('AdminLogin') . '</title>
         <meta charset=utf-8>
         <meta name=viewport content="width=device-width,initial-scale=1">
     </head>';
@@ -1033,7 +1056,7 @@ function adminform($name = '', $pass = '', $storage = '', $path = '')
         $html .= '
         <!--<meta http-equiv="refresh" content="3;URL=' . $path . '">-->
     <body>
-        ' . getconstStr('LoginSuccess') . '
+        ' . geti18n('LoginSuccess') . '
         <script>
             localStorage.setItem("admin", "' . $storage . '");
             var url = location.href;
@@ -1053,13 +1076,13 @@ function adminform($name = '', $pass = '', $storage = '', $path = '')
     $html .= '
 <body>
     <div>
-    <center><h4>' . getconstStr('InputPassword') . '</h4>
+    <center><h4>' . geti18n('InputPassword') . '</h4>
     ' . $name . '
     <form action="" method="post" onsubmit="return sha1loginpass(this);">
         <div>
             <input id="password1" name="password1" type="password" class="intext"/>
             <input name="timestamp" type="hidden"/>
-            <input type="submit" value="' . getconstStr('Login') . '" class="btn">
+            <input type="submit" value="' . geti18n('Login') . '" class="btn">
         </div>
     </form>
     </center>
@@ -1102,7 +1125,7 @@ function adminoperate($path)
         savecache('path_' . $path1 . '/?password', '', $_SERVER['disktag'], 1);
         savecache('customTheme', '', '', 1);
         return message('<meta http-equiv="refresh" content="2;URL=./">
-        <meta name=viewport content="width=device-width,initial-scale=1">', getconstStr('RefreshCache'), 202);
+        <meta name=viewport content="width=device-width,initial-scale=1">', geti18n('RefreshCache'), 202);
     }
 
     if ( (isset($tmpget['rename_newname'])&&$tmpget['rename_newname']!=$tmpget['rename_oldname'] && $tmpget['rename_newname']!='') || (isset($tmppost['rename_newname'])&&$tmppost['rename_newname']!=$tmppost['rename_oldname'] && $tmppost['rename_newname']!='') ) {
@@ -1125,12 +1148,12 @@ function adminoperate($path)
         $file['id'] = ${$VAR}['delete_fileid'];
         return $drive->Delete($file);
     }
-    if ( (isset($tmpget['operate_action'])&&$tmpget['operate_action']==getconstStr('Encrypt')) || (isset($tmppost['operate_action'])&&$tmppost['operate_action']==getconstStr('Encrypt')) ) {
+    if ( (isset($tmpget['operate_action'])&&$tmpget['operate_action']==geti18n('Encrypt')) || (isset($tmppost['operate_action'])&&$tmppost['operate_action']==geti18n('Encrypt')) ) {
         if (!compareadminmd5('admin', getConfig('admin'), $_COOKIE['admin'], $_POST['_admin'])) return ['statusCode'=>403];
         if (isset($tmppost['operate_action'])) $VAR = 'tmppost';
         else $VAR = 'tmpget';
         // encrypt 加密
-        if (getConfig('passfile')=='') return message(getconstStr('SetpassfileBfEncrypt'),'',403);
+        if (getConfig('passfile')=='') return message(geti18n('SetpassfileBfEncrypt'),'',403);
         if (${$VAR}['encrypt_folder']=='/') ${$VAR}['encrypt_folder']=='';
         $folder['path'] = path_format($path1 . '/' . spurlencode(${$VAR}['encrypt_folder'], '/'));
         $folder['name'] = ${$VAR}['encrypt_folder'];
@@ -1159,7 +1182,7 @@ function adminoperate($path)
             $folder['id'] = '';
             return $drive->Move($file, $folder);
         } else {
-            return output('{"error":"' . getconstStr('CannotMove') . '"}', 403);
+            return output('{"error":"' . geti18n('CannotMove') . '"}', 403);
         }
     }
     if (isset($tmpget['copy_name']) || isset($tmppost['copy_name'])) {
@@ -1238,7 +1261,7 @@ function children_name($children)
 
 function EnvOpt($needUpdate = 0)
 {
-    global $constStr;
+    global $i18n;
     global $EnvConfigs;
     global $timezones;
     global $slash;
@@ -1249,8 +1272,8 @@ function EnvOpt($needUpdate = 0)
     //foreach ($EnvConfigs as $env => $v) if (isCommonEnv($env)) $envs .= '\'' . $env . '\', ';
     $envs = substr(json_encode(array_keys ($EnvConfigs)), 1, -1);
 
-    $html = '<title>OneSM '.getconstStr('Setup').'</title>';
-    if (isset($_POST['updateProgram'])&&$_POST['updateProgram']==getconstStr('updateProgram')) if (compareadminmd5('admin', getConfig('admin'), $_COOKIE['admin'], $_POST['_admin'])) {
+    $html = '<title>OneSM '.geti18n('Setup').'</title>';
+    if (isset($_POST['updateProgram'])&&$_POST['updateProgram']==geti18n('updateProgram')) if (compareadminmd5('admin', getConfig('admin'), $_COOKIE['admin'], $_POST['_admin'])) {
         $response = setConfigResponse(OnekeyUpate($_POST['auth'], $_POST['project'], $_POST['branch']));
         if (api_error($response)) {
             $html = api_error_msg($response);
@@ -1258,8 +1281,8 @@ function EnvOpt($needUpdate = 0)
             return message($html, $title, 400);
         } else {
             //WaitSCFStat();
-            $html .= getconstStr('UpdateSuccess') . '<br><a href="">' . getconstStr('Back') . '</a><script>var status = "' . $response['DplStatus'] . '";</script>';
-            $title = getconstStr('Setup');
+            $html .= geti18n('UpdateSuccess') . '<br><a href="">' . geti18n('Back') . '</a><script>var status = "' . $response['DplStatus'] . '";</script>';
+            $title = geti18n('Setup');
             return message($html, $title, 202, 1);
         }
     } else return message('please login again', 'Need login', 403);
@@ -1274,11 +1297,11 @@ function EnvOpt($needUpdate = 0)
                 $f = substr($v, 0, 1);
                 if (strlen($v)==1) $v .= '_';
                 if (isCommonEnv($v)) {
-                    return message('Do not input ' . $envs . '<br><a href="">' . getconstStr('Back') . '</a>', 'Error', 400);
+                    return message('Do not input ' . $envs . '<br><a href="">' . geti18n('Back') . '</a>', 'Error', 400);
                 } elseif (!(('a'<=$f && $f<='z') || ('A'<=$f && $f<='Z'))) {
-                    return message('<a href="">' . getconstStr('Back') . '</a>', 'Please start with letters', 400);
+                    return message('<a href="">' . geti18n('Back') . '</a>', 'Please start with letters', 400);
                 } elseif (getConfig($v)) {
-                    return message('<a href="">' . getconstStr('Back') . '</a>', 'Same tag', 400);
+                    return message('<a href="">' . geti18n('Back') . '</a>', 'Same tag', 400);
                 } else {
                     $tmp[$k] = $v;
                 }
@@ -1305,12 +1328,12 @@ function EnvOpt($needUpdate = 0)
             $title = 'Error';
             return message($html, $title, 409);
         } else {
-            $html .= getconstStr('Success') . '!<br>
-            <a href="">' . getconstStr('Back') . '</a>
+            $html .= geti18n('Success') . '!<br>
+            <a href="">' . geti18n('Back') . '</a>
             <script>
                 var status = "' . $response['DplStatus'] . '";
             </script>';
-            $title = getconstStr('Setup');
+            $title = geti18n('Setup');
             return message($html, $title, 200, 1);
         }
     } else return message('please login again', 'Need login', 403);
@@ -1373,21 +1396,21 @@ function EnvOpt($needUpdate = 0)
         }
     } else return message('please login again', 'Need login', 403);
     if (isset($_POST['changePass'])) if (compareadminmd5('admin', getConfig('admin'), $_COOKIE['admin'], $_POST['_admin'])) {
-        if (!is_numeric($_POST['timestamp'])) return message("Error time<a href=\"\">" . getconstStr('Back') . "</a>", "Error", 403);
-        if (abs(time() - $_POST['timestamp']/1000) > 5*60) return message("Timeout<a href=\"\">" . getconstStr('Back') . "</a>", "Error", 403);
-        if ($_POST['newPass1']==''||$_POST['newPass2']=='') return message("Empty new pass<a href=\"\">" . getconstStr('Back') . "</a>", "Error", 403);
-        if ($_POST['newPass1']!==$_POST['newPass2']) return message("Twice new pass not the same<a href=\"\">" . getconstStr('Back') . "</a>", "Error", 403);
-        if ($_POST['newPass1']==getConfig('admin')) return message("New pass same to old one<a href=\"\">" . getconstStr('Back') . "</a>", "Error", 403);
+        if (!is_numeric($_POST['timestamp'])) return message("Error time<a href=\"\">" . geti18n('Back') . "</a>", "Error", 403);
+        if (abs(time() - $_POST['timestamp']/1000) > 5*60) return message("Timeout<a href=\"\">" . geti18n('Back') . "</a>", "Error", 403);
+        if ($_POST['newPass1']==''||$_POST['newPass2']=='') return message("Empty new pass<a href=\"\">" . geti18n('Back') . "</a>", "Error", 403);
+        if ($_POST['newPass1']!==$_POST['newPass2']) return message("Twice new pass not the same<a href=\"\">" . geti18n('Back') . "</a>", "Error", 403);
+        if ($_POST['newPass1']==getConfig('admin')) return message("New pass same to old one<a href=\"\">" . geti18n('Back') . "</a>", "Error", 403);
         if ($_POST['oldPass']==sha1(getConfig('admin') . $_POST['timestamp'])) {
             $tmp['admin'] = $_POST['newPass1'];
             $response = setConfigResponse( setConfig($tmp) );
             if (api_error($response)) {
-                return message(api_error_msg($response) . "<a href=\"\">" . getconstStr('Back') . "</a>", "Error", 403);
+                return message(api_error_msg($response) . "<a href=\"\">" . geti18n('Back') . "</a>", "Error", 403);
             } else {
-                return message("Success<a href=\"\">" . getconstStr('Back') . "</a><script>var status = \"" . $response['DplStatus'] . "\";</script>", "Success", 200, 1);
+                return message("Success<a href=\"\">" . geti18n('Back') . "</a><script>var status = \"" . $response['DplStatus'] . "\";</script>", "Success", 200, 1);
             }
         } else {
-            return message("Old pass error<a href=\"\">" . getconstStr('Back') . "</a>", "Error", 403);
+            return message("Old pass error<a href=\"\">" . geti18n('Back') . "</a>", "Error", 403);
         }
     } else return message('please login again', 'Need login', 403);
 
@@ -1397,7 +1420,7 @@ function EnvOpt($needUpdate = 0)
         $preurl = path_format($_SERVER['PHP_SELF'] . '/');
     }
     $html .= '
-<a href="' . $preurl . '">' . getconstStr('Back') . '</a><br>
+<a href="' . $preurl . '">' . geti18n('Back') . '</a><br>
 ';
     if ($_GET['setup']==='cmd') {
         $statusCode = 200;
@@ -1452,7 +1475,7 @@ output:
             }
             $frame .= '
                 </select>
-                ' . getconstStr('EnvironmentsDescription')[$key];
+                ' . geti18n('EnvironmentsDescription')[$key];
         } elseif ($key=='theme') {
             $theme_arr = scandir(__DIR__ . $slash . 'theme');
             $frame .= '
@@ -1464,7 +1487,7 @@ output:
             }
             $frame .= '
                 </select>
-                ' . getconstStr('EnvironmentsDescription')[$key];
+                ' . geti18n('EnvironmentsDescription')[$key];
         } /*elseif ($key=='domain_path') {
             $tmp = getConfig($key);
             $domain_path = '';
@@ -1475,16 +1498,16 @@ output:
             $frame .= '
         <tr>
             <td><label>' . $key . '</label></td>
-            <td width=100%><input type="text" name="' . $key .'" value="' . $domain_path . '" placeholder="' . getconstStr('EnvironmentsDescription')[$key] . '" style="width:100%"></td>
+            <td width=100%><input type="text" class="intext" name="' . $key .'" value="' . $domain_path . '" placeholder="' . geti18n('EnvironmentsDescription')[$key] . '" style="width:100%"></td>
         </tr>';
         }*/ else $frame .= '
-                <input type="text" name="' . $key . '" value="' . htmlspecialchars(getConfig($key)) . '" placeholder="' . getconstStr('EnvironmentsDescription')[$key] . '" style="width:100%">';
+                <input type="text" class="intext" name="' . $key . '" value="' . htmlspecialchars(getConfig($key)) . '" placeholder="' . geti18n('EnvironmentsDescription')[$key] . '" style="width:100%">';
         $frame .= '
             </td>
         </tr>';
     }
     $frame .= '
-        <tr><td><input type="submit" name="submit1" value="' . getconstStr('Setup') . '" class="btn"></td><td></td></tr>
+        <tr><td><input type="submit" name="submit1" value="' . geti18n('Setup') . '" class="btn"></td><td></td></tr>
     </form>
 </table><br>';
     } elseif (isset($_GET['disktag'])&&$_GET['disktag']!==true&&in_array($_GET['disktag'], $disktags)) {
@@ -1498,8 +1521,8 @@ output:
             <form action="" method="post" style="margin: 0" onsubmit="return renametag(this);">
                 <input type="hidden" name="disktag_rename" value="' . $disktag . '">
                 <input name="_admin" type="hidden" value="">
-                <input type="text" name="disktag_newname" value="' . $disktag . '" placeholder="' . getconstStr('EnvironmentsDescription')['disktag'] . '">
-                <input type="submit" name="submit1" value="' . getconstStr('RenameDisk') . '" class="btn">
+                <input type="text" class="intext" name="disktag_newname" value="' . $disktag . '" placeholder="' . geti18n('EnvironmentsDescription')['disktag'] . '">
+                <input type="submit" name="submit1" value="' . geti18n('RenameDisk') . '" class="btn">
             </form>
         </td>
     </tr>
@@ -1510,14 +1533,14 @@ output:
         <form action="" method="post" style="margin: 0" onsubmit="return deldiskconfirm(this);">
             <input type="hidden" name="disktag_del" value="' . $disktag . '">
             <input name="_admin" type="hidden" value="">
-            <input type="submit" name="submit1" value="' . getconstStr('DelDisk') . '" class="btn">
+            <input type="submit" name="submit1" value="' . geti18n('DelDisk') . '" class="btn">
         </form>
     </td>
     <td>
         <form action="" method="post" style="margin: 0" onsubmit="return cpdiskconfirm(this);">
             <input type="hidden" name="disktag_copy" value="' . $disktag . '">
             <input name="_admin" type="hidden" value="">
-            <input type="submit" name="submit1" value="' . getconstStr('CopyDisk') . '" class="btn">
+            <input type="submit" name="submit1" value="' . geti18n('CopyDisk') . '" class="btn">
         </form>
     </td>
 </tr>
@@ -1526,7 +1549,7 @@ output:
     <tr>
         <td>Driver</td>
         <td>' . getConfig('Driver', $disktag);
-        if ($diskok) $frame .= ' <a href="?AddDisk=' . get_class($disk_tmp) . '&disktag=' . $disktag . '&SelectDrive">' . getconstStr('ChangeDrivetype') . '</a>';
+        if ($diskok) $frame .= ' <a href="?AddDisk=' . get_class($disk_tmp) . '&disktag=' . $disktag . '&SelectDrive">' . geti18n('ChangeDrivetype') . '</a>';
         $frame .= '</td>
     </tr>';
         if ($diskok) {
@@ -1550,11 +1573,11 @@ output:
                 $frame .= '
     <tr>
         <td><label>' . $key . '</label></td>
-        <td width=100%><input type="text" name="' . $key . '" value="' . getConfig($key, $disktag) . '" placeholder="' . getconstStr('EnvironmentsDescription')[$key] . '" style="width:100%"></td>
+        <td width=100%><input type="text" class="intext" name="' . $key . '" value="' . getConfig($key, $disktag) . '" placeholder="' . geti18n('EnvironmentsDescription')[$key] . '" style="width:100%"></td>
     </tr>';
             }
             $frame .= '
-    <tr><td></td><td><input type="submit" name="submit1" value="' . getconstStr('Setup') . '" class="btn"></td></tr>
+    <tr><td></td><td><input type="submit" name="submit1" value="' . geti18n('Setup') . '" class="btn"></td></tr>
 </form>';
         } else {
             $frame .= '
@@ -1567,19 +1590,19 @@ output:
 
 <script>
     function deldiskconfirm(t) {
-        var msg="' . getconstStr('Delete') . ' ??";
+        var msg="' . geti18n('Delete') . ' ??";
         if (confirm(msg)==true) return true;
         else return false;
     }
     function cpdiskconfirm(t) {
-        var msg="' . getconstStr('Copy') . ' ??";
+        var msg="' . geti18n('Copy') . ' ??";
         if (confirm(msg)==true) return true;
         //else 
         return false;
     }
     function renametag(t) {
         if (t.disktag_newname.value==\'\') {
-            alert(\'' . getconstStr('DiskTag') . '\');
+            alert(\'' . geti18n('DiskTag') . '\');
             return false;
         }
         if (t.disktag_newname.value==t.disktag_rename.value) {
@@ -1592,7 +1615,7 @@ output:
         }
         var reg = /^[a-zA-Z]([_a-zA-Z0-9]{1,20})$/;
         if (!reg.test(t.disktag_newname.value)) {
-            alert(\'' . getconstStr('TagFormatAlert') . '\');
+            alert(\'' . geti18n('TagFormatAlert') . '\');
             return false;
         }
         return true;
@@ -1629,7 +1652,7 @@ output:
             $frame .= '
         <input name="_admin" type="hidden" value="">
     </tr>
-    <tr><td colspan="' . $num . '">' . getconstStr('DragSort') . '<input type="submit" name="submit1" value="' . getconstStr('SubmitSortdisks') . '" class="btn"></td></tr>
+    <tr><td colspan="' . $num . '">' . geti18n('DragSort') . '<input type="submit" name="submit1" value="' . geti18n('SubmitSortdisks') . '" class="btn"></td></tr>
     </form>
 </table>
 <script>
@@ -1654,7 +1677,7 @@ output:
     }
     function dragsort(t) {
         if (t.disktag_sort.value==\'\') {
-            alert(\'' . getconstStr('DragSort') . '\');
+            alert(\'' . geti18n('DragSort') . '\');
             return false;
         }
         envs = [' . $envs . '];
@@ -1689,7 +1712,7 @@ output:
         }
         $frame .= '
 </select>
-<a id="AddDisk_link" href="?AddDisk=Onedrive">' . getconstStr('AddDisk') . '</a><br><br>
+<a id="AddDisk_link" href="?AddDisk=Onedrive">' . geti18n('AddDisk') . '</a><br><br>
 <script>
     function changedrivetype(d) {
         document.getElementById(\'AddDisk_link\').href="?AddDisk=" + d;
@@ -1719,18 +1742,18 @@ output:
         $frame .= '<a href="https://github.com/XiaMoHuaHuo-CN/OneSM" target="_blank">Github</a>';
         if (!$canOneKeyUpate) {
             $frame .= '
-' . getconstStr('CannotOneKeyUpate') . '<br>';
+' . geti18n('CannotOneKeyUpate') . '<br>';
         } else {
             $frame .= '
 <form name="updateform" action="" method="post">
     <input name="_admin" type="hidden" value="">
-    <input type="text" name="auth" size="6" placeholder="auth" value="XiaMoHuaHuo-CN">
-    <input type="text" name="project" size="12" placeholder="project" value="OneSM">
-    <button name="QueryBranchs" onclick="querybranchs();return false;">' . getconstStr('QueryBranchs') . '</button>
+    <input type="text" class="intext" name="auth" size="6" placeholder="auth" value="XiaMoHuaHuo-CN">
+    <input type="text" class="intext" name="project" size="12" placeholder="project" value="OneSM">
+    <button name="QueryBranchs" onclick="querybranchs();return false;">' . geti18n('QueryBranchs') . '</button>
     <select name="branch">
         <option value="main">main</option>
     </select>
-    <input type="submit" name="updateProgram" value="' . getconstStr('updateProgram') . '" class="btn">
+    <input type="submit" name="updateProgram" value="' . geti18n('updateProgram') . '" class="btn">
 </form>
 <script>
     function querybranchs()
@@ -1763,12 +1786,12 @@ output:
             $frame .= '<div style="position: relative; word-wrap: break-word;">
         ' . str_replace("\r", '<br>', $_SERVER['github_ver_new']) . '
 </div>
-<button onclick="document.getElementById(\'github_ver_old\').style.display=(document.getElementById(\'github_ver_old\').style.display==\'none\'?\'\':\'none\');">More...</button>
+<button onclick="document.getElementById(\'github_ver_old\').style.display=(document.getElementById(\'github_ver_old\').style.display==\'none\'?\'\':\'none\');">更多...</button>
 <div id="github_ver_old" style="position: relative; word-wrap: break-word; display: none">
         ' . str_replace("\r", '<br>', $_SERVER['github_ver_old']) . '
 </div>';
         }/* else {
-            $frame .= getconstStr('NotNeedUpdate');
+            $frame .= geti18n('NotNeedUpdate');
         }*/
         $frame .= '<br><br>
 <script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.min.js"></script>
@@ -1776,29 +1799,29 @@ output:
     <form id="change_pass" name="change_pass" action="" method="POST" onsubmit="return changePassword(this);">
         <input name="_admin" type="hidden" value="">
     <tr>
-        <td>' . getconstStr('OldPassword') . ':</td><td><input type="password" name="oldPass" class="intext">
+        <td>' . geti18n('OldPassword') . ':</td><td><input type="password" name="oldPass" class="intext">
         <input type="hidden" name="timestamp"></td>
     </tr>
     <tr>
-        <td>' . getconstStr('NewPassword') . ':</td><td><input type="password" name="newPass1" class="intext"></td>
+        <td>' . geti18n('NewPassword') . ':</td><td><input type="password" name="newPass1" class="intext"></td>
     </tr>
     <tr>
-        <td>' . getconstStr('ReInput') . ':</td><td><input type="password" name="newPass2" class="intext"></td>
+        <td>' . geti18n('ReInput') . ':</td><td><input type="password" name="newPass2" class="intext"></td>
     </tr>
     <tr>
-        <td></td><td><button name="changePass" value="changePass" class="btn">' . getconstStr('ChangAdminPassword') . '</button></td>
+        <td></td><td><button name="changePass" value="changePass" class="btn">' . geti18n('ChangAdminPassword') . '</button></td>
     </tr>
     </form>
 </table><br>
 <table>
     <form id="config_f" name="config" action="" method="POST" onsubmit="return false;">
     <tr>
-        <td>' . getconstStr('AdminPassword') . ':<input type="password" name="pass" class="intext">
-        <button name="config_b" value="export" onclick="exportConfig(this);">' . getconstStr('export') . '</button></td>
+        <td>' . geti18n('AdminPassword') . ':<input type="password" name="pass" class="intext">
+        <button name="config_b" value="export" onclick="exportConfig(this);">' . geti18n('export') . '</button></td>
     </tr>
     <tr>
-        <td>' . getconstStr('config') . ':<textarea name="config_t"></textarea>
-        <button name="config_b" value="import" onclick="importConfig(this);">' . getconstStr('import') . '</button></td>
+        <td>' . geti18n('config') . ':<textarea name="config_t"></textarea>
+        <button name="config_b" value="import" onclick="importConfig(this);">' . geti18n('import') . '</button></td>
     </tr>
     </form>
 </table><br>
@@ -1812,7 +1835,7 @@ output:
         try {
             sha1(1);
         } catch {
-            alert("sha1.js not loaded.");
+            alert("sha1.js 未加载，可能正在加载");
             return false;
         }
         var timestamp = new Date().getTime();
@@ -1855,7 +1878,7 @@ output:
         try {
             sha1(1);
         } catch {
-            alert("sha1.js not loaded.");
+            alert("sha1.js 未加载，可能正在加载");
             return false;
         }
         var timestamp = new Date().getTime();
@@ -1892,7 +1915,7 @@ output:
         try {
             sha1(1);
         } catch {
-            alert("sha1.js not loaded.");
+            alert("sha1.js 未加载，可能正在加载");
             return false;
         }
         var timestamp = new Date().getTime();
@@ -1930,19 +1953,15 @@ output:
                 td {
                     background-color: #F7F7F7;
                 }
-                img {
-                    width: 80%;
-                    height: auto;
-                }
         </style>
-        <td><a href="?setup">' . getconstStr('Home') . '</a></td>
-        <td>' . getconstStr('PlatformConfig') . '</td>';
+        <td><a href="?setup">' . geti18n('Home') . '</a></td>
+        <td>' . geti18n('PlatformConfig') . '</td>';
         else $html .= '
-        <td>' . getconstStr('Home') . '</td>
-        <td><a href="?setup=platform">' . getconstStr('PlatformConfig') . '</a></td>';
+        <td>' . geti18n('Home') . '</td>
+        <td><a href="?setup=platform">' . geti18n('PlatformConfig') . '</a></td>';
     } else $html .= '
-        <td><a href="?setup">' . getconstStr('Home') . '</a></td>
-        <td><a href="?setup=platform">' . getconstStr('PlatformConfig') . '</a></td>';
+        <td><a href="?setup">' . geti18n('Home') . '</a></td>
+        <td><a href="?setup=platform">' . geti18n('PlatformConfig') . '</a></td>';
     foreach ($disktags as $disktag) {
         if ($disktag!='') {
             if ($_GET['disktag']===$disktag) $html .= '
@@ -1961,13 +1980,13 @@ output:
         inputAdminStorage[i].value = localStorage.getItem("admin");
     }
 </script>';
-    return message($html, getconstStr('Setup'));
+    return message($html, geti18n('Setup'));
 }
 
 function render_list($path = '', $files = [])
 {
     global $exts;
-    global $constStr;
+    global $i18n;
     global $slash;
 
     if (isset($files['list']['index.html']) && !$_SERVER['admin']) {
@@ -2009,7 +2028,7 @@ function render_list($path = '', $files = [])
             }
         }
     } else {
-      $pretitle = getconstStr('Home');
+      $pretitle = geti18n('Home');
       $n_path = $pretitle;
     }
     $n_path = str_replace('&amp;','&',$n_path);
@@ -2019,21 +2038,21 @@ function render_list($path = '', $files = [])
     date_default_timezone_set(get_timezone($_SERVER['timezone']));
     $authinfo = '
 <!--
-    ONESM: An index & manager of Onedrive auth by ysun.
+    ONESM: 一个 Onedrive Inedex，原作 By ysun. 重写 By XiaMoHuaHuo-CN.
     Github: https://github.com/XiaMoHuaHuo-CN/OneSM
 -->';
     //$authinfo = $path . '<br><pre>' . json_encode($files, JSON_PRETTY_PRINT) . '</pre>';
 
     //if (isset($_COOKIE['theme'])&&$_COOKIE['theme']!='') $theme = $_COOKIE['theme'];
     //if ( !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = '';
-    if ($_SERVER['admin']) $theme = 'classic.html';
+    if ($_SERVER['admin']) $theme = 'Admin.html';
     if ( $theme=='' ) {
         $tmp = getConfig('customTheme');
         if ( $tmp!='' ) $theme = $tmp;
     }
     if ( $theme=='' ) {
         $theme = getConfig('theme');
-        if ( $theme=='' || !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = 'classic.html';
+        if ( $theme=='' || !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = 'Admin.html';
     }
     if (substr($theme,-4)=='.php') {
         @ob_start();
@@ -2118,21 +2137,21 @@ function render_list($path = '', $files = [])
                 $html = str_replace('<!--AdminStart-->', '', $html);
                 $html = str_replace('<!--AdminEnd-->', '', $html);
             }
-            while (strpos($html, '<!--constStr@Operate-->')) $html = str_replace('<!--constStr@Operate-->', getconstStr('Operate'), $html);
-            while (strpos($html, '<!--constStr@Create-->')) $html = str_replace('<!--constStr@Create-->', getconstStr('Create'), $html);
-            while (strpos($html, '<!--constStr@Encrypt-->')) $html = str_replace('<!--constStr@Encrypt-->', getconstStr('Encrypt'), $html);
-            while (strpos($html, '<!--constStr@RefreshCache-->')) $html = str_replace('<!--constStr@RefreshCache-->', getconstStr('RefreshCache'), $html);
-            while (strpos($html, '<!--constStr@Setup-->')) $html = str_replace('<!--constStr@Setup-->', getconstStr('Setup'), $html);
-            while (strpos($html, '<!--constStr@Logout-->')) $html = str_replace('<!--constStr@Logout-->', getconstStr('Logout'), $html);
-            while (strpos($html, '<!--constStr@Rename-->')) $html = str_replace('<!--constStr@Rename-->', getconstStr('Rename'), $html);
-            while (strpos($html, '<!--constStr@Submit-->')) $html = str_replace('<!--constStr@Submit-->', getconstStr('Submit'), $html);
-            while (strpos($html, '<!--constStr@Delete-->')) $html = str_replace('<!--constStr@Delete-->', getconstStr('Delete'), $html);
-            while (strpos($html, '<!--constStr@Copy-->')) $html = str_replace('<!--constStr@Copy-->', getconstStr('Copy'), $html);
-            while (strpos($html, '<!--constStr@Move-->')) $html = str_replace('<!--constStr@Move-->', getconstStr('Move'), $html);
-            while (strpos($html, '<!--constStr@Folder-->')) $html = str_replace('<!--constStr@Folder-->', getconstStr('Folder'), $html);
-            while (strpos($html, '<!--constStr@File-->')) $html = str_replace('<!--constStr@File-->', getconstStr('File'), $html);
-            while (strpos($html, '<!--constStr@Name-->')) $html = str_replace('<!--constStr@Name-->', getconstStr('Name'), $html);
-            while (strpos($html, '<!--constStr@Content-->')) $html = str_replace('<!--constStr@Content-->', getconstStr('Content'), $html);
+            while (strpos($html, '<!--i18n@Operate-->')) $html = str_replace('<!--i18n@Operate-->', geti18n('Operate'), $html);
+            while (strpos($html, '<!--i18n@Create-->')) $html = str_replace('<!--i18n@Create-->', geti18n('Create'), $html);
+            while (strpos($html, '<!--i18n@Encrypt-->')) $html = str_replace('<!--i18n@Encrypt-->', geti18n('Encrypt'), $html);
+            while (strpos($html, '<!--i18n@RefreshCache-->')) $html = str_replace('<!--i18n@RefreshCache-->', geti18n('RefreshCache'), $html);
+            while (strpos($html, '<!--i18n@Setup-->')) $html = str_replace('<!--i18n@Setup-->', geti18n('Setup'), $html);
+            while (strpos($html, '<!--i18n@Logout-->')) $html = str_replace('<!--i18n@Logout-->', geti18n('Logout'), $html);
+            while (strpos($html, '<!--i18n@Rename-->')) $html = str_replace('<!--i18n@Rename-->', geti18n('Rename'), $html);
+            while (strpos($html, '<!--i18n@Submit-->')) $html = str_replace('<!--i18n@Submit-->', geti18n('Submit'), $html);
+            while (strpos($html, '<!--i18n@Delete-->')) $html = str_replace('<!--i18n@Delete-->', geti18n('Delete'), $html);
+            while (strpos($html, '<!--i18n@Copy-->')) $html = str_replace('<!--i18n@Copy-->', geti18n('Copy'), $html);
+            while (strpos($html, '<!--i18n@Move-->')) $html = str_replace('<!--i18n@Move-->', geti18n('Move'), $html);
+            while (strpos($html, '<!--i18n@Folder-->')) $html = str_replace('<!--i18n@Folder-->', geti18n('Folder'), $html);
+            while (strpos($html, '<!--i18n@File-->')) $html = str_replace('<!--i18n@File-->', geti18n('File'), $html);
+            while (strpos($html, '<!--i18n@Name-->')) $html = str_replace('<!--i18n@Name-->', geti18n('Name'), $html);
+            while (strpos($html, '<!--i18n@Content-->')) $html = str_replace('<!--i18n@Content-->', geti18n('Content'), $html);
             
         } else {
             $tmp[1] = 'a';
@@ -2245,7 +2264,7 @@ function render_list($path = '', $files = [])
                 $html = str_replace('<!--IsNotHiddenEnd-->', '', $html);
             }
         }
-        while (strpos($html, '<!--constStr@Download-->')) $html = str_replace('<!--constStr@Download-->', getconstStr('Download'), $html);
+        while (strpos($html, '<!--i18n@Download-->')) $html = str_replace('<!--i18n@Download-->', geti18n('Download'), $html);
 
         if ($_SERVER['is_guestup_path']&&!$_SERVER['admin']) {
             $tmp[1] = 'a';
@@ -2307,7 +2326,7 @@ function render_list($path = '', $files = [])
                     $html .= $tmp[1];
                 }
             }
-            while (strpos($html, '<!--constStr@Calculate-->')) $html = str_replace('<!--constStr@Calculate-->', getconstStr('Calculate'), $html);
+            while (strpos($html, '<!--i18n@Calculate-->')) $html = str_replace('<!--i18n@Calculate-->', geti18n('Calculate'), $html);
         } else {
             $tmp[1] = 'a';
             while ($tmp[1]!='') {
@@ -2386,18 +2405,18 @@ function render_list($path = '', $files = [])
             while (strpos($html, '<!--FileName-->')) $html = str_replace('<!--FileName-->', $files['name'], $html);
             while (strpos($html, '<!--FileEncodeDownUrl-->')) $html = str_replace('<!--FileEncodeDownUrl-->', urlencode($files['url']), $html);
             //while (strpos($html, '<!--FileEncodeDownUrl-->')) $html = str_replace('<!--FileEncodeDownUrl-->', urlencode($_SERVER['host'] . path_format($_SERVER['base_disk_path'] . '/' . $path)), $html);
-            $html = str_replace('<!--constStr@ClicktoEdit-->', getconstStr('ClicktoEdit'), $html);
-            $html = str_replace('<!--constStr@CancelEdit-->', getconstStr('CancelEdit'), $html);
-            $html = str_replace('<!--constStr@Save-->', getconstStr('Save'), $html);
+            $html = str_replace('<!--i18n@ClicktoEdit-->', geti18n('ClicktoEdit'), $html);
+            $html = str_replace('<!--i18n@CancelEdit-->', geti18n('CancelEdit'), $html);
+            $html = str_replace('<!--i18n@Save-->', geti18n('Save'), $html);
             if (strpos($html, '<!--TxtContent-->')) {
                 //$tmp_content = get_content(spurlencode(path_format(urldecode($path)), '/'))['content']['body'];
                 $tmp_content = $files['content']['body'];
                 if (strlen($tmp_content)==$files['size']) $html = str_replace('<!--TxtContent-->', htmlspecialchars($tmp_content), $html);
                 else $html = str_replace('<!--TxtContent-->', $files['size']<1024*1024?htmlspecialchars(curl('GET', $files['url'], '', [], 0, 1)['body']):"File too large: " . $files['size'] . " B.", $html);
             }
-            $html = str_replace('<!--constStr@FileNotSupport-->', getconstStr('FileNotSupport'), $html);
+            $html = str_replace('<!--i18n@FileNotSupport-->', geti18n('FileNotSupport'), $html);
 
-            //$html = str_replace('<!--constStr@File-->', getconstStr('File'), $html);
+            //$html = str_replace('<!--i18n@File-->', geti18n('File'), $html);
         } elseif ($files['type']=='folder') {
             while (strpos($html, '<!--GuestUploadStart-->')) {
                 $tmp = splitfirst($html, '<!--GuestUploadStart-->');
@@ -2420,12 +2439,12 @@ function render_list($path = '', $files = [])
                 $html = str_replace('<!--IsFolderStart-->', '', $html);
                 $html = str_replace('<!--IsFolderEnd-->', '', $html);
             }
-            $html = str_replace('<!--constStr@File-->', getconstStr('File'), $html);
+            $html = str_replace('<!--i18n@File-->', geti18n('File'), $html);
             while (strpos($html, '<!--FolderId-->')) $html = str_replace('<!--FolderId-->', $files['id'], $html);
-            $html = str_replace('<!--constStr@ShowThumbnails-->', getconstStr('ShowThumbnails'), $html);
-            $html = str_replace('<!--constStr@CopyAllDownloadUrl-->', getconstStr('CopyAllDownloadUrl'), $html);
-            $html = str_replace('<!--constStr@EditTime-->', getconstStr('EditTime'), $html);
-            $html = str_replace('<!--constStr@Size-->', getconstStr('Size'), $html);
+            $html = str_replace('<!--i18n@ShowThumbnails-->', geti18n('ShowThumbnails'), $html);
+            $html = str_replace('<!--i18n@CopyAllDownloadUrl-->', geti18n('CopyAllDownloadUrl'), $html);
+            $html = str_replace('<!--i18n@EditTime-->', geti18n('EditTime'), $html);
+            $html = str_replace('<!--i18n@Size-->', geti18n('Size'), $html);
 
             $filenum = 0;
 
@@ -2503,7 +2522,7 @@ function render_list($path = '', $files = [])
                 if ($pagenum!=1) {
                     $html = str_replace('<!--PrePageStart-->', '', $html);
                     $html = str_replace('<!--PrePageEnd-->', '', $html);
-                    $html = str_replace('<!--constStr@PrePage-->', getconstStr('PrePage'), $html);
+                    $html = str_replace('<!--i18n@PrePage-->', geti18n('PrePage'), $html);
                     $html = str_replace('<!--PrePageNum-->', $pagenum-1, $html);
                 } else {
                     $tmp = splitfirst($html, '<!--PrePageStart-->');
@@ -2515,7 +2534,7 @@ function render_list($path = '', $files = [])
                 if ($pagenum!=$maxpage) {
                     $html = str_replace('<!--NextPageStart-->', '', $html);
                     $html = str_replace('<!--NextPageEnd-->', '', $html);
-                    $html = str_replace('<!--constStr@NextPage-->', getconstStr('NextPage'), $html);
+                    $html = str_replace('<!--i18n@NextPage-->', geti18n('NextPage'), $html);
                     $html = str_replace('<!--NextPageNum-->', $pagenum+1, $html);
                 } else {
                     $tmp = splitfirst($html, '<!--NextPageStart-->');
@@ -2557,7 +2576,7 @@ function render_list($path = '', $files = [])
             
         }
 
-        $html = str_replace('<!--constStr@language-->', $constStr['language'], $html);
+        $html = str_replace('<!--i18n@language-->', $i18n['language'], $html);
 
         $title = $pretitle;
         if ($_SERVER['base_disk_path']!=$_SERVER['base_path']) {
@@ -2575,47 +2594,47 @@ function render_list($path = '', $files = [])
         $html = str_replace('<!--Keywords-->', $keywords, $html);
 
         if ($_GET['preview']) {
-            $description = $n_path.', '.getconstStr('Preview');//'Preview of '.
+            $description = $n_path.', '.geti18n('Preview');//'Preview of '.
         } elseif ($files['type']=='folder') {
-            $description = $n_path.', '.getconstStr('List');//'List of '.$n_path.'. ';
+            $description = $n_path.', '.geti18n('List');//'List of '.$n_path.'. ';
         }
         //$description .= 'In '.$_SERVER['sitename'];
         $html = str_replace('<!--Description-->', $description, $html);
 
         while (strpos($html, '<!--base_disk_path-->')) $html = str_replace('<!--base_disk_path-->', (substr($_SERVER['base_disk_path'],-1)=='/'?substr($_SERVER['base_disk_path'],0,-1):$_SERVER['base_disk_path']), $html);
         while (strpos($html, '<!--Path-->')) $html = str_replace('<!--Path-->', str_replace('%23', '#', str_replace('&','&amp;', path_format($path1.'/'))), $html);
-        while (strpos($html, '<!--constStr@Home-->')) $html = str_replace('<!--constStr@Home-->', getconstStr('Home'), $html);
+        while (strpos($html, '<!--i18n@Home-->')) $html = str_replace('<!--i18n@Home-->', geti18n('Home'), $html);
 
         $html = str_replace('<!--customCss-->', getConfig('customCss'), $html);
         $html = str_replace('<!--customScript-->', getConfig('customScript'), $html);
         
-        while (strpos($html, '<!--constStr@Login-->')) $html = str_replace('<!--constStr@Login-->', getconstStr('Login'), $html);
-        while (strpos($html, '<!--constStr@Close-->')) $html = str_replace('<!--constStr@Close-->', getconstStr('Close'), $html);
-        while (strpos($html, '<!--constStr@InputPassword-->')) $html = str_replace('<!--constStr@InputPassword-->', getconstStr('InputPassword'), $html);
-        while (strpos($html, '<!--constStr@InputPasswordUWant-->')) $html = str_replace('<!--constStr@InputPasswordUWant-->', getconstStr('InputPasswordUWant'), $html);
-        while (strpos($html, '<!--constStr@Submit-->')) $html = str_replace('<!--constStr@Submit-->', getconstStr('Submit'), $html);
-        while (strpos($html, '<!--constStr@Success-->')) $html = str_replace('<!--constStr@Success-->', getconstStr('Success'), $html);
-        while (strpos($html, '<!--constStr@GetUploadLink-->')) $html = str_replace('<!--constStr@GetUploadLink-->', getconstStr('GetUploadLink'), $html);
-        while (strpos($html, '<!--constStr@UpFileTooLarge-->')) $html = str_replace('<!--constStr@UpFileTooLarge-->', getconstStr('UpFileTooLarge'), $html);
-        while (strpos($html, '<!--constStr@UploadStart-->')) $html = str_replace('<!--constStr@UploadStart-->', getconstStr('UploadStart'), $html);
-        while (strpos($html, '<!--constStr@UploadStartAt-->')) $html = str_replace('<!--constStr@UploadStartAt-->', getconstStr('UploadStartAt'), $html);
-        while (strpos($html, '<!--constStr@LastUpload-->')) $html = str_replace('<!--constStr@LastUpload-->', getconstStr('LastUpload'), $html);
-        while (strpos($html, '<!--constStr@ThisTime-->')) $html = str_replace('<!--constStr@ThisTime-->', getconstStr('ThisTime'), $html);
+        while (strpos($html, '<!--i18n@Login-->')) $html = str_replace('<!--i18n@Login-->', geti18n('Login'), $html);
+        while (strpos($html, '<!--i18n@Close-->')) $html = str_replace('<!--i18n@Close-->', geti18n('Close'), $html);
+        while (strpos($html, '<!--i18n@InputPassword-->')) $html = str_replace('<!--i18n@InputPassword-->', geti18n('InputPassword'), $html);
+        while (strpos($html, '<!--i18n@InputPasswordUWant-->')) $html = str_replace('<!--i18n@InputPasswordUWant-->', geti18n('InputPasswordUWant'), $html);
+        while (strpos($html, '<!--i18n@Submit-->')) $html = str_replace('<!--i18n@Submit-->', geti18n('Submit'), $html);
+        while (strpos($html, '<!--i18n@Success-->')) $html = str_replace('<!--i18n@Success-->', geti18n('Success'), $html);
+        while (strpos($html, '<!--i18n@GetUploadLink-->')) $html = str_replace('<!--i18n@GetUploadLink-->', geti18n('GetUploadLink'), $html);
+        while (strpos($html, '<!--i18n@UpFileTooLarge-->')) $html = str_replace('<!--i18n@UpFileTooLarge-->', geti18n('UpFileTooLarge'), $html);
+        while (strpos($html, '<!--i18n@UploadStart-->')) $html = str_replace('<!--i18n@UploadStart-->', geti18n('UploadStart'), $html);
+        while (strpos($html, '<!--i18n@UploadStartAt-->')) $html = str_replace('<!--i18n@UploadStartAt-->', geti18n('UploadStartAt'), $html);
+        while (strpos($html, '<!--i18n@LastUpload-->')) $html = str_replace('<!--i18n@LastUpload-->', geti18n('LastUpload'), $html);
+        while (strpos($html, '<!--i18n@ThisTime-->')) $html = str_replace('<!--i18n@ThisTime-->', geti18n('ThisTime'), $html);
 
-        while (strpos($html, '<!--constStr@Upload-->')) $html = str_replace('<!--constStr@Upload-->', getconstStr('Upload'), $html);
-        while (strpos($html, '<!--constStr@AverageSpeed-->')) $html = str_replace('<!--constStr@AverageSpeed-->', getconstStr('AverageSpeed'), $html);
-        while (strpos($html, '<!--constStr@CurrentSpeed-->')) $html = str_replace('<!--constStr@CurrentSpeed-->', getconstStr('CurrentSpeed'), $html);
-        while (strpos($html, '<!--constStr@Expect-->')) $html = str_replace('<!--constStr@Expect-->', getconstStr('Expect'), $html);
-        while (strpos($html, '<!--constStr@UploadErrorUpAgain-->')) $html = str_replace('<!--constStr@UploadErrorUpAgain-->', getconstStr('UploadErrorUpAgain'), $html);
-        while (strpos($html, '<!--constStr@EndAt-->')) $html = str_replace('<!--constStr@EndAt-->', getconstStr('EndAt'), $html);
+        while (strpos($html, '<!--i18n@Upload-->')) $html = str_replace('<!--i18n@Upload-->', geti18n('Upload'), $html);
+        while (strpos($html, '<!--i18n@AverageSpeed-->')) $html = str_replace('<!--i18n@AverageSpeed-->', geti18n('AverageSpeed'), $html);
+        while (strpos($html, '<!--i18n@CurrentSpeed-->')) $html = str_replace('<!--i18n@CurrentSpeed-->', geti18n('CurrentSpeed'), $html);
+        while (strpos($html, '<!--i18n@Expect-->')) $html = str_replace('<!--i18n@Expect-->', geti18n('Expect'), $html);
+        while (strpos($html, '<!--i18n@UploadErrorUpAgain-->')) $html = str_replace('<!--i18n@UploadErrorUpAgain-->', geti18n('UploadErrorUpAgain'), $html);
+        while (strpos($html, '<!--i18n@EndAt-->')) $html = str_replace('<!--i18n@EndAt-->', geti18n('EndAt'), $html);
         
-        while (strpos($html, '<!--constStr@UploadComplete-->')) $html = str_replace('<!--constStr@UploadComplete-->', getconstStr('UploadComplete'), $html);
-        while (strpos($html, '<!--constStr@CopyUrl-->')) $html = str_replace('<!--constStr@CopyUrl-->', getconstStr('CopyUrl'), $html);
-        while (strpos($html, '<!--constStr@UploadFail23-->')) $html = str_replace('<!--constStr@UploadFail23-->', getconstStr('UploadFail23'), $html);
-        while (strpos($html, '<!--constStr@GetFileNameFail-->')) $html = str_replace('<!--constStr@GetFileNameFail-->', getconstStr('GetFileNameFail'), $html);
-        while (strpos($html, '<!--constStr@UploadFile-->')) $html = str_replace('<!--constStr@UploadFile-->', getconstStr('UploadFile'), $html);
-        while (strpos($html, '<!--constStr@UploadFolder-->')) $html = str_replace('<!--constStr@UploadFolder-->', getconstStr('UploadFolder'), $html);
-        while (strpos($html, '<!--constStr@FileSelected-->')) $html = str_replace('<!--constStr@FileSelected-->', getconstStr('FileSelected'), $html);
+        while (strpos($html, '<!--i18n@UploadComplete-->')) $html = str_replace('<!--i18n@UploadComplete-->', geti18n('UploadComplete'), $html);
+        while (strpos($html, '<!--i18n@CopyUrl-->')) $html = str_replace('<!--i18n@CopyUrl-->', geti18n('CopyUrl'), $html);
+        while (strpos($html, '<!--i18n@UploadFail23-->')) $html = str_replace('<!--i18n@UploadFail23-->', geti18n('UploadFail23'), $html);
+        while (strpos($html, '<!--i18n@GetFileNameFail-->')) $html = str_replace('<!--i18n@GetFileNameFail-->', geti18n('GetFileNameFail'), $html);
+        while (strpos($html, '<!--i18n@UploadFile-->')) $html = str_replace('<!--i18n@UploadFile-->', geti18n('UploadFile'), $html);
+        while (strpos($html, '<!--i18n@UploadFolder-->')) $html = str_replace('<!--i18n@UploadFolder-->', geti18n('UploadFolder'), $html);
+        while (strpos($html, '<!--i18n@FileSelected-->')) $html = str_replace('<!--i18n@FileSelected-->', geti18n('FileSelected'), $html);
         while (strpos($html, '<!--IsPreview?-->')) $html = str_replace('<!--IsPreview?-->', (isset($_GET['preview'])?'?preview&':'?'), $html);
 
         $tmp = splitfirst($html, '<!--BackgroundStart-->');
@@ -2680,10 +2699,10 @@ function render_list($path = '', $files = [])
         $html = $tmp[0];
         $tmp = splitfirst($tmp[1], '<!--SelectLanguageEnd-->');
         $SelectLanguage = $tmp[0];
-        foreach ($constStr['languages'] as $key1 => $value1) {
+        foreach ($i18n['languages'] as $key1 => $value1) {
             $SelectLanguageStr = str_replace('<!--SelectLanguageKey-->', $key1, $SelectLanguage);
             $SelectLanguageStr = str_replace('<!--SelectLanguageValue-->', $value1, $SelectLanguageStr);
-            $SelectLanguageStr = str_replace('<!--SelectLanguageSelected-->', ($key1==$constStr['language']?'selected="selected"':''), $SelectLanguageStr);
+            $SelectLanguageStr = str_replace('<!--SelectLanguageSelected-->', ($key1==$i18n['language']?'selected="selected"':''), $SelectLanguageStr);
             $html .= $SelectLanguageStr;
         }
         $html .= $tmp[1];
@@ -2692,7 +2711,7 @@ function render_list($path = '', $files = [])
         $html = $tmp[0];
         $tmp = splitfirst($tmp[1], '<!--NeedUpdateEnd-->');
         $NeedUpdateStr = $tmp[0];
-        if (isset($_SERVER['needUpdate'])&&$_SERVER['needUpdate']) $NeedUpdateStr = str_replace('<!--constStr@NeedUpdate-->', getconstStr('NeedUpdate'), $NeedUpdateStr);
+        if (isset($_SERVER['needUpdate'])&&$_SERVER['needUpdate']) $NeedUpdateStr = str_replace('<!--i18n@NeedUpdate-->', geti18n('NeedUpdate'), $NeedUpdateStr);
         else $NeedUpdateStr ='';
         $html .= $NeedUpdateStr . $tmp[1];
         
@@ -2720,7 +2739,7 @@ function render_list($path = '', $files = [])
             $tmp = splitfirst($tmp[1], '<!--ShowThumbnailsEnd-->');
             //if (!(isset($_SERVER['USER'])&&$_SERVER['USER']=='qcloud')) {
             if (!getConfig('disableShowThumb')) {
-                $html .= str_replace('<!--constStr@OriginalPic-->', getconstStr('OriginalPic'), $tmp[0]) . $tmp[1];
+                $html .= str_replace('<!--i18n@OriginalPic-->', geti18n('OriginalPic'), $tmp[0]) . $tmp[1];
             } else $html .= $tmp[1];
         }
         $imgextstr = '';
@@ -2841,7 +2860,7 @@ function render_list($path = '', $files = [])
             $tmp = splitfirst($html, '<!--EncryptBtnStart-->');
             $html = $tmp[0];
             $tmp = splitfirst($tmp[1], '<!--EncryptBtnEnd-->');
-            $html .= str_replace('<!--constStr@Encrypt-->', getconstStr('Encrypt'), $tmp[0]) . $tmp[1];
+            $html .= str_replace('<!--i18n@Encrypt-->', geti18n('Encrypt'), $tmp[0]) . $tmp[1];
             $tmp = splitfirst($html, '<!--EncryptAlertStart-->');
             $html = $tmp[0];
             $tmp = splitfirst($tmp[1], '<!--EncryptAlertEnd-->');
@@ -2850,7 +2869,7 @@ function render_list($path = '', $files = [])
             $tmp = splitfirst($html, '<!--EncryptAlertStart-->');
             $html = $tmp[0];
             $tmp = splitfirst($tmp[1], '<!--EncryptAlertEnd-->');
-            $html .= str_replace('<!--constStr@SetpassfileBfEncrypt-->', getconstStr('SetpassfileBfEncrypt'), $tmp[0]) . $tmp[1];
+            $html .= str_replace('<!--i18n@SetpassfileBfEncrypt-->', geti18n('SetpassfileBfEncrypt'), $tmp[0]) . $tmp[1];
             $tmp = splitfirst($html, '<!--EncryptBtnStart-->');
             $html = $tmp[0];
             $tmp = splitfirst($tmp[1], '<!--EncryptBtnEnd-->');
@@ -2861,7 +2880,7 @@ function render_list($path = '', $files = [])
         $html = $tmp[0];
         $tmp = splitfirst($tmp[1], '<!--MoveRootEnd-->');
         if ($path != '/') {
-            $html .= str_replace('<!--constStr@ParentDir-->', getconstStr('ParentDir'), $tmp[0]) . $tmp[1];
+            $html .= str_replace('<!--i18n@ParentDir-->', geti18n('ParentDir'), $tmp[0]) . $tmp[1];
         } else $html .= $tmp[1];
 
         $tmp = splitfirst($html, '<!--MoveDirsStart-->');
@@ -2913,7 +2932,7 @@ function render_list($path = '', $files = [])
         $exetime = round(microtime(true)-$_SERVER['php_starttime'],3);
         //$ip2city = json_decode(curl('GET', 'http://ip.taobao.com/outGetIpInfo?ip=' . $_SERVER['REMOTE_ADDR'] . '&accessKey=alibaba-inc')['body'], true);
         //if ($ip2city['code']===0) $city = ' ' . $ip2city['data']['city'];
-        $html = str_replace('<!--FootStr-->', date("Y-m-d H:i:s") . " " . getconstStr('Week')[date("w")] . " " . $_SERVER['REMOTE_ADDR'] . $city . ' Runningtime:' . $exetime . 's Mem:' . size_format(memory_get_usage()), $html);
+        $html = str_replace('<!--FootStr-->', date("Y-m-d H:i:s") . " " . geti18n('Week')[date("w")] . " " . $_SERVER['REMOTE_ADDR'] . $city . ' Runningtime:' . $exetime . 's Mem:' . size_format(memory_get_usage()), $html);
     }
 
     /*if ($_SERVER['admin']||!getConfig('disableChangeTheme')) {
@@ -2921,7 +2940,7 @@ function render_list($path = '', $files = [])
         $selecttheme = '
     <div style="position: fixed;right: 10px;bottom: 10px;">
         <select name="theme" onchange="changetheme(this.options[this.options.selectedIndex].value)">
-            <option value="">'.getconstStr('Theme').'</option>';
+            <option value="">'.geti18n('Theme').'</option>';
         foreach ($theme_arr as $v1) {
             if ($v1!='.' && $v1!='..') $selecttheme .= '
             <option value="' . $v1 . '"' . ($v1==$theme?' selected="selected"':'') . '>' . $v1 . '</option>';
@@ -2950,3 +2969,4 @@ function render_list($path = '', $files = [])
     //if (isset($_SERVER['Set-Cookie'])) return output($html, $statusCode, [ 'Set-Cookie' => $_SERVER['Set-Cookie'], 'Content-Type' => 'text/html' ]);
     return output($html, $statusCode);
 }
+echo '</center>';

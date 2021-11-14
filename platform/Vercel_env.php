@@ -156,7 +156,7 @@ function setConfig($arr, $disktag = '')
 
 function install()
 {
-    global $constStr;
+    global $i18n;
     if ($_GET['install1']) {
         if ($_POST['admin']!='') {
             $tmp['admin'] = $_POST['admin'];
@@ -201,18 +201,18 @@ function install()
         $html .= '
     <form action="?install1" method="post" onsubmit="return notnull(this);">
 language:<br>';
-        foreach ($constStr['languages'] as $key1 => $value1) {
+        foreach ($i18n['languages'] as $key1 => $value1) {
             $html .= '
-        <label><input type="radio" name="language" value="'.$key1.'" '.($key1==$constStr['language']?'checked':'').' onclick="changelanguage(\''.$key1.'\')">'.$value1.'</label><br>';
+        <label><input type="radio" name="language" value="'.$key1.'" '.($key1==$i18n['language']?'checked':'').' onclick="changelanguage(\''.$key1.'\')">'.$value1.'</label><br>';
         }
         //if (getConfig('APIKey')=='') 
         $html .= '<br>
-        <a href="https://vercel.com/account/tokens" target="_blank">' . getconstStr('Create') . ' Token</a><br>
+        <a href="https://vercel.com/account/tokens" target="_blank">' . geti18n('Create') . ' Token</a><br>
         <label>Vercel Token:<input name="APIKey" type="password" placeholder="" value="' . getConfig('APIKey') . '" id="VercelToken"></label><br>';
         $html .= '<br>
-        <label>设置管理员密码:<input name="admin" type="password" placeholder="' . getconstStr('EnvironmentsDescription')['admin'] . '" size="' . strlen(getconstStr('EnvironmentsDescription')['admin']) . '" id="adminpassword"></label><br>';
+        <label>设置管理员密码:<input name="admin" type="password" placeholder="' . geti18n('EnvironmentsDescription')['admin'] . '" size="' . strlen(geti18n('EnvironmentsDescription')['admin']) . '" id="adminpassword"></label><br>';
         $html .= '
-        <input type="submit" value="'.getconstStr('Submit').'" class="btn">
+        <input type="submit" value="'.geti18n('Submit').'" class="btn">
     </form>
     <div id="showerror"></div>
     <script>
@@ -242,7 +242,7 @@ language:<br>';
                 return false;
             }
             t.style.display = "none";
-            errordiv.innerHTML = "' . getconstStr('Wait') . '";
+            errordiv.innerHTML = "' . geti18n('Wait') . '";
             var xhr = new XMLHttpRequest();
             xhr.open("POST", t.action);
             xhr.onload = function(e) {
@@ -274,7 +274,7 @@ language:<br>';
                             errordiv.innerHTML = "部署成功";
                             location.href = "/";
                         } else {
-                            errordiv.innerHTML = deployStat + ", " + min + ".<br>' . getconstStr('Wait') . ' " + x;
+                            errordiv.innerHTML = deployStat + ", " + min + ".<br>' . geti18n('Wait') . ' " + x;
                             if (deployStat!=="ERROR") setTimeout(function() { getStatus(id, VercelToken) }, 1000);
                         }
                     } else {
@@ -289,12 +289,12 @@ language:<br>';
             return false;
         }
     </script>';
-        $title = getconstStr('SelectLanguage');
+        $title = geti18n('SelectLanguage');
         return message($html, $title, 201);
     }
 
     if (substr($_SERVER["host"], -10)=="vercel.app") {
-        $html .= '<a href="?install0">' . getconstStr('ClickInstall') . '</a>, ' . getconstStr('LogintoBind');
+        $html .= '<a href="?install0">' . geti18n('ClickInstall') . '</a>, ' . geti18n('LogintoBind');
         $html .= "<br>请记住：每次操作/进行一些更改后，您必须Wait 30-60 秒，以确保 Vercel 已完成构建<br>" ;
     } else {
         $html.= "请从 *.vercel.app 安装";
@@ -390,7 +390,7 @@ function api_error_msg($response)
 {
     return $response['error']['code'] . '<br>
 ' . $response['error']['message'] . '<br>
-<button onclick="location.href = location.href;">'.getconstStr('Refresh').'</button>';
+<button onclick="location.href = location.href;">'.geti18n('Refresh').'</button>';
 }
 
 function setConfigResponse($response)

@@ -171,7 +171,7 @@ function setConfig($arr, $disktag = '')
 
 function install()
 {
-    global $constStr;
+    global $i18n;
     if ($_GET['install2']) {
         if ($_POST['admin']!='') {
             $tmp['admin'] = $_POST['admin'];
@@ -196,20 +196,20 @@ function install()
     }
     if ($_GET['install1']) {
         if (!ConfigWriteable()) {
-            $html .= getconstStr('MakesuerWriteable');
+            $html .= geti18n('MakesuerWriteable');
             $title = 'Error';
             return message($html, $title, 201);
         }
         /*if (!RewriteEngineOn()) {
-            $html .= getconstStr('MakesuerRewriteOn');
+            $html .= geti18n('MakesuerRewriteOn');
             $title = 'Error';
             return message($html, $title, 201);
         }*/
-        $html .= '<button id="checkrewritebtn" onclick="checkrewrite();">'.getconstStr('MakesuerRewriteOn').'</button>
+        $html .= '<button id="checkrewritebtn" onclick="checkrewrite();">'.geti18n('MakesuerRewriteOn').'</button>
 <div id="formdiv" style="display: none">
     <form action="?install2" method="post" onsubmit="return notnull(this);">
-        <input name="admin" type="password" placeholder="' . getconstStr('EnvironmentsDescription')['admin'] . '" size="' . strlen(getconstStr('EnvironmentsDescription')['admin']) . '" id="adminpassword"><br>
-        <input id="submitbtn" type="submit" value="'.getconstStr('Submit').'" disabled class="btn">
+        <input name="admin" type="password" placeholder="' . geti18n('EnvironmentsDescription')['admin'] . '" size="' . strlen(geti18n('EnvironmentsDescription')['admin']) . '" id="adminpassword"><br>
+        <input id="submitbtn" type="submit" value="'.geti18n('Submit').'" disabled class="btn">
     </form>
 </div>
     <script>
@@ -222,7 +222,7 @@ function install()
         function notnull(t)
         {
             if (t.admin.value==\'\') {
-                alert(\''.getconstStr('SetAdminPassword').'\');
+                alert(\''.geti18n('SetAdminPassword').'\');
                 return false;
             }
             return true;
@@ -246,24 +246,24 @@ function install()
                     document.getElementById("submitbtn").disabled = false;
                     document.getElementById("formdiv").style.display = "";
                 } else {
-                    alert("' . getconstStr('MakesuerRewriteOn') . '?\nfalse\n\nUrl: " + url + "\nExpect http code 201, but received " + xhr4.status);
+                    alert("' . geti18n('MakesuerRewriteOn') . '?\nfalse\n\nUrl: " + url + "\nExpect http code 201, but received " + xhr4.status);
                 }
             }
         }
     </script>';
-        $title = getconstStr('SetAdminPassword');
+        $title = geti18n('SetAdminPassword');
         return message($html, $title, 201);
     }
     if ($_GET['install0']) {
         $html .= '
     <form action="?install1" method="post">
 language:<br>';
-        foreach ($constStr['languages'] as $key1 => $value1) {
+        foreach ($i18n['languages'] as $key1 => $value1) {
             $html .= '
-        <label><input type="radio" name="language" value="'.$key1.'" '.($key1==$constStr['language']?'checked':'').' onclick="changelanguage(\''.$key1.'\')">'.$value1.'</label><br>';
+        <label><input type="radio" name="language" value="'.$key1.'" '.($key1==$i18n['language']?'checked':'').' onclick="changelanguage(\''.$key1.'\')">'.$value1.'</label><br>';
         }
         $html .= '
-        <input type="submit" value="'.getconstStr('Submit').'" class="btn">
+        <input type="submit" value="'.geti18n('Submit').'" class="btn">
     </form>
     <script>
         function changelanguage(str)
@@ -275,12 +275,12 @@ language:<br>';
             location.href = location.href;
         }
     </script>';
-        $title = getconstStr('SelectLanguage');
+        $title = geti18n('SelectLanguage');
         return message($html, $title, 201);
     }
 
     $title = '安装OneSM';
-    $html = '<a href="?install0">' . getconstStr('ClickInstall') . '</a>, ' . getconstStr('LogintoBind');
+    $html = '<a href="?install0">' . geti18n('ClickInstall') . '</a>, ' . geti18n('LogintoBind');
     return message($html, $title, 201);
 }
 
@@ -304,7 +304,7 @@ function api_error_msg($response)
 {
     return $response['code'] . '<br>
 ' . $response['message'] . '<br>
-<button onclick="location.href = location.href;">'.getconstStr('Refresh').'</button>';
+<button onclick="location.href = location.href;">'.geti18n('Refresh').'</button>';
 }
 
 function setConfigResponse($response)

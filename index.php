@@ -2,30 +2,9 @@
 //error_reporting(E_ALL & ~E_NOTICE);
 error_reporting(0);
 include 'vendor/autoload.php';
-include 'conststr.php';
+include 'i18n.php';
 include 'common.php';
 
-echo '<center>
-<style>
-a {
-    color: gray;
-}
-#VercelToken,#adminpassword,.intext {
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 2px solid rgb(90, 45, 196);
-    padding: 6px 14px;
-    font-size: 20px;
-}
-#submitbtn,.btn {
-    width: 100px;
-    height: 40px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-}
-</style>';
 //echo '<pre>'. json_encode($_SERVER, JSON_PRETTY_PRINT).'</pre>';
 //echo '<pre>'. json_encode($_ENV, JSON_PRETTY_PRINT).'</pre>';
 if (isset($_SERVER['HEROKU_APP_DIR'])&&$_SERVER['HEROKU_APP_DIR']==='/app') {
@@ -76,4 +55,3 @@ if (isset($_SERVER['HEROKU_APP_DIR'])&&$_SERVER['HEROKU_APP_DIR']==='/app') {
     if ($re['isBase64Encoded']) echo base64_decode($re['body']);
     else echo $re['body'];
 }
-echo '</center>';

@@ -400,10 +400,10 @@ class Onedrive {
         while ($result['stat']==409 && json_decode($result['body'], true)['error']['code']=='nameAlreadyExists') {
             $num++;
             if ($namearr[0]!='') {
-                $newname = $namearr[0] . ' (' . getconstStr('Copy') . ' ' . $num . ')';
+                $newname = $namearr[0] . ' (' . geti18n('Copy') . ' ' . $num . ')';
                 if ($namearr[1]!='') $newname .= '.' . $namearr[1];
             } else {
-                $newname = '.' . $namearr[1] . ' ('.getconstStr('Copy'). ' ' . $num .')';
+                $newname = '.' . $namearr[1] . ' ('.geti18n('Copy'). ' ' . $num .')';
             }
             //$newname = spurlencode($newname);
             $data = '{ "name": "' . $newname . '" }';
@@ -422,7 +422,7 @@ class Onedrive {
         //return output($result['body'], $result['stat']);
         //echo $result;
         $resultarry = json_decode($result['body'],true);
-        if (isset($resultarry['error'])) return message($resultarry['error']['message']. '<hr><a href="javascript:history.back(-1)">'.getconstStr('Back').'</a>','Error', 403);
+        if (isset($resultarry['error'])) return message($resultarry['error']['message']. '<hr><a href="javascript:history.back(-1)">'.geti18n('Back').'</a>','Error', 403);
         else return output('success', 0);
     }
     public function Create($parent, $type, $name, $content = '') {
@@ -441,7 +441,7 @@ class Onedrive {
     }
 
     public function AddDisk() {
-        global $constStr;
+        global $i18n;
         global $EnvConfigs;
 
         $envs = '';
@@ -524,7 +524,7 @@ class Onedrive {
                     }
                 }, 1000);
                 </script>';
-                return message($html, getconstStr('WaitJumpIndex'), 201, 1);
+                return message($html, geti18n('WaitJumpIndex'), 201, 1);
             }
         }
 
@@ -555,7 +555,7 @@ class Onedrive {
             $html = '
 <div>
     <form action="?Finish&disktag=' . $_GET['disktag'] . '&AddDisk=' . get_class($this) . '" method="post" onsubmit="return notnull(this);">
-        <label><input type="radio" name="DriveType" value="Onedrive" checked>' . '使用 OneDrive ' . getconstStr(' ') . '</label><br>';
+        <label><input type="radio" name="DriveType" value="Onedrive" checked>' . '使用 OneDrive ' . geti18n(' ') . '</label><br>';
             if ($sites[0]!='') foreach ($sites as $k => $v) {
                 $html .= '
         <label>
@@ -565,14 +565,14 @@ class Onedrive {
             $html .= '
         <input type="hidden" id="sharepointSiteUrl" name="sharepointSiteUrl" value="">
         <label>
-            <input type="radio" name="DriveType" value="Custom" id="Custom">' . 'Use Other Sharepoint:' . getconstStr(' ') . '<br>
-            <div style="width:100%;margin:0px 35px"><a href="' . $Tenant . '/_layouts/15/sharepoint.aspx" target="_blank">' . getconstStr('GetSharepointSiteAddress') . '</a><br>
-                <input type="text" name="sharepointSite" style="width:100%;" placeholder="' . getconstStr('InputSharepointSiteAddress') . '" onclick="document.getElementById(\'Custom\').checked=\'checked\';">
+            <input type="radio" name="DriveType" value="Custom" id="Custom">' . 'Use Other Sharepoint:' . geti18n(' ') . '<br>
+            <div style="width:100%;margin:0px 35px"><a href="' . $Tenant . '/_layouts/15/sharepoint.aspx" target="_blank">' . geti18n('GetSharepointSiteAddress') . '</a><br>
+                <input type="text" class="intext" name="sharepointSite" style="width:100%;" placeholder="' . geti18n('InputSharepointSiteAddress') . '" onclick="document.getElementById(\'Custom\').checked=\'checked\';">
             </div>
         </label><br>
         ';
             $html .= '
-        <input type="submit" value="' . getconstStr('Submit') . '" class="btn">
+        <input type="submit" value="' . geti18n('Submit') . '" class="btn">
     </form>
 </div>
 <script>
@@ -604,7 +604,7 @@ class Onedrive {
         refresh_token :<br>';
                 $str .= '
         <textarea readonly style="width: 95%">' . $refresh_token . '</textarea><br><br>
-        ' . getconstStr('SavingToken') . '
+        ' . geti18n('SavingToken') . '
         <script>
             var texta=document.getElementsByTagName(\'textarea\');
             for(i=0;i<texta.length;i++) {
@@ -632,7 +632,7 @@ class Onedrive {
                     }
                 }, 1000);
                 </script>';
-                    return message($html, getconstStr('Wait') . ' 3s', 201, 1);
+                    return message($html, geti18n('Wait') . ' 3s', 201, 1);
                 }
             }
             return message('<pre>' . json_encode(json_decode($tmp['body']), JSON_PRETTY_PRINT) . '</pre>', $tmp['stat']);
@@ -642,7 +642,7 @@ class Onedrive {
         if (isset($_GET['install1'])) {
             if (get_class($this)=='Onedrive' || get_class($this)=='OnedriveCN') {
                 return message('
-    <a href="" id="a1">' . getconstStr('JumptoOffice') . '</a>
+    <a href="" id="a1">' . geti18n('JumptoOffice') . '</a>
     <script>
         url=location.protocol + "//" + location.host + "' . $url . '?install2&disktag=' . $_GET['disktag'] . '&AddDisk=' . get_class($this) . '";
         url="' . $this->oauth_url . 'authorize?scope=' . $this->scope . '&response_type=code&client_id=' . $this->client_id . '&redirect_uri=' . $this->redirect_uri . '&state=' . '"+encodeURIComponent(url);
@@ -650,7 +650,7 @@ class Onedrive {
         //window.open(url,"_blank");
         location.href = url;
     </script>
-    ', getconstStr('Wait') . ' 1s', 201);
+    ', geti18n('Wait') . ' 1s', 201);
             } else {
                 return message('Something error, retry after a few seconds.', 'Retry', 201);
             }
@@ -662,9 +662,9 @@ class Onedrive {
                 $f = substr($_POST['disktag_add'], 0, 1);
                 if (strlen($_POST['disktag_add'])==1) $_POST['disktag_add'] .= '_';
                 if (isCommonEnv($_POST['disktag_add'])) {
-                    return message('Do not input ' . $envs . '<br><button onclick="location.href = location.href;">'.getconstStr('Refresh').'</button>', 'Error', 400);
+                    return message('Do not input ' . $envs . '<br><button onclick="location.href = location.href;">'.geti18n('Refresh').'</button>', 'Error', 400);
                 } elseif (!(('a'<=$f && $f<='z') || ('A'<=$f && $f<='Z'))) {
-                    return message('Please start with letters<br><button onclick="location.href = location.href;">'.getconstStr('Refresh').'</button>
+                    return message('Please start with letters<br><button onclick="location.href = location.href;">'.geti18n('Refresh').'</button>
                     <script>
                     var expd = new Date();
                     expd.setTime(expd.getTime()+1);
@@ -698,8 +698,8 @@ class Onedrive {
                     $title = 'Error';
                     return message($html, $title, 400);
                 } else {
-                    $title = getconstStr('MayinEnv');
-                    $html = getconstStr('Wait');
+                    $title = geti18n('MayinEnv');
+                    $html = geti18n('Wait');
                     if ($_POST['Drive_ver']!='Sharelink') $url .= '?install1&disktag=' . $_GET['disktag'] . '&AddDisk=' . $_POST['Drive_ver'];
                     $html .= '<script>
                     var i = 0;
@@ -722,49 +722,49 @@ class Onedrive {
         $html = '
 <div>
     <form id="form1" action="" method="post" onsubmit="return notnull(this);">
-        ' . getconstStr('DiskTag') . ': (' . getConfig('disktag') . ')
-        <input type="text" name="disktag_add" placeholder="' . getconstStr('EnvironmentsDescription')['disktag'] . '" style="width:100%"><br>
-        ' . getconstStr('DiskName') . ':
-        <input type="text" name="diskname" placeholder="' . getconstStr('EnvironmentsDescription')['diskname'] . '" style="width:100%"><br>
+        ' . geti18n('DiskTag') . ': (' . getConfig('disktag') . ')
+        <input type="text" class="intext" name="disktag_add" placeholder="' . geti18n('EnvironmentsDescription')['disktag'] . '" style="width:100%"><br>
+        ' . geti18n('DiskName') . ':
+        <input type="text" class="intext" name="diskname" placeholder="' . geti18n('EnvironmentsDescription')['diskname'] . '" style="width:100%"><br>
         <br>
         <div>
-            <label><input type="radio" name="Drive_ver" value="Onedrive" onclick="document.getElementById(\'NT_custom\').style.display=\'\';document.getElementById(\'CN_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">Mircosoft: ' . getconstStr('DriveVerMS') . '</label><br>
+            <label><input type="radio" name="Drive_ver" value="Onedrive" onclick="document.getElementById(\'NT_custom\').style.display=\'\';document.getElementById(\'CN_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">Mircosoft: ' . geti18n('DriveVerMS') . '</label><br>
             <div id="NT_custom" style="display:none;margin:0px 35px">
-                <label><input type="checkbox" name="NT_Drive_custom" onclick="document.getElementById(\'NT_secret\').style.display=(this.checked?\'\':\'none\');">' . getconstStr('CustomIdSecret') . '</label><br>
+                <label><input type="checkbox" name="NT_Drive_custom" onclick="document.getElementById(\'NT_secret\').style.display=(this.checked?\'\':\'none\');">' . geti18n('CustomIdSecret') . '</label><br>
                 <div id="NT_secret" style="display:none;margin:10px 35px">
-                    <a href="https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps" target="_blank">' . getconstStr('GetSecretIDandKEY') . '</a><br>
+                    <a href="https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps" target="_blank">' . geti18n('GetSecretIDandKEY') . '</a><br>
                     return_uri(Reply URL):<br>https://scfonedrive.github.io/<br>
-                    client_id:<input type="text" name="NT_client_id" style="width:100%" placeholder="a1b2c345-90ab-cdef-ghij-klmnopqrstuv"><br>
-                    client_secret:<input type="text" name="NT_client_secret" style="width:100%"><br>
+                    client_id:<input type="text" class="intext" name="NT_client_id" style="width:100%" placeholder="a1b2c345-90ab-cdef-ghij-klmnopqrstuv"><br>
+                    client_secret:<input type="text" class="intext" name="NT_client_secret" style="width:100%"><br>
                 </div>
             </div><br>
-            <label><input type="radio" name="Drive_ver" value="OnedriveCN" onclick="document.getElementById(\'CN_custom\').style.display=\'\';document.getElementById(\'NT_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">VENT: ' . getconstStr('DriveVerCN') . '</label><br>
+            <label><input type="radio" name="Drive_ver" value="OnedriveCN" onclick="document.getElementById(\'CN_custom\').style.display=\'\';document.getElementById(\'NT_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">VENT: ' . geti18n('DriveVerCN') . '</label><br>
             <div id="CN_custom" style="display:none;margin:0px 35px">
-                <label><input type="checkbox" name="CN_Drive_custom" onclick="document.getElementById(\'CN_secret\').style.display=(this.checked?\'\':\'none\');">' . getconstStr('CustomIdSecret') . '</label><br>
+                <label><input type="checkbox" name="CN_Drive_custom" onclick="document.getElementById(\'CN_secret\').style.display=(this.checked?\'\':\'none\');">' . geti18n('CustomIdSecret') . '</label><br>
                 <div id="CN_secret" style="display:none;margin:10px 35px">
-                    <a href="https://portal.azure.cn/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps" target="_blank">' . getconstStr('GetSecretIDandKEY') . '</a><br>
+                    <a href="https://portal.azure.cn/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps" target="_blank">' . geti18n('GetSecretIDandKEY') . '</a><br>
                     return_uri(Reply URL):<br>https://scfonedrive.github.io/<br>
-                    client_id:<input type="text" name="CN_client_id" style="width:100%" placeholder="a1b2c345-90ab-cdef-ghij-klmnopqrstuv"><br>
-                    client_secret:<input type="text" name="CN_client_secret" style="width:100%"><br>
+                    client_id:<input type="text" class="intext" name="CN_client_id" style="width:100%" placeholder="a1b2c345-90ab-cdef-ghij-klmnopqrstuv"><br>
+                    client_secret:<input type="text" class="intext" name="CN_client_secret" style="width:100%"><br>
                 </div>
             </div><br>
-            <label><input type="radio" name="Drive_ver" value="Sharelink" onclick="document.getElementById(\'CN_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'\';document.getElementById(\'NT_custom\').style.display=\'none\';">Sharelink: ' . getconstStr('DriveVerShareurl') . '</label><br>
+            <label><input type="radio" name="Drive_ver" value="Sharelink" onclick="document.getElementById(\'CN_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'\';document.getElementById(\'NT_custom\').style.display=\'none\';">Sharelink: ' . geti18n('DriveVerShareurl') . '</label><br>
             <div id="inputshareurl" style="display:none;margin:0px 35px">
-                ' . getconstStr('UseShareLink') . '
-                <input type="text" name="shareurl" style="width:100%" placeholder="https://xxxx.sharepoint.com/:f:/g/personal/xxxxxxxx/mmmmmmmmm?e=XXXX"><br>
+                ' . geti18n('UseShareLink') . '
+                <input type="text" class="intext" name="shareurl" style="width:100%" placeholder="https://xxxx.sharepoint.com/:f:/g/personal/xxxxxxxx/mmmmmmmmm?e=XXXX"><br>
             </div>
         </div>
         <br>';
         if ($_SERVER['language']=='zh-cn') $html .= '你要理解 scfonedrive.github.io 是github上的静态网站，<br><font color="red">除非github真的挂掉</font>了，<br>不然，稍后你如果<font color="red">连不上</font>，请检查你的运营商或其它“你懂的”问题！<br>';
         $html .='
-        <input type="submit" value="' . getconstStr('Submit') . '" class="btn">
+        <input type="submit" value="' . geti18n('Submit') . '" class="btn">
     </form>
 </div>
     <script>
         function notnull(t)
         {
             if (t.disktag_add.value==\'\') {
-                alert(\'' . getconstStr('DiskTag') . '\');
+                alert(\'' . geti18n('DiskTag') . '\');
                 return false;
             }
             envs = [' . $envs . '];
@@ -774,7 +774,7 @@ class Onedrive {
             }
             var reg = /^[a-zA-Z]([_a-zA-Z0-9]{1,20})$/;
             if (!reg.test(t.disktag_add.value)) {
-                alert(\'' . getconstStr('TagFormatAlert') . '\');
+                alert(\'' . geti18n('TagFormatAlert') . '\');
                 return false;
             }
             if (t.Drive_ver.value==\'\') {
