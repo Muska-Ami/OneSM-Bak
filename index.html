@@ -58,9 +58,6 @@
             $.getJSON("https://api.github.com/repos/XiaMoHuaHuo-CN/OneSM/releases", function(data) {
                 var jpe = eval(data);
                 $('#latest-ver').html(jpe[0].name);
-                if (jpe[0].massage) {
-                    $('#release').html('Not Found');
-                } else {
                     var releases = '';
                     var x= 1;
                         while (jpe[x].name != null) {
@@ -69,7 +66,6 @@
                             x++;
                             $('#release').html(releases);
                         }
-                }
             });
         </script>
 </html>
