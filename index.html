@@ -20,12 +20,18 @@
                 -moz-user-focus: none;
                 -moz-user-select: none;
             }
-            .latest {
+            .ver-iframe {
                 background-color: rgb(238, 238, 238);
                 border: gray solid 1px;
                 border-radius: 5px;
                 width: 80%;
                 margin: 5px;
+            }
+            h2 {
+                margin: 5px;
+            }
+            span {
+                font-size: large;
             }
         </style>
     </head>
@@ -34,23 +40,36 @@
                 <span><a href="https://github.com/XiaMoHuaHuo-CN/OneSM" style="color: white;font-size: 30px;margin: 15px;"><img src="./Deploy/github.png" style="width: 30px; height: 30px;margin-top: 12px;margin-right: 2px;margin-left: 10px;">GitHub</a></span>
         </header>
         <div style="position: fixed;;margin-top: 60px; width: 100%;">
-            <div class="latest">
+            <div class="ver-iframe">
+                <h2>Latest Releases</h2>
                 <div style="margin-top: 10px; margin-left: 15px; margin-bottom: 10px;">
-                    Latest Version: <span id="latest-ver"></span><br />
-                    URL: <span id="latest-url"><a href="https://github.com/XiaMoHuaHuo-CN/OneSM/zipball/refs/tags/main">https://github.com/XiaMoHuaHuo-CN/OneSM/zipball/refs/tags/main</a></span>
+                    <b>Version:</b> <span id="latest-ver"></span><br />
+                    <b>URL:</b> <span><a href="https://github.com/XiaMoHuaHuo-CN/OneSM/zipball/refs/tags/main">https://github.com/XiaMoHuaHuo-CN/OneSM/zipball/refs/tags/main</a></span>
                 </div>
             </div>
-            <div class="releases">
-                Version: <span id="releases-ver"></span><br />
-                URL: <span id="releases-url"></span>
+            <div class="ver-iframe">
+                <h2>Other Releases</h2>
+                <div style="margin-top: 10px; margin-left: 15px; margin-bottom: 10px;" id="release"></div>
             </div>
         </div>
     </body>
         <script src="./jquery.min.js"></script>
         <script>
             $.getJSON("https://api.github.com/repos/XiaMoHuaHuo-CN/OneSM/releases", function(data) {
-                var xhr = JSON.parse(data);
-                $('#latest-name').html=xhr;
+                var jpe = eval(data);
+                $('#latest-ver').html(jpe[0].name);
+                if (jpe[0].massage) {
+                    $('#release').html('Not Found');
+                } else {
+                    var releases = '';
+                    var x= 1;
+                        while (jpe[x].name != null) {
+                            var rele = jpe[x].name;
+                            releases += '<b>Version:</b> <span>'+ rele +'</span><br /><b>URL:</b> <span><a href="https://github.com/XiaMoHuaHuo-CN/OneSM/zipball/refs/tags/main'+ rele +'">https://github.com/XiaMoHuaHuo-CN/OneSM/zipball/refs/tags/main'+ jpe[x].name +'</span>'
+                            x++;
+                            $('#release').html(releases);
+                        }
+                }
             });
         </script>
 </html>
