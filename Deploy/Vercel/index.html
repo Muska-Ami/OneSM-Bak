@@ -34,6 +34,11 @@
             }
             a {
                 color: gray;
+                text-decoration: none;
+                -webkit-tap-highlight-color: rgb(255, 255, 255);
+                -webkit-user-select: none;
+                -moz-user-focus: none;
+                -moz-user-select: none;
             }
             .info {
                 background-color: rgb(235, 235, 235);
@@ -45,10 +50,21 @@
                 margin: 5px;
                 padding: 5px;
             }
+            header {
+                position: fixed;
+                background-color: #491daf;
+                margin-left: -10px;
+                margin-top: -10px;
+                width: 101%;
+                height: 60px;
+            }
         </style>
     </head>
     <body>
-        <div class="table">
+        <header>
+            <span><a href="https://github.com/XiaMoHuaHuo-CN/OneSM" style="color: white;font-size: 30px;margin: 15px;"><img src="./github.png" style="width: 30px; height: 30px;margin-top: 12px;margin-right: 2px;margin-left: 10px;">GitHub</a></span>
+        </header>
+        <div class="table" style="position: fixed; margin-top: 60px; width: 97%;">
         <div class="mg">
             <center>
             <h1>OneSM 部署</h1>
