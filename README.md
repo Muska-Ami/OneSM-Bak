@@ -17,10 +17,10 @@
 - 见[https://onesm.xmdisk.ga/](https://onesm.xmdisk.ga/)
 <img src="https://onesm.xmdisk.ga/VC.png" /><br />
 ## 部署到云虚拟机 / 服务器
-安装PHP7.4以上版本及Curl组件，上传文件然后访问对应网址安装即可
+安装PHP7.2以上版本及Curl组件，上传文件然后访问对应网址安装即可
 *****
 ## CloudFlare Workers
-使用Workers反代理部署&随机访问
+使用Workers反代理加速&随机访问
 ```javascript
 // Hosts Array
 // 服务器数组
