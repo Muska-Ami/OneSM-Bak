@@ -10,10 +10,7 @@
 - 强制https功能
 - Refer验证(防盗链)
 - 主题功能
-### 修改项
-- 美化UI
-- 修改部署&管理页面
-*****
+- hCaptcha人机验证
 ## 部署到Vercel
 - 见[https://onesm.xmdisk.ga/Deploy/Vercel](https://onesm.xmdisk.ga/Deploy/Vercel)
 <img src="https://onesm.xmdisk.ga/VC.png" /><br />
