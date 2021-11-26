@@ -11,6 +11,7 @@
 - Refer验证(防盗链)
 - 主题功能
 - hCaptcha人机验证
+*****
 ## 部署到Vercel
 - 见[https://onesm.xmdisk.ga/Deploy/Vercel](https://onesm.xmdisk.ga/Deploy/Vercel)
 <img src="https://onesm.xmdisk.ga/VC.png" /><br />
