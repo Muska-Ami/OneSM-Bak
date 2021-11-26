@@ -1,7 +1,7 @@
 # OneSM - 一个OneDrive管理器
 <img src="https://onesm.skimino.cf/OneSM-Logo.png" /><br />
 基于OneManager-php重写，目前仅支持Vercel和云虚拟机 / 服务器部署<br />
-[OneSM - Releases](https://onesm.skimino.cf)
+[OneSM - Websites](https://onesm.skimino.cf)
 ### 功能
 - OneDrive直链
 - 在线预览
@@ -12,7 +12,7 @@
 - 主题功能
 *****
 ## 部署到Vercel
-- 见[https://onesm.xmdisk.ga/Deploy/Vercel](https://onesm.skimino.cf/Deploy/Vercel)
+- 见[https://onesm.skimino.cf/Deploy/Vercel](https://onesm.skimino.cf/Deploy/Vercel)
 <img src="https://onesm.skimino.cf/VC.png" /><br />
 ## 部署到云虚拟机 / 服务器
 安装PHP7.2以上版本及Curl组件，上传文件然后访问对应网址安装即可
