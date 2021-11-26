@@ -10,9 +10,6 @@
 - 强制https功能
 - Refer验证(防盗链)
 - 主题功能
-### 修改项
-- 美化UI
-- 修改部署&管理页面
 *****
 ## 部署到Vercel
 - 见[https://onesm.xmdisk.ga/Deploy/Vercel](https://onesm.xmdisk.ga/Deploy/Vercel)
