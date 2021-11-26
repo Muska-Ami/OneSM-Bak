@@ -1,6 +1,6 @@
 <?php
-            // https://docs.microsoft.com/en-us/graph/api/driveitem-get?view=graph-rest-1.0
-            // https://docs.microsoft.com/zh-cn/graph/api/driveitem-put-content?view=graph-rest-1.0&tabs=http
+            // https://docs.microsoft.com/en-us/graph/api/driveitem-get?preview=graph-rest-1.0
+            // https://docs.microsoft.com/zh-cn/graph/api/driveitem-put-content?preview=graph-rest-1.0&tabs=http
             // https://developer.microsoft.com/zh-cn/graph/graph-explorer
 
 class Onedrive {
@@ -567,12 +567,12 @@ class Onedrive {
         <label>
             <input type="radio" name="DriveType" value="Custom" id="Custom">' . 'Use Other Sharepoint:' . geti18n(' ') . '<br>
             <div style="width:100%;margin:0px 35px"><a href="' . $Tenant . '/_layouts/15/sharepoint.aspx" target="_blank">' . geti18n('GetSharepointSiteAddress') . '</a><br>
-                <input type="text" class="intext" name="sharepointSite" style="width:100%;" placeholder="' . geti18n('InputSharepointSiteAddress') . '" onclick="document.getElementById(\'Custom\').checked=\'checked\';">
+                <input type="text" class="input-tepwd" name="sharepointSite" style="width:100%;" placeholder="' . geti18n('InputSharepointSiteAddress') . '" onclick="document.getElementById(\'Custom\').checked=\'checked\';">
             </div>
         </label><br>
         ';
             $html .= '
-        <input type="submit" value="' . geti18n('Submit') . '" class="btn">
+        <input type="submit" value="' . geti18n('Submit') . '" class="input-btn">
     </form>
 </div>
 <script>
@@ -603,7 +603,7 @@ class Onedrive {
                 $str = '
         refresh_token :<br>';
                 $str .= '
-        <textarea readonly style="width: 95%">' . $refresh_token . '</textarea><br><br>
+        <input readonly style="width: 95%">' . $refresh_token . '</input><br><br>
         ' . geti18n('SavingToken') . '
         <script>
             var texta=document.getElementsByTagName(\'textarea\');
@@ -662,9 +662,9 @@ class Onedrive {
                 $f = substr($_POST['disktag_add'], 0, 1);
                 if (strlen($_POST['disktag_add'])==1) $_POST['disktag_add'] .= '_';
                 if (isCommonEnv($_POST['disktag_add'])) {
-                    return message('Do not input ' . $envs . '<br><button onclick="location.href = location.href;">'.geti18n('Refresh').'</button>', 'Error', 400);
+                    return message('Do not input ' . $envs . '<br><button class="input-btn" onclick="location.href = location.href;">'.geti18n('Refresh').'</button>', 'Error', 400);
                 } elseif (!(('a'<=$f && $f<='z') || ('A'<=$f && $f<='Z'))) {
-                    return message('Please start with letters<br><button onclick="location.href = location.href;">'.geti18n('Refresh').'</button>
+                    return message('Please start with letters<br><button class="input-btn" onclick="location.href = location.href;">'.geti18n('Refresh').'</button>
                     <script>
                     var expd = new Date();
                     expd.setTime(expd.getTime()+1);
@@ -723,9 +723,9 @@ class Onedrive {
 <div>
     <form id="form1" action="" method="post" onsubmit="return notnull(this);">
         ' . geti18n('DiskTag') . ': (' . getConfig('disktag') . ')
-        <input type="text" class="intext" name="disktag_add" placeholder="' . geti18n('EnvironmentsDescription')['disktag'] . '" style="width:100%"><br>
+        <input type="text" class="input-tepwd" name="disktag_add" placeholder="' . geti18n('EnvironmentsDescription')['disktag'] . '" style="width:100%"><br>
         ' . geti18n('DiskName') . ':
-        <input type="text" class="intext" name="diskname" placeholder="' . geti18n('EnvironmentsDescription')['diskname'] . '" style="width:100%"><br>
+        <input type="text" class="input-tepwd" name="diskname" placeholder="' . geti18n('EnvironmentsDescription')['diskname'] . '" style="width:100%"><br>
         <br>
         <div>
             <label><input type="radio" name="Drive_ver" value="Onedrive" onclick="document.getElementById(\'NT_custom\').style.display=\'\';document.getElementById(\'CN_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">Mircosoft: ' . geti18n('DriveVerMS') . '</label><br>
@@ -734,8 +734,8 @@ class Onedrive {
                 <div id="NT_secret" style="display:none;margin:10px 35px">
                     <a href="https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps" target="_blank">' . geti18n('GetSecretIDandKEY') . '</a><br>
                     return_uri(Reply URL):<br>https://scfonedrive.github.io/<br>
-                    client_id:<input type="text" class="intext" name="NT_client_id" style="width:100%" placeholder="a1b2c345-90ab-cdef-ghij-klmnopqrstuv"><br>
-                    client_secret:<input type="text" class="intext" name="NT_client_secret" style="width:100%"><br>
+                    client_id:<input type="text" class="input-tepwd" name="NT_client_id" style="width:100%" placeholder="a1b2c345-90ab-cdef-ghij-klmnopqrstuv"><br>
+                    client_secret:<input type="text" class="input-tepwd" name="NT_client_secret" style="width:100%"><br>
                 </div>
             </div><br>
             <label><input type="radio" name="Drive_ver" value="OnedriveCN" onclick="document.getElementById(\'CN_custom\').style.display=\'\';document.getElementById(\'NT_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'none\';">VENT: ' . geti18n('DriveVerCN') . '</label><br>
@@ -744,20 +744,20 @@ class Onedrive {
                 <div id="CN_secret" style="display:none;margin:10px 35px">
                     <a href="https://portal.azure.cn/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps" target="_blank">' . geti18n('GetSecretIDandKEY') . '</a><br>
                     return_uri(Reply URL):<br>https://scfonedrive.github.io/<br>
-                    client_id:<input type="text" class="intext" name="CN_client_id" style="width:100%" placeholder="a1b2c345-90ab-cdef-ghij-klmnopqrstuv"><br>
-                    client_secret:<input type="text" class="intext" name="CN_client_secret" style="width:100%"><br>
+                    client_id:<input type="text" class="input-tepwd" name="CN_client_id" style="width:100%" placeholder="a1b2c345-90ab-cdef-ghij-klmnopqrstuv"><br>
+                    client_secret:<input type="text" class="input-tepwd" name="CN_client_secret" style="width:100%"><br>
                 </div>
             </div><br>
             <label><input type="radio" name="Drive_ver" value="Sharelink" onclick="document.getElementById(\'CN_custom\').style.display=\'none\';document.getElementById(\'inputshareurl\').style.display=\'\';document.getElementById(\'NT_custom\').style.display=\'none\';">Sharelink: ' . geti18n('DriveVerShareurl') . '</label><br>
             <div id="inputshareurl" style="display:none;margin:0px 35px">
                 ' . geti18n('UseShareLink') . '
-                <input type="text" class="intext" name="shareurl" style="width:100%" placeholder="https://xxxx.sharepoint.com/:f:/g/personal/xxxxxxxx/mmmmmmmmm?e=XXXX"><br>
+                <input type="text" class="input-tepwd" name="shareurl" style="width:100%" placeholder="https://xxxx.sharepoint.com/:f:/g/personal/xxxxxxxx/mmmmmmmmm?e=XXXX"><br>
             </div>
         </div>
         <br>';
         if ($_SERVER['language']=='zh-cn') $html .= '你要理解 scfonedrive.github.io 是github上的静态网站，<br><font color="red">除非github真的挂掉</font>了，<br>不然，稍后你如果<font color="red">连不上</font>，请检查你的运营商或其它“你懂的”问题！<br>';
         $html .='
-        <input type="submit" value="' . geti18n('Submit') . '" class="btn">
+        <input type="submit" value="' . geti18n('Submit') . '" class="input-btn">
     </form>
 </div>
     <script>

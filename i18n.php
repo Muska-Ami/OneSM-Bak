@@ -466,7 +466,7 @@ $i18n = [
         'ar-sa' => 'الليست',
     ],
     'NeedUpdate' => [
-        'en-us' => 'Program can update<br>Click setup in Operate at top.',
+        'en-us' => 'Program can update<br>Click settings in Operate at top.',
         'zh-cn' => '可以升级程序<br>在上方管理菜单中<br>进入设置页面升级',
         'zh-tw' => '可以升級程式<br>在上方管理選單中<br>進入設定頁面升級',
         'ja' => 'プログラムをアップグレードできます<br>上記の管理メニューで<br>アップグレードする設定ページに入ります',
@@ -1058,7 +1058,7 @@ $i18n = [
         'ar-sa' => 'انقر فوق بدء الإعداد',
     ],
     'LogintoBind' => [
-        'en-us' => 'then login and bind your onedrive in setup',
+        'en-us' => 'then login and bind your onedrive in settings',
         'zh-cn' => '然后登录后在设置中绑定你的onedrive。',
         'zh-tw' => '然後登入後在設定中綁定你的onedrive。',
         'ja' => '次に、ログインして、設定でonedriveをバインドします。',

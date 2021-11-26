@@ -205,11 +205,11 @@ function install()
             $title = 'Error';
             return message($html, $title, 201);
         }*/
-        $html .= '<button id="checkrewritebtn" onclick="checkrewrite();">'.geti18n('MakesuerRewriteOn').'</button>
+        $html .= '<button class="input-btn" id="checkrewritebtn" onclick="checkrewrite();">'.geti18n('MakesuerRewriteOn').'</button>
 <div id="formdiv" style="display: none">
     <form action="?install2" method="post" onsubmit="return notnull(this);">
         <input name="admin" type="password" placeholder="' . geti18n('EnvironmentsDescription')['admin'] . '" size="' . strlen(geti18n('EnvironmentsDescription')['admin']) . '" id="adminpassword"><br>
-        <input id="submitbtn" type="submit" value="'.geti18n('Submit').'" disabled class="btn">
+        <input id="submitbtn" type="submit" value="'.geti18n('Submit').'" disabled class="input-btn">
     </form>
 </div>
     <script>
@@ -263,7 +263,7 @@ language:<br>';
         <label><input type="radio" name="language" value="'.$key1.'" '.($key1==$i18n['language']?'checked':'').' onclick="changelanguage(\''.$key1.'\')">'.$value1.'</label><br>';
         }
         $html .= '
-        <input type="submit" value="'.geti18n('Submit').'" class="btn">
+        <input type="submit" value="'.geti18n('Submit').'" class="input-btn">
     </form>
     <script>
         function changelanguage(str)
@@ -304,7 +304,7 @@ function api_error_msg($response)
 {
     return $response['code'] . '<br>
 ' . $response['message'] . '<br>
-<button onclick="location.href = location.href;">'.geti18n('Refresh').'</button>';
+<button class="input-btn" onclick="location.href = location.href;">'.geti18n('Refresh').'</button>';
 }
 
 function setConfigResponse($response)

@@ -4,6 +4,8 @@ global $timezones;
 global $slash;
 global $drive;
 
+include 'platform/core/style.php';
+
 global $EnvConfigs;
 $EnvConfigs = [
     // 1 inner, 0 common
@@ -97,28 +99,6 @@ $timezones = array(
     '12'=>'Asia/Kamchatka'
 );
 
-echo '<center>
-<style>
-a {
-    color: gray;
-}
-#VercelToken,#adminpassword,.intext {
-    background-color: #00000000;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 2px solid rgb(90, 45, 196);
-    padding: 6px 14px;
-    font-size: 20px;
-}
-#submitbtn,.btn {
-    width: 100px;
-    height: 40px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-}
-</style>';
 function isCommonEnv($str)
 {
     global $EnvConfigs;
@@ -218,9 +198,9 @@ function main($path)
     } else {
         $_SERVER['admin']=0;
     }
-    if (isset($_GET['setup']))
+    if (isset($_GET['settings']))
         if ($_SERVER['admin']) {
-            // setup Environments. 设置，对环境变量操作
+            // settings Environments. 设置，对环境变量操作
             return EnvOpt($_SERVER['needUpdate']);
         } else {
             $url = path_format($_SERVER['PHP_SELF'] . '/');
@@ -300,7 +280,7 @@ function main($path)
                 $tmp = null;
                 $tmp = '';
                 foreach ($_GET as $k => $v) {
-                    if ($k!='setup') {
+                    if ($k!='settings') {
                         if ($v===true) $tmp .= '&' . $k;
                         else $tmp .= '&' . $k . '=' . $v;
                     }
@@ -571,10 +551,10 @@ function compareadminmd5($name, $pass, $cookie, $storage = 'default')
 
 function compareadminsha1($adminsha1, $timestamp, $pass)
 {
-    if (!is_numeric($timestamp)) return 'Timestamp not Number';
+    if (!is_numeric($timestamp)) return 'Timestamp 无数据';
     if (abs(time()-$timestamp) > 5*60) {
         date_default_timezone_set('UTC');
-        return 'The timestamp in server is ' . time() . ' (' . date("Y-m-d H:i:s") . ' UTC),<br>and your posted timestamp is ' . $timestamp . ' (' . date("Y-m-d H:i:s", $timestamp) . ' UTC)';
+        return 'Timestamp 在服务器上是 ' . time() . ' (' . date("Y-m-d H:i:s") . ' UTC),<br>但是你的 Timestamp 是 ' . $timestamp . ' (' . date("Y-m-d H:i:s", $timestamp) . ' UTC)';
     }
     if ($adminsha1 == sha1($timestamp . $pass)) return '';
     else return '密码错误';
@@ -902,7 +882,7 @@ function message($message, $title = 'Message', $statusCode = 200, $wainstat = 0)
 <html lang="' . $_SERVER['language'] . '">
 <html>
     <meta charset=utf-8>
-    <meta name=viewport content="width=device-width,initial-scale=1">
+    <meta name=previewport content="width=device-width,initial-scale=1">
     <body>
         <a href="' . $_SERVER['base_path'] . '">' . geti18n('Back') . geti18n('Home') . '</a>
         <h1>' . $title . '</h1>
@@ -1044,71 +1024,7 @@ function time_format($ISO)
     return date('Y-m-d H:i:s',strtotime($ISO . " UTC"));
 }
 
-function adminform($name = '', $pass = '', $storage = '', $path = '')
-{
-    $html = '<html>
-    <head>
-        <title>' . geti18n('AdminLogin') . '</title>
-        <meta charset=utf-8>
-        <meta name=viewport content="width=device-width,initial-scale=1">
-    </head>';
-    if ($name=='admin'&&$pass!='') {
-        $html .= '
-        <!--<meta http-equiv="refresh" content="3;URL=' . $path . '">-->
-    <body>
-        ' . geti18n('LoginSuccess') . '
-        <script>
-            localStorage.setItem("admin", "' . $storage . '");
-            var url = location.href;
-            var search = location.search;
-            url = url.substr(0, url.length-search.length);
-            if (search.indexOf("preview")>0) url += "?preview";
-            location = url;
-        </script>
-    </body>
-</html>';
-        $statusCode = 201;
-        date_default_timezone_set('UTC');
-        $_SERVER['Set-Cookie'] = $name . '=' . $pass . '; path=' . $_SERVER['base_path'] . '; expires=' . date(DATE_COOKIE, strtotime('+7day'));
-        return output($html, $statusCode);
-    }
-    $statusCode = 401;
-    $html .= '
-<body>
-    <div>
-    <center><h4>' . geti18n('InputPassword') . '</h4>
-    ' . $name . '
-    <form action="" method="post" onsubmit="return sha1loginpass(this);">
-        <div>
-            <input id="password1" name="password1" type="password" class="intext"/>
-            <input name="timestamp" type="hidden"/>
-            <input type="submit" value="' . geti18n('Login') . '" class="btn">
-        </div>
-    </form>
-    </center>
-    </div>
-</body>';
-    $html .= '
-<script>
-    document.getElementById("password1").focus();
-    function sha1loginpass(f) {
-        if (f.password1.value=="") return false;
-        try {
-            timestamp = new Date().getTime() + "";
-            timestamp = timestamp.substr(0, timestamp.length-3);
-            f.timestamp.value = timestamp;
-            f.password1.value = sha1(timestamp + "" + f.password1.value);
-            return true;
-        } catch {
-            alert("sha1.js 未加载，可能正在加载");
-            return false;
-        }
-    }
-</script>
-<script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.min.js"></script>';
-    $html .= '</html>';
-    return output($html, $statusCode);
-}
+include 'platform/core/login.php';
 
 function adminoperate($path)
 {
@@ -1125,7 +1041,7 @@ function adminoperate($path)
         savecache('path_' . $path1 . '/?password', '', $_SERVER['disktag'], 1);
         savecache('customTheme', '', '', 1);
         return message('<meta http-equiv="refresh" content="2;URL=./">
-        <meta name=viewport content="width=device-width,initial-scale=1">', geti18n('RefreshCache'), 202);
+        <meta name=previewport content="width=device-width,initial-scale=1">', geti18n('RefreshCache'), 202);
     }
 
     if ( (isset($tmpget['rename_newname'])&&$tmpget['rename_newname']!=$tmpget['rename_oldname'] && $tmpget['rename_newname']!='') || (isset($tmppost['rename_newname'])&&$tmppost['rename_newname']!=$tmppost['rename_oldname'] && $tmppost['rename_newname']!='') ) {
@@ -1422,12 +1338,12 @@ function EnvOpt($needUpdate = 0)
     $html .= '
 <a href="' . $preurl . '">' . geti18n('Back') . '</a><br>
 ';
-    if ($_GET['setup']==='cmd') {
+    if ($_GET['settings']==='cmd') {
         $statusCode = 200;
         $html .= '
 <form name="form1" method="POST" action="">
     <input id="inputarea" name="cmd" style="width:100%" value="' . $_POST['cmd'] . '"><br>
-    <input type="submit" value="post" class="btn">
+    <input type="submit" value="post" class="input-btn">
 </form>';
         if ($_POST['cmd']!='') {
             $html .= '
@@ -1456,523 +1372,9 @@ output:
 </script>';
         return message($html, 'Run cmd', $statusCode);
     }
-    if ($_GET['setup']==='platform') {
-        $frame .= '
-<table border=1 width=100%>
-    <form name="common" action="" method="post">
-        <input name="_admin" type="hidden" value="">';
-    foreach ($EnvConfigs as $key => $val) if (isCommonEnv($key) && isShowedEnv($key)) {
-        $frame .= '
-        <tr>
-            <td><label>' . $key . '</label></td>
-            <td width=100%>';
-        if ($key=='timezone') {
-            $frame .= '
-                <select name="' . $key .'">';
-            foreach (array_keys($timezones) as $zone) {
-                $frame .= '
-                    <option value="'.$zone.'" '.($zone==getConfig($key)?'selected="selected"':'').'>'.$zone.'</option>';
-            }
-            $frame .= '
-                </select>
-                ' . geti18n('EnvironmentsDescription')[$key];
-        } elseif ($key=='theme') {
-            $theme_arr = scandir(__DIR__ . $slash . 'theme');
-            $frame .= '
-                <select name="' . $key .'">
-                    <option value=""></option>';
-            foreach ($theme_arr as $v1) {
-                if ($v1!='.' && $v1!='..') $frame .= '
-                    <option value="'.$v1.'" '.($v1==getConfig($key)?'selected="selected"':'').'>'.$v1.'</option>';
-            }
-            $frame .= '
-                </select>
-                ' . geti18n('EnvironmentsDescription')[$key];
-        } /*elseif ($key=='domain_path') {
-            $tmp = getConfig($key);
-            $domain_path = '';
-            foreach ($tmp as $k1 => $v1) {
-                $domain_path .= $k1 . ':' . $v1 . '|';
-            }
-            $domain_path = substr($domain_path, 0, -1);
-            $frame .= '
-        <tr>
-            <td><label>' . $key . '</label></td>
-            <td width=100%><input type="text" class="intext" name="' . $key .'" value="' . $domain_path . '" placeholder="' . geti18n('EnvironmentsDescription')[$key] . '" style="width:100%"></td>
-        </tr>';
-        }*/ else $frame .= '
-                <input type="text" class="intext" name="' . $key . '" value="' . htmlspecialchars(getConfig($key)) . '" placeholder="' . geti18n('EnvironmentsDescription')[$key] . '" style="width:100%">';
-        $frame .= '
-            </td>
-        </tr>';
-    }
-    $frame .= '
-        <tr><td><input type="submit" name="submit1" value="' . geti18n('Setup') . '" class="btn"></td><td></td></tr>
-    </form>
-</table><br>';
-    } elseif (isset($_GET['disktag'])&&$_GET['disktag']!==true&&in_array($_GET['disktag'], $disktags)) {
-        $disktag = $_GET['disktag'];
-        $disk_tmp = null;
-        $diskok = driveisfine($disktag, $disk_tmp);
-        $frame .= '
-<table width=100%>
-    <tr>
-        <td>
-            <form action="" method="post" style="margin: 0" onsubmit="return renametag(this);">
-                <input type="hidden" name="disktag_rename" value="' . $disktag . '">
-                <input name="_admin" type="hidden" value="">
-                <input type="text" class="intext" name="disktag_newname" value="' . $disktag . '" placeholder="' . geti18n('EnvironmentsDescription')['disktag'] . '">
-                <input type="submit" name="submit1" value="' . geti18n('RenameDisk') . '" class="btn">
-            </form>
-        </td>
-    </tr>
-</table><br>
-<table>
-<tr>
-    <td>
-        <form action="" method="post" style="margin: 0" onsubmit="return deldiskconfirm(this);">
-            <input type="hidden" name="disktag_del" value="' . $disktag . '">
-            <input name="_admin" type="hidden" value="">
-            <input type="submit" name="submit1" value="' . geti18n('DelDisk') . '" class="btn">
-        </form>
-    </td>
-    <td>
-        <form action="" method="post" style="margin: 0" onsubmit="return cpdiskconfirm(this);">
-            <input type="hidden" name="disktag_copy" value="' . $disktag . '">
-            <input name="_admin" type="hidden" value="">
-            <input type="submit" name="submit1" value="' . geti18n('CopyDisk') . '" class="btn">
-        </form>
-    </td>
-</tr>
-</table>
-<table border=1 width=100%>
-    <tr>
-        <td>Driver</td>
-        <td>' . getConfig('Driver', $disktag);
-        if ($diskok) $frame .= ' <a href="?AddDisk=' . get_class($disk_tmp) . '&disktag=' . $disktag . '&SelectDrive">' . geti18n('ChangeDrivetype') . '</a>';
-        $frame .= '</td>
-    </tr>';
-        if ($diskok) {
-            $frame .= '
-    <tr>
-        <td>diskSpace</td><td>' . $disk_tmp->getDiskSpace() . '</td>
-    </tr>';
-            foreach (extendShow_diskenv($disk_tmp) as $ext_env) {
-                $frame .= '
-    <tr>
-        <td>' . $ext_env . '</td>
-        <td>' . getConfig($ext_env, $disktag) . '</td>
-    </tr>';
-            }
+    include 'platform/core/platlist.php';
+    include 'platform/core/settop.php';
 
-            $frame .= '
-<form name="' . $disktag . '" action="" method="post">
-    <input name="_admin" type="hidden" value="">
-    <input type="hidden" name="disk" value="' . $disktag . '">';
-            foreach ($EnvConfigs as $key => $val) if (isInnerEnv($key) && isShowedEnv($key)) {
-                $frame .= '
-    <tr>
-        <td><label>' . $key . '</label></td>
-        <td width=100%><input type="text" class="intext" name="' . $key . '" value="' . getConfig($key, $disktag) . '" placeholder="' . geti18n('EnvironmentsDescription')[$key] . '" style="width:100%"></td>
-    </tr>';
-            }
-            $frame .= '
-    <tr><td></td><td><input type="submit" name="submit1" value="' . geti18n('Setup') . '" class="btn"></td></tr>
-</form>';
-        } else {
-            $frame .= '
-<tr>
-    <td colspan="2">' . ($disk_tmp->error['body']?$disk_tmp->error['stat'] . '<br>' . $disk_tmp->error['body']:'Add this disk again.') . '</td>
-</tr>';
-        }
-        $frame .= '
-</table>
-
-<script>
-    function deldiskconfirm(t) {
-        var msg="' . geti18n('Delete') . ' ??";
-        if (confirm(msg)==true) return true;
-        else return false;
-    }
-    function cpdiskconfirm(t) {
-        var msg="' . geti18n('Copy') . ' ??";
-        if (confirm(msg)==true) return true;
-        //else 
-        return false;
-    }
-    function renametag(t) {
-        if (t.disktag_newname.value==\'\') {
-            alert(\'' . geti18n('DiskTag') . '\');
-            return false;
-        }
-        if (t.disktag_newname.value==t.disktag_rename.value) {
-            return false;
-        }
-        envs = [' . $envs . '];
-        if (envs.indexOf(t.disktag_newname.value)>-1) {
-            alert(\'Do not input ' . $envs . '\');
-            return false;
-        }
-        var reg = /^[a-zA-Z]([_a-zA-Z0-9]{1,20})$/;
-        if (!reg.test(t.disktag_newname.value)) {
-            alert(\'' . geti18n('TagFormatAlert') . '\');
-            return false;
-        }
-        return true;
-    }
-</script>';
-    } else {
-        //$_GET['disktag'] = '';
-        $Driver_arr = scandir(__DIR__ . $slash . 'disk');
-        if (count($disktags)>1) {
-            $frame .= '
-<script src="//cdn.bootcss.com/Sortable/1.8.3/Sortable.js"></script>
-<style>
-    .sortable-ghost {
-        opacity: 0.4;
-        background-color: #1748ce;
-    }
-
-    #sortdisks td {
-        cursor: move;
-    }
-</style>
-<table border=1>
-    <form id="sortdisks_form" action="" method="post" style="margin: 0" onsubmit="return dragsort(this);" class="btn">
-    <tr id="sortdisks">
-        <input type="hidden" name="disktag_sort" value="">';
-            $num = 0;
-            foreach ($disktags as $disktag) {
-                if ($disktag!='') {
-                    $num++;
-                    $frame .= '
-        <td>' . $disktag . '</td>';
-                }
-            }
-            $frame .= '
-        <input name="_admin" type="hidden" value="">
-    </tr>
-    <tr><td colspan="' . $num . '">' . geti18n('DragSort') . '<input type="submit" name="submit1" value="' . geti18n('SubmitSortdisks') . '" class="btn"></td></tr>
-    </form>
-</table>
-<script>
-    var disks=' . json_encode($disktags) . ';
-    function change(arr, oldindex, newindex) {
-        //console.log(oldindex + "," + newindex);
-        tmp=arr.splice(oldindex-1, 1);
-        if (oldindex > newindex) {
-            tmp1=JSON.parse(JSON.stringify(arr));
-            tmp1.splice(newindex-1, arr.length-newindex+1);
-            tmp2=JSON.parse(JSON.stringify(arr));
-            tmp2.splice(0, newindex-1);
-        } else {
-            tmp1=JSON.parse(JSON.stringify(arr));
-            tmp1.splice(newindex-1, arr.length-newindex+1);
-            tmp2=JSON.parse(JSON.stringify(arr));
-            tmp2.splice(0, newindex-1);
-        }
-        arr=tmp1.concat(tmp, tmp2);
-        //console.log(arr);
-        return arr;
-    }
-    function dragsort(t) {
-        if (t.disktag_sort.value==\'\') {
-            alert(\'' . geti18n('DragSort') . '\');
-            return false;
-        }
-        envs = [' . $envs . '];
-        if (envs.indexOf(t.disktag_sort.value)>-1) {
-            alert(\'Do not input ' . $envs . '\');
-            return false;
-        }
-        return true;
-    }
-    Sortable.create(document.getElementById(\'sortdisks\'), {
-        animation: 150,
-        onEnd: function (evt) { //拖拽完毕之后发生该事件
-            //console.log(evt.oldIndex);
-            //console.log(evt.newIndex);
-            if (evt.oldIndex!=evt.newIndex) {
-                disks=change(disks, evt.oldIndex, evt.newIndex);
-                document.getElementById(\'sortdisks_form\').disktag_sort.value=JSON.stringify(disks);
-            }
-        }
-    });
-</script><br>';
-        }
-        $frame .= '
-<select name="DriveType" onchange="changedrivetype(this.options[this.options.selectedIndex].value)">';
-        foreach ($Driver_arr as $v1) {
-            if ($v1!='.' && $v1!='..') {
-                //$v1 = substr($v1, 0, -4);
-                $v2 = splitlast($v1, '.php')[0];
-                if ($v2 . '.php'==$v1) $frame .= '
-    <option value="' . $v2 . '"' . ($v2=='Onedrive'?' selected="selected"':'') . '>' . $v2 . '</option>';
-            }
-        }
-        $frame .= '
-</select>
-<a id="AddDisk_link" href="?AddDisk=Onedrive">' . geti18n('AddDisk') . '</a><br><br>
-<script>
-    function changedrivetype(d) {
-        document.getElementById(\'AddDisk_link\').href="?AddDisk=" + d;
-    }
-</script>';
-
-        $canOneKeyUpate = 0;
-        if (isset($_SERVER['USER'])&&$_SERVER['USER']==='qcloud') {
-            $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['HEROKU_APP_DIR'])&&$_SERVER['HEROKU_APP_DIR']==='/app') {
-            $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['FC_SERVER_PATH'])&&$_SERVER['FC_SERVER_PATH']==='/var/fc/runtime/php7.2') {
-            $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['BCE_CFC_RUNTIME_NAME'])&&$_SERVER['BCE_CFC_RUNTIME_NAME']=='php7') {
-            $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['_APP_SHARE_DIR'])&&$_SERVER['_APP_SHARE_DIR']==='/var/share/CFF/processrouter') {
-            $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['DOCUMENT_ROOT'])&&$_SERVER['DOCUMENT_ROOT']==='/var/task/user') {
-            $canOneKeyUpate = 1;
-        } else {
-            $tmp = time();
-            if ( mkdir(''.$tmp, 0777) ) {
-                rmdir(''.$tmp);
-                $canOneKeyUpate = 1;
-            }
-        }
-        $frame .= '<a href="https://github.com/XiaMoHuaHuo-CN/OneSM" target="_blank">Github</a>';
-        if (!$canOneKeyUpate) {
-            $frame .= '
-' . geti18n('CannotOneKeyUpate') . '<br>';
-        } else {
-            $frame .= '
-<form name="updateform" action="" method="post">
-    <input name="_admin" type="hidden" value="">
-    <input type="text" class="intext" name="auth" size="6" placeholder="auth" value="XiaMoHuaHuo-CN">
-    <input type="text" class="intext" name="project" size="12" placeholder="project" value="OneSM">
-    <button name="QueryBranchs" onclick="querybranchs();return false;">' . geti18n('QueryBranchs') . '</button>
-    <select name="branch">
-        <option value="main">main</option>
-    </select>
-    <input type="submit" name="updateProgram" value="' . geti18n('updateProgram') . '" class="btn">
-</form>
-<script>
-    function querybranchs()
-    {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://api.github.com/repos/"+document.updateform.auth.value+"/"+document.updateform.project.value+"/branches");
-        //xhr.setRequestHeader("User-Agent","XiaMoHuaHuo-CN/OneSM");
-        xhr.onload = function(e){
-            console.log(xhr.responseText+","+xhr.status);
-            if (xhr.status==200) {
-                document.updateform.branch.options.length=0;
-                JSON.parse(xhr.responseText).forEach( function (e) {
-                    document.updateform.branch.options.add(new Option(e.name,e.name));
-                    if ("main"==e.name) document.updateform.branch.options[document.updateform.branch.options.length-1].selected = true; 
-                });
-                document.updateform.QueryBranchs.style.display="none";
-            } else {
-                alert(xhr.responseText+"\n"+xhr.status);
-            }
-        }
-        xhr.onerror = function(e){
-            alert("Network Error "+xhr.status);
-        }
-        xhr.send(null);
-    }
-</script>
-';
-        }
-        if ($needUpdate) {
-            $frame .= '<div style="position: relative; word-wrap: break-word;">
-        ' . str_replace("\r", '<br>', $_SERVER['github_ver_new']) . '
-</div>
-<button onclick="document.getElementById(\'github_ver_old\').style.display=(document.getElementById(\'github_ver_old\').style.display==\'none\'?\'\':\'none\');">更多...</button>
-<div id="github_ver_old" style="position: relative; word-wrap: break-word; display: none">
-        ' . str_replace("\r", '<br>', $_SERVER['github_ver_old']) . '
-</div>';
-        }/* else {
-            $frame .= geti18n('NotNeedUpdate');
-        }*/
-        $frame .= '<br><br>
-<script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.min.js"></script>
-<table>
-    <form id="change_pass" name="change_pass" action="" method="POST" onsubmit="return changePassword(this);">
-        <input name="_admin" type="hidden" value="">
-    <tr>
-        <td>' . geti18n('OldPassword') . ':</td><td><input type="password" name="oldPass" class="intext">
-        <input type="hidden" name="timestamp"></td>
-    </tr>
-    <tr>
-        <td>' . geti18n('NewPassword') . ':</td><td><input type="password" name="newPass1" class="intext"></td>
-    </tr>
-    <tr>
-        <td>' . geti18n('ReInput') . ':</td><td><input type="password" name="newPass2" class="intext"></td>
-    </tr>
-    <tr>
-        <td></td><td><button name="changePass" value="changePass" class="btn">' . geti18n('ChangAdminPassword') . '</button></td>
-    </tr>
-    </form>
-</table><br>
-<table>
-    <form id="config_f" name="config" action="" method="POST" onsubmit="return false;">
-    <tr>
-        <td>' . geti18n('AdminPassword') . ':<input type="password" name="pass" class="intext">
-        <button name="config_b" value="export" onclick="exportConfig(this);">' . geti18n('export') . '</button></td>
-    </tr>
-    <tr>
-        <td>' . geti18n('config') . ':<textarea name="config_t"></textarea>
-        <button name="config_b" value="import" onclick="importConfig(this);">' . geti18n('import') . '</button></td>
-    </tr>
-    </form>
-</table><br>
-<script>
-    var config_f = document.getElementById("config_f");
-    function exportConfig(b) {
-        if (config_f.pass.value=="") {
-            alert("admin pass");
-            return false;
-        }
-        try {
-            sha1(1);
-        } catch {
-            alert("sha1.js 未加载，可能正在加载");
-            return false;
-        }
-        var timestamp = new Date().getTime();
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "");
-        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
-        xhr.onload = function(e){
-            console.log(xhr.responseText+","+xhr.status);
-            if (xhr.status==200) {
-                var res = JSON.parse(xhr.responseText);
-                config_f.config_t.value = xhr.responseText;
-                config_f.parentNode.style = "width: 100%";
-                config_f.config_t.style = "width: 100%";
-                config_f.config_t.style.height = config_f.config_t.scrollHeight + "px";
-            } else {
-                alert(xhr.status+"\n"+xhr.responseText);
-            }
-        }
-        xhr.onerror = function(e){
-            alert("Network Error "+xhr.status);
-        }
-        xhr.send("pass=" + sha1(config_f.pass.value + "" + timestamp) + "&config_b=" + b.value + "&timestamp=" + timestamp + "&_admin=" + localStorage.getItem("admin"));
-    }
-    function importConfig(b) {
-        if (config_f.pass.value=="") {
-            alert("admin pass");
-            return false;
-        }
-        if (config_f.config_t.value=="") {
-            alert("input config");
-            return false;
-        } else {
-            try {
-                var tmp = JSON.parse(config_f.config_t.value);
-            } catch(e) {
-                alert("config error!");
-                return false;
-            }
-        }
-        try {
-            sha1(1);
-        } catch {
-            alert("sha1.js 未加载，可能正在加载");
-            return false;
-        }
-        var timestamp = new Date().getTime();
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "");
-        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
-        xhr.onload = function(e){
-            console.log(xhr.responseText+","+xhr.status);
-            if (xhr.status==200) {
-                //var res = JSON.parse(xhr.responseText);
-                alert("Import success");
-            } else {
-                alert(xhr.status+"\n"+xhr.responseText);
-            }
-        }
-        xhr.onerror = function(e){
-            alert("Network Error "+xhr.status);
-        }
-        xhr.send("pass=" + sha1(config_f.pass.value + "" + timestamp) + "&config_t=" + encodeURIComponent(config_f.config_t.value) + "&config_b=" + b.value + "&timestamp=" + timestamp + "&_admin=" + localStorage.getItem("admin"));
-    }
-    function changePassword(f) {
-        if (f.oldPass.value==""||f.newPass1.value==""||f.newPass2.value=="") {
-            alert("Input");
-            return false;
-        }
-        if (f.oldPass.value==f.newPass1.value) {
-            alert("密码相同");
-            return false;
-        }
-        if (f.newPass1.value!==f.newPass1.value) {
-            alert("请重复密码");
-            return false;
-        }
-        try {
-            sha1(1);
-        } catch {
-            alert("sha1.js 未加载，可能正在加载");
-            return false;
-        }
-        var timestamp = new Date().getTime();
-        f.timestamp.value = timestamp;
-        f.oldPass.value = sha1(f.oldPass.value + "" + timestamp);
-        return true;
-    }
-</script>';
-    }
-    $html .= '
-<style type="text/css">
-    .tabs td { padding: 5px; }
-</style>
-<table border=0>
-    <tr class="tabs">';
-    if ($_GET['disktag']==''||$_GET['disktag']===true||!in_array($_GET['disktag'], $disktags)) {
-        if ($_GET['setup']==='platform') $html .= '
-        <style>
-            table {
-                width: 95%;
-                border-collapse:collapse;
-                text-align: center;
-                border: solid;
-                border-width: 1px 0px 0px 1px;
-            }
-                th,td {
-                border-collapse:collapse;
-                border: solid;
-                border-width: 0px 1px 1px 0px;
-                padding: 10px;
-                }
-                th {
-                    background-color: #E6E6E6;
-                }
-                td {
-                    background-color: #F7F7F7;
-                }
-        </style>
-        <td><a href="?setup">' . geti18n('Home') . '</a></td>
-        <td>' . geti18n('PlatformConfig') . '</td>';
-        else $html .= '
-        <td>' . geti18n('Home') . '</td>
-        <td><a href="?setup=platform">' . geti18n('PlatformConfig') . '</a></td>';
-    } else $html .= '
-        <td><a href="?setup">' . geti18n('Home') . '</a></td>
-        <td><a href="?setup=platform">' . geti18n('PlatformConfig') . '</a></td>';
-    foreach ($disktags as $disktag) {
-        if ($disktag!='') {
-            if ($_GET['disktag']===$disktag) $html .= '
-        <td>' . $disktag . '</td>';
-            else $html .= '
-        <td><a href="?setup&disktag=' . $disktag . '">' . $disktag . '</a></td>';
-        }
-    }
-    $html .= '
-    </tr>
-</table><br>';
     $html .= $frame;
     $html .= '<script>
     var inputAdminStorage = document.getElementsByName("_admin");
@@ -2969,4 +2371,3 @@ function render_list($path = '', $files = [])
     //if (isset($_SERVER['Set-Cookie'])) return output($html, $statusCode, [ 'Set-Cookie' => $_SERVER['Set-Cookie'], 'Content-Type' => 'text/html' ]);
     return output($html, $statusCode);
 }
-echo '</center>';

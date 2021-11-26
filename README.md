@@ -1,7 +1,7 @@
 # OneSM - 一个OneDrive管理器
-<img src="https://onesm.skimino.cf/OneSM-Logo.png" /><br />
+<img src="https://onesm.xmdisk.ga/OneSM-Logo.png" /><br />
 基于OneManager-php重写，目前仅支持Vercel和云虚拟机 / 服务器部署<br />
-[OneSM - Websites](https://onesm.skimino.cf)
+[OneSM - Releases](https://onesm.xmdisk.ga)
 ### 功能
 - OneDrive直链
 - 在线预览
@@ -10,10 +10,13 @@
 - 强制https功能
 - Refer验证(防盗链)
 - 主题功能
+### 修改项
+- 美化UI
+- 修改部署&管理页面
 *****
 ## 部署到Vercel
-- 见[https://onesm.skimino.cf/Deploy/Vercel](https://onesm.skimino.cf/Deploy/Vercel)
-<img src="https://onesm.skimino.cf/VC.png" /><br />
+- 见[https://onesm.xmdisk.ga/Deploy/Vercel](https://onesm.xmdisk.ga/Deploy/Vercel)
+<img src="https://onesm.xmdisk.ga/VC.png" /><br />
 ## 部署到云虚拟机 / 服务器
 安装PHP7.2以上版本及Curl组件，上传文件然后访问对应网址安装即可
 *****
@@ -28,12 +31,12 @@ const H = [
     'https://example.com'
 ]
 
-// View Type
+// Preview Type
 // 1 , only first host,
 //     只第一条Host记录有用
-// 2 , view top 2 host as odd/even days,
+// 2 , preview top 2 host as odd/even days,
 //     只有前两条记录有效，分别单双日运行
-// 3 , view random host
+// 3 , preview random host
 //     所有记录随机访问
 const T = 3
 

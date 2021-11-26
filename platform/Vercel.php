@@ -214,7 +214,7 @@ language:<br>';
         $html .= '<br>
         <label>设置管理员密码:<input name="admin" type="password" placeholder="' . geti18n('EnvironmentsDescription')['admin'] . '" size="' . strlen(geti18n('EnvironmentsDescription')['admin']) . '" id="adminpassword"></label><br>';
         $html .= '
-        <input type="submit" value="'.geti18n('Submit').'" class="btn">
+        <input type="submit" value="'.geti18n('Submit').'" class="input-btn">
     </form>
     <div id="showerror"></div>
     <script>
@@ -328,7 +328,7 @@ function copyFolder($from, $to)
 
 function setVercelConfig($envs, $appId, $token)
 {
-    //sortConfig($envs); cant view in vercel, not need sort.
+    //sortConfig($envs); cant preview in vercel, not need sort.
     $outPath = '/tmp/code/';
     $outPath_Api = $outPath . 'api/';
     $coderoot = __DIR__;
@@ -399,7 +399,7 @@ function api_error_msg($response)
 {
     return $response['error']['code'] . '<br>
 ' . $response['error']['message'] . '<br>
-<button onclick="location.href = location.href;">'.geti18n('Refresh').'</button>';
+<button class="input-btn" onclick="location.href = location.href;">'.geti18n('Refresh').'</button>';
 }
 
 function setConfigResponse($response)
