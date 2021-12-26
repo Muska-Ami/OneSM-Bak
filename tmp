@@ -1,0 +1,36 @@
+<script>
+    function login() {
+        function tk(token) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/?CaptchaVerify&key=" + token, true);
+            xhr.setRequestHeader('content-type', 'application/json, */*');
+            xhr.onreadystatechange = function () {
+                var data = JSON.parse(xhr.responseText);
+                if (data.status = false) {
+                    document.querySelector('msg-container').innerHTML = '请完成人机验证';
+                    document.querySelector('msg-container').style.display = '';
+                } else if (data.status = true) {
+                    document.querySelector('msg-container').innerHTML = '登录成功，即将跳转';
+                }
+            }
+            xhr.onerror = function () {
+                document.querySelector('msg-container').innerHTML = '无法联系服务器';
+            }
+        }
+    }
+</script>
+<form action="?inst2" method="POST" id="submit">
+    <input type="text" class="intxt sitename" placeholder="'. I18n('SiteName') .'" />
+    <input type="password" class="intxt password" placeholder="'. I18n('Password') .'" />
+    <input type="button" onclick="Next(document.querySelector('.sitename').value, document.querySelector('.password').value)" />
+</form>
+<script src="https://cdn.jsdelivr.net/npm/js-sha1@latest/src/sha1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.js"></script>
+<script>
+    function Next(sitename, pwd) {
+        var code = sha1(md5(pwd));
+        document.cookie = 'asfqq32ubgb23482fb3283gb23ie2g83='+ code +';';
+        document.cookie = 'adfgrwe455g6j554h5h65h45435hh54h='+ sitename +';';
+        document.getElementById('submit').submit();
+    }
+</script>

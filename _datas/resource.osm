@@ -1,0 +1,12 @@
+{
+    "js": {
+        "sha1": "https://cdn.jsdelivr.net/npm/js-sha1@latest/src/sha1.js",
+        "sortable": "https://cdn.jsdelivr.net/gh/SortableJS/Sortable@master/Sortable.js",
+        "ionicons": "https://cdn.jsdelivr.net/npm/ionicons@latest/dist/ionicons/ionicons.js",
+        "jquery": "https://cdn.jsdelivr.net/gh/jquery/jquery@1.12.0/dist/jquery.min.js",
+        "blueimp-md5": "https://cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.js"
+    },
+    "css": {
+        "github-markdown-css": "https://cdn.jsdelivr.net/gh/sindresorhus/github-markdown-css@main/github-markdown.css"
+    }
+}

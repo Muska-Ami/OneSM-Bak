@@ -1,0 +1,11 @@
+.intxt {
+    padding: 3px;
+    border: none;
+    border-bottom: solid 2px #6f00ff;
+    outline: none;
+    width: 75%;
+    font-size: 15px;
+}
+.intxt::placeholder {
+    color: gray;
+}

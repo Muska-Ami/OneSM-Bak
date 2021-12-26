@@ -1,0 +1,30 @@
+{
+    "en": {
+        "Login": "Login",
+        "Submit": "Submit",
+        "LoginPassword": "Login password",
+        "Language": "Language",
+        "SetPassword": "Set login password"
+    },
+    "zh-CN": {
+        "Login": "登录",
+        "Submit": "提交",
+        "LoginPassword": "登录密码",
+        "Language": "语言",
+        "SetPassword": "设置登录密码"
+    },
+    "zh-TW": {
+        "Login": "登錄",
+        "Submit": "提交",
+        "LoginPassword": "登錄密碼",
+        "Language": "語言",
+        "SetPassword": "設置登錄密碼"
+    },
+    "jp": {
+        "Login": "ログイン",
+        "Submit": "参加する",
+        "LoginPassword": "ログインパスワード",
+        "Language": "言語",
+        "SetPassword": "ログインパスワードの設定"
+    }
+}
