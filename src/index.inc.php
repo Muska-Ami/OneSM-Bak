@@ -1,6 +1,12 @@
 <?php
-require './install.php';
-require './login.php';
 require './system.inc.php';
-require './theme.php';
+if (isset($_GET['setting']) {
+    require './setting.php';
+    exit();
+}
+require './install.php';
+if (Config('Install') != null) {
+    require './login.php';
+    require './theme.php';
+}
 ?>
