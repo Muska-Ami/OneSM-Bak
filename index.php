@@ -6,5 +6,6 @@ if (!function_exists('curl_init')) {
 
 include './src/index.inc.php';
 
+require './src/manager/data.php';
 
 ?>

@@ -4,6 +4,18 @@
   LoadSettingAPP()：加载设置程序
   LoadSettingScript()：加载设置脚本
 -->
+<?php
+//APP
+function LoadSettingAPP() {
+    
+//Script
+function LoadSettingScript() {
+    function js($jsn) {
+        return '<script src="'. Resource('js', $jsn) .'"></script>';
+    }
+    echo js('sortable').js('ionicons').js('feature').js('setting');
+}
+?>
 <!DOCTYPE html>
 <html lang="<?php getLang() ?>">
     <head>
@@ -17,7 +29,7 @@
                 $lp = 'login';
             }
             //读取Cookie
-            if($_COOKIE['afew322432122g3sgweg4sq32t32424y'] == Token('Password')) {
+            if($_COOKIE['afew322432122g3sgweg4sq32t32424y'] === Token('Password')) {
                 $logined = true;
             } else {
                 header("Location: /?{$lp}");

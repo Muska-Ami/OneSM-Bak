@@ -57,6 +57,13 @@ function JSONNewItem($jsonfile, $item, $put) {
     file_put_contents($jsonfile, $codes);
 }
 
+function JSONWhiteItem($jsonfile, $item, $put) {
+    $a = FileNr($jsonfile);
+    $b = preg_match_all("/\"({$item}\": \".*?)\"/", $a, $c);
+    $e = str_replace($c[0][1], $item.'": "'.$put, $b);
+    return $e;
+}
+
 function curl($url, $UA = 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36 Edg/96.0.1054.53', $refer = '', $timeout = 10) {
 	$header[] = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
     $header[] = "Accept-Encoding: gzip, deflate, sdch, br";

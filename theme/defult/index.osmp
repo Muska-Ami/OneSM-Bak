@@ -19,5 +19,20 @@
                 </div>
             </right>
         </nav>
+        <div class="left">
+            !#DiskList#!
+        </div>
+        <div class="main">
+            $!#-FListStart-#!$
+                <div class="lst">
+                    &^FileIconStart^&
+                        (File$)<ion-icon name="document-sharp"></ion-icon>($File)
+                        (Folder$)<ion-icon name="document-sharp"></ion-icon>($Folder)
+                    &^FileIconEnd^&
+                    <span class="fn">@FName@</span>
+                    <span class="ft">@FTime@</span>
+                </div>
+            $!#-FListEnd-#!$
     </body>
+    !#Resource@MainJS#!
 </html>
