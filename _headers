@@ -1,0 +1,2 @@
+/resource/*
+  Access-Control-Allow-Origin: *
