@@ -5,13 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>OneSM - Releases</title>
         <style>
+            * {
+                padding: 0;
+                margin: 0;
+                position: relative;
+            }
             header {
-                position: fixed;
                 background-color: #491daf;
-                margin-left: -10px;
-                margin-top: -10px;
-                width: 101%;
+                width: 100%;
                 height: 60px;
+            }
+            header span {
+                padding: 5px;
+                top: 8px;
             }
             a {
                 text-decoration: none;
@@ -24,8 +30,9 @@
                 background-color: rgb(238, 238, 238);
                 border: gray solid 1px;
                 border-radius: 5px;
-                width: 80%;
-                margin: 5px;
+                margin: 0 auto;
+                width: 95%;
+                margin-top: 15px;
             }
             h2 {
                 margin: 5px;
@@ -37,9 +44,10 @@
     </head>
     <body>
         <header>
-                <span><a href="https://github.com/XiaMoHuaHuo-CN/OneSM" style="color: white;font-size: 30px;margin: 15px;"><img src="./Deploy/github.png" style="width: 30px; height: 30px;margin-top: 12px;margin-right: 2px;margin-left: 10px;">GitHub</a></span>
+                <span><a href="https://github.com/XiaMoHuaHuo-CN/OneSM" style="color: white;font-size: 30px;margin: 15px;">GitHub</a></span>
+                <span><a href="https://docs.skimino.cf/OneSM" style="color: white;font-size: 30px;margin: 15px;">Docs</a></span>
         </header>
-        <div style="position: fixed;;margin-top: 60px; width: 100%;">
+        <div>
             <div class="ver-iframe">
                 <h2>Latest Releases</h2>
                 <div style="margin-top: 10px; margin-left: 15px; margin-bottom: 10px;">
@@ -62,7 +70,7 @@
                     var x= 1;
                         while (jpe[x].name != null) {
                             var rele = jpe[x].name;
-                            releases += '<b>Version:</b> <span>'+ rele +'</span><br /><b>URL:</b> <span><a href="https://github.com/XiaMoHuaHuo-CN/OneSM/zipball/refs/tags/main'+ rele +'">https://github.com/XiaMoHuaHuo-CN/OneSM/zipball/refs/tags/main'+ jpe[x].name +'</span>'
+                            releases += '<b>Version:</b> <span>'+ rele +'</span><br /><b>URL:</b> <span><a href="https://github.com/XiaMoHuaHuo-CN/OneSM/zipball/refs/tags/main/'+ rele +'">https://github.com/XiaMoHuaHuo-CN/OneSM/zipball/refs/tags/main'+ jpe[x].name +'</span>'
                             x++;
                             $('#release').html(releases);
                         }
