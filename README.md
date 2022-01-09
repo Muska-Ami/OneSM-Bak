@@ -12,11 +12,7 @@
 - 主题功能
 - hCaptcha人机验证
 *****
-## 部署到Vercel
-- 见[https://onesm.skimino.cf/Deploy/Vercel](https://onesm.skimino.cf/Deploy/Vercel)
-<img src="https://onesm.skimino.cf/VC.png" /><br />
-## 部署到云虚拟机 / 服务器
-安装PHP7.2以上版本及Curl组件，上传文件然后访问对应网址安装即可
+有关部署相关，请查看[https://docs.skimino.cf/OneSM](https://docs.skimino.cf/OneSM)
 *****
 ## CloudFlare Workers
 使用Workers反代理加速&随机访问
