@@ -998,9 +998,9 @@ $i18n = [
         'zh-tw' => '對一個Onedrive資料夾共享，允許所有人編輯，然後將共享連結填在下方',
     ],
     'CustomIdSecret' => [
-        'en-us' => 'Use custom client id & secret instead of OneManager default',
-        'zh-cn' => '用自己申请的应用ID与机密，不用OneManager默认的',
-        'zh-tw' => '用自己申請的應用ID與機密，不用OneManager預設的',
+        'en-us' => 'Use custom client id & secret instead of OneSM default',
+        'zh-cn' => '用自己申请的应用ID与机密，不用OneSM默认的',
+        'zh-tw' => '用自己申請的應用ID與機密，不用OneSM預設的',
         'ja' => 'アプリケーションIDとシークレットを自分で申請する',
         'ko-kr' => '응용 프로그램 ID 및 비밀 신청',
         'fa' => 'به طور پیش فرض اما از شناسه برنامه و سکرت استفاده کنید',
@@ -1176,12 +1176,12 @@ $i18n = [
         'zh-cn' => '导入',
         'zh-tw' => '导入',
     ],
-    'ONEMANAGER_CONFIG_SAVE_ENV' => [
+    'ONESM_CONFIG_SAVE_ENV' => [
         'en-us' => 'Config save in Environments',
         'zh-cn' => '配置保存在环境变量',
         'zh-tw' => '配置儲存在環境變數',
     ],
-    'ONEMANAGER_CONFIG_SAVE_FILE' => [
+    'ONESM_CONFIG_SAVE_FILE' => [
         'en-us' => 'Config save in code file, may cause fee, please reinstall later',
         'zh-cn' => '配置保存在代码文件中，可能产生费用，切换后，请从头再安装一次。',
         'zh-tw' => '配置儲存在程式碼文件中，可能產生費用',

@@ -49,6 +49,7 @@ function adminform($name = '', $pass = '', $storage = '', $path = '') {
             padding: 5px;
         }
         .captcha {
+            margin: 5px;
             padding: 15px;
             border: solid 1px black;
         }
@@ -56,10 +57,10 @@ function adminform($name = '', $pass = '', $storage = '', $path = '') {
             margin-top: 5px;
         }
         #password1 {
-            margin-top: 50px;
+            margin-top: 150px;
             border: none;
             outline: none;
-            width: 20vw;
+            width: 200px;
             border-bottom: 3px solid #008cdd;
         }
         </style>
@@ -103,7 +104,8 @@ function adminform($name = '', $pass = '', $storage = '', $path = '') {
             ';
             if (getConfig('captcha') == true) {
                 $html .= '<div class="captcha">
-                    <div class="h-captcha" data-sitekey="'. getConfig('hCaptchaSiteKey') .'" data-callback="login"></div>
+                  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+                    <div class="h-captcha" data-sitekey="'. getConfig('captchaSiteKey') .'" data-callback="login"></div>
                 </div>';
             }
             $html .= '
@@ -1626,8 +1628,8 @@ function adminform($name = '', $pass = '', $storage = '', $path = '') {
   padding: 0 24px; }
 
   .button {
-    width: 20vw;
-    margin-top: 180px;
+    width: 200px;
+    margin-top: 5px;
 }
     </style>
     </html>';

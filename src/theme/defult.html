@@ -62,14 +62,69 @@
                 outline: none;
                 margin: 15px;
                 font-size: 15px;
+                /*transform: translate(0, -70px);*/
             }
             .header .changelanguage option {
                 color: black;
+            }
+            .operate {
+              float: right;
+              display: inline-table;
+              margin: 10px;
+              margin-right: 5px;
+              list-style: none;
+            }
+            .operate ul {
+              z-index: 50;
+              width: 100px;
+              transform: translate(-100px, 20px);
+              display: none;
+              background-color: white;
+              border: 1px solid black;
+              color: #26414e;
+            }
+            .operate:hover ul {
+              position:absolute;
+              display:inline-table;
+            }
+            .operate ul li {
+              list-style:none;
+            }
+            .operate a {
+              color: #1a3744;
+            }
+            .header h1 {
+              margin: 10px;
+              color: white;
+              margin-left: 50px;
+              position: absolute;
+            }
+            .list-wrapper {
+              margin: 35px;
+            }
+            .list-table {
+              width: 90vw;
+            }
+            .table-header a {
+              color: #0c3447;
+            }
+            #create_input {
+              border: none;
+              outline: none;
+              width: 200px;
+              border-bottom: 3px solid #008cdd;
+            }
+            .login {
+              float: right;
+              display: inline-table;
+              margin: 10px;
+              margin-right: 5px;
             }
         </style>
     </head>
     <body>
         <nav class="header">
+            <h1>#!Title!#</h1>
             <div class="box">
             #!LoginStart!#
             <a class="login" onclick="location.href='?#!LoginPage!#'"><ion-icon name="log-in"></ion-icon>#!i18n@Login!#</a>
@@ -157,11 +212,12 @@
 #!GuestUploadStart!#
                 <div id="upload_div" style="padding:0 0 16px 0">
                 <div id="upload_btns" align="center">
+                    <input style="margin-right: 50px;color: white;width: 40px;padding: 9px;background-color: yellowgreen;" onclick="showdiv(event,'create','');">#!i18n@Create!#</a>
                     <select onchange="document.getElementById('upload_file').webkitdirectory=this.value;">
                         <option value="">#!i18n@UploadFile!#</option>
                         <option value="1">#!i18n@UploadFolder!#</option>
                     </select>
-                    <input id="upload_file" type="file" name="upload_filename" multiple="multiple">
+                    <input id="upload_file"  type="file" name="upload_filename" multiple="multiple">
                     <input id="upload_submit" onclick="preup();" value="#!i18n@Upload!#" type="button">
                 </div>
                 </div>
@@ -220,13 +276,12 @@
                 <table class="list-table" id="list-table">
                     <tr id="tr0">
                         <th class="file">
+                            <button class="button" style="transform: translate(-2vw);" onclick="CopyAllDownloadUrl('.download');">#!i18n@CopyAllDownloadUrl!#</button>
                             <a id="file_a0" fileid="#!FolderId!#" onclick="sortby('a');">#!i18n@File!#</a>
 #!ShowThumbnailsStart!#
-                            &nbsp;&nbsp;&nbsp;
-                            <label><input type="checkbox" id="originalpic">#!i18n@OriginalPic!#</label>
+                            <!--&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" id="originalpic">#!i18n@OriginalPic!#</label>-->
 #!ShowThumbnailsEnd!#
-                            &nbsp;
-                            <button class="button" onclick="CopyAllDownloadUrl('.download');">#!i18n@CopyAllDownloadUrl!#</button>
                         </th>
                         <th class="updated_at"><a onclick="sortby('time');">#!i18n@EditTime!#</a></th>
                         <th class="size"><a onclick="sortby('size');">#!i18n@Size!#</a></th>
@@ -304,12 +359,13 @@
 #!AdminStart!#
                 <div id="upload_div" style="padding:0 0 16px 0">
                 <div id="upload_btns" align="center">
-                    <select onchange="document.getElementById('upload_file').webkitdirectory=this.value;">
+                  <a style="margin-right: 50px;color: white;width: 40px;padding: 9px;background-color: yellowgreen;" onclick="showdiv(event,'create','');">#!i18n@Create!#</a>
+                    <select style="padding: 11px; transform: translate(0, -2px);" onchange="document.getElementById('upload_file').webkitdirectory=this.value;">
                         <option value="">#!i18n@UploadFile!#</option>
                         <option value="1">#!i18n@UploadFolder!#</option>
                     </select>
-                    <input id="upload_file" type="file" name="upload_filename" multiple="multiple">
-                    <input id="upload_submit" onclick="preup();" value="#!i18n@Upload!#" type="button">
+                    <input id="upload_file" class="button" style="color: black;background: none;border: 1px solid black;" type="file" name="upload_filename" multiple="multiple">
+                    <input id="upload_submit" class="button" onclick="preup();" value="#!i18n@Upload!#" type="button">
                 </div>
                 </div>
 #!AdminEnd!#
@@ -320,6 +376,7 @@
 #!ListEnd!#
 #!ReadmemdStart!#
     <div class="list-wrapper" id="readme-div">
+        <h3>README.md</h3><br />
         <div class="list-container">
             <div class="list-header-container">
                 <div class="readme">
@@ -357,7 +414,7 @@
                 <input id="rename_fileid" name="rename_fileid" type="hidden" value="">
                 <input id="rename_hidden" name="rename_oldname" type="hidden" value="">
                 <input id="rename_input" name="rename_newname" type="text" value="">
-                <input name="operate_action" type="submit" value="#!i18n@Rename!#">
+                <input class="button" style="color: white;background-color: green;" name="operate_action" type="submit" value="#!i18n@Rename!#">
                 </form>
             </div>
         </div>
@@ -370,7 +427,7 @@
                 <input id="delete_sid" name="delete_sid" type="hidden" value="">
                 <input id="delete_fileid" name="delete_fileid" type="hidden" value="">
                 <input id="delete_hidden" name="delete_name" type="hidden" value="">
-                <input name="operate_action" type="submit" value="#!i18n@Submit!#">
+                <input class="button" style="color: white;background-color: green;" name="operate_action" type="submit" value="#!i18n@Submit!#">
                 </form>
             </div>
         </div>
@@ -394,7 +451,7 @@
                 <input id="copy_fileid" name="copy_fileid" type="hidden" value="">
                 <input id="copy_hidden" name="copy_name" type="hidden" value="">
                 <input id="copy_input" name="copy_input" type="hidden" value="">
-                <input name="operate_action" type="submit" value="#!i18n@Copy!#">
+                <input class="button" style="color: white;background-color: green;" name="operate_action" type="submit" value="#!i18n@Copy!#">
                 </form>
             </div>
         </div>
@@ -413,13 +470,13 @@
                     <option value="#!MoveDirsValue!#">#!MoveDirsValue!#</option>
 #!MoveDirsEnd!#
                 </select>
-                <input name="operate_action" type="submit" value="#!i18n@Move!#">
+                <input class="button" style="color: white;background-color: green;" name="operate_action" type="submit" value="#!i18n@Move!#">
                 </form>
             </div>
         </div>
         <div id="create_div" class="operatediv" style="display:none">
             <div>
-                <a onclick="operatediv_close('create')" class="operatediv_close">#!i18n@Close!#</a>
+                <a class="button" style="color: white;margin-left: 50px;" onclick="operatediv_close('create')" class="operatediv_close">#!i18n@Close!#</a>
                 <form id="create_form" onsubmit="return submit_operate('create');">
                     <input id="create_sid" name="create_sid" type="hidden" value="">
                     <input id="create_fileid" name="create_fileid" type="hidden" value="">
@@ -446,7 +503,7 @@
                         </tr>
                         <tr>
                             <td>　　　</td>
-                            <td><input name="operate_action" type="submit" value="#!i18n@Create!#"></td>
+                            <td><input class="button" style="color: white;background-color: green;" name="operate_action" type="submit" value="#!i18n@Create!#"></td>
                         </tr>
                     </table>
                 </form>
@@ -470,6 +527,7 @@
     </div>
 #!LoginEnd!#
     <div style="display: none;color: rgba(247,247,249,0);">#!FootStr!#</div>
+    </div>
 </body>
 
 #!ListStart!#
@@ -479,604 +537,843 @@
 #!IsFileStart!##!IspdfFileStart!#<script src="//cdn.bootcss.com/pdf.js/2.3.200/pdf.min.js"></script>#!IspdfFileEnd!##!IsFileEnd!#
 #!ListEnd!#
 <script type="text/javascript">
-    function changelanguage(str)
-    {
-        if (str=='Language') str = '';
-        var expd = new Date();
-        expd.setTime(expd.getTime()+(2*60*60*1000));
-        var expires = "expires="+expd.toGMTString();
-        document.cookie='language='+str+'; path=/; '+expires;
-        location.href = location.href;
-    }
+  function changelanguage(str)
+  {
+      if (str=='Language') str = '';
+      var expd = new Date();
+      expd.setTime(expd.getTime()+(2*60*60*1000));
+      var expires = "expires="+expd.toGMTString();
+      document.cookie='language='+str+'; path=/; '+expires;
+      location.href = location.href;
+  }
 #!LoginStart!#
-    function login() {
-        document.getElementById('mask').style.display='';
-            //document.getElementById('mask').style.width=document.documentElement.scrollWidth+'px';
-        document.getElementById('mask').style.height=document.documentElement.scrollHeight<window.innerHeight?window.innerHeight:document.documentElement.scrollHeight+'px';
-        document.getElementById('login_div').style.display='';
-        document.getElementById('login_div').style.left=(document.body.clientWidth-document.getElementById('login_div').offsetWidth)/2 +'px';
-        document.getElementById('login_div').style.top=(window.innerHeight-document.getElementById('login_div').offsetHeight)/2+document.body.scrollTop +'px';
-        document.getElementById('login_input').focus();
-    }
-    function sha1loginpass(f) {
-        if (f.password1.value=="") return false;
-        try {
-            timestamp = new Date().getTime() + "";
-            timestamp = timestamp.substr(0, timestamp.length-3);
-            f.timestamp.value = timestamp;
-            f.password1.value = sha1(timestamp + "" + f.password1.value);
-            return true;
-        } catch {
-            alert("sha1.js not loaded.");
-            return false;
-        }
-    }
+  function login() {
+      document.getElementById('mask').style.display='';
+          //document.getElementById('mask').style.width=document.documentElement.scrollWidth+'px';
+      document.getElementById('mask').style.height=document.documentElement.scrollHeight<window.innerHeight?window.innerHeight:document.documentElement.scrollHeight+'px';
+      document.getElementById('login_div').style.display='';
+      document.getElementById('login_div').style.left=(document.body.clientWidth-document.getElementById('login_div').offsetWidth)/2 +'px';
+      document.getElementById('login_div').style.top=(window.innerHeight-document.getElementById('login_div').offsetHeight)/2+document.body.scrollTop +'px';
+      document.getElementById('login_input').focus();
+  }
+  function sha1loginpass(f) {
+      if (f.password1.value=="") return false;
+      try {
+          timestamp = new Date().getTime() + "";
+          timestamp = timestamp.substr(0, timestamp.length-3);
+          f.timestamp.value = timestamp;
+          f.password1.value = sha1(timestamp + "" + f.password1.value);
+          return true;
+      } catch {
+          alert("sha1.js not loaded.");
+          return false;
+      }
+  }
 #!LoginEnd!#
 #!ListStart!#
 
 #!IsFileStart!#
-    var $url = document.getElementById('url');
-    if ($url) {
-        //$url.innerHTML = location.protocol + '//' + location.host + $url.innerHTML;
-        let url = location.href;
-        url = url.substr(0, url.length-8);
-        $url.innerHTML = url.replace(/&amp;/g, '&amp;amp;');
-        $url.style.height = $url.scrollHeight + 'px';
-    }
+  var $url = document.getElementById('url');
+  if ($url) {
+      //$url.innerHTML = location.protocol + '//' + location.host + $url.innerHTML;
+      let url = location.href;
+      url = url.substr(0, url.length-8);
+      $url.innerHTML = url.replace(/&amp;/g, '&amp;amp;');
+      $url.style.height = $url.scrollHeight + 'px';
+  }
 #!IsofficeFileStart!#
-    var $officearea=document.getElementById('office-a');
-    if ($officearea) {
-        $officearea.style.height = window.innerHeight + 'px';
-    }
+  var $officearea=document.getElementById('office-a');
+  if ($officearea) {
+      $officearea.style.height = window.innerHeight + 'px';
+  }
 #!IsofficeFileEnd!#
 #!IstxtFileStart!#
-    var $textarea=document.getElementById('txt-a');
-    if ($textarea) {
-        $textarea.style.height = $textarea.scrollHeight + 'px';
-    }
+  var $textarea=document.getElementById('txt-a');
+  if ($textarea) {
+      $textarea.style.height = $textarea.scrollHeight + 'px';
+  }
 #!IstxtFileEnd!#
 #!IsvideoFileStart!#
-    function loadResources(type, src, callback) {
-        let script = document.createElement(type);
-        let loaded = false;
-        if (typeof callback === 'function') {
-            script.onload = script.onreadystatechange = () => {
-                if (!loaded && (!script.readyState || /loaded|complete/.test(script.readyState))) {
-                    script.onload = script.onreadystatechange = null;
-                    loaded = true;
-                    callback();
-                }
-            }
-        }
-        if (type === 'link') {
-            script.href = src;
-            script.rel = 'stylesheet';
-        } else {
-            script.src = src;
-        }
-        document.getElementsByTagName('head')[0].appendChild(script);
-    }
-    function addVideos(videos) {
-        let host = 'https://s0.pstatp.com/cdn/expire-1-M';
-        let unloadedResourceCount = 4;
-        let callback = (() => {
-            return () => {
-                if (!--unloadedResourceCount) {
-                    createDplayers(videos);
-                }
-            };
-        })(unloadedResourceCount, videos);
-        loadResources(
-            'link',
-            host + '/dplayer/1.25.0/DPlayer.min.css',
-            callback
-        );
-        loadResources(
-            'script',
-            host + '/dplayer/1.25.0/DPlayer.min.js',
-            callback
-        );
-        loadResources(
-            'script',
-            host + '/hls.js/0.12.4/hls.light.min.js',
-            callback
-        );
-        loadResources(
-            'script',
-            host + '/flv.js/1.5.0/flv.min.js',
-            callback
-        );
-    }
-    function createDplayers(videos) {
-        for (i = 0; i < videos.length; i++) {
-            console.log(videos[i]);
-            new DPlayer({
-                container: document.getElementById('video-a' + i),
-                screenshot: true,
-                video: {
-                    url: videos[i]
-                }
-            });
-        }
-    }
-    addVideos(["#!FileEncodeUrl!#"]);
+  function loadResources(type, src, callback) {
+      let script = document.createElement(type);
+      let loaded = false;
+      if (typeof callback === 'function') {
+          script.onload = script.onreadystatechange = () => {
+              if (!loaded && (!script.readyState || /loaded|complete/.test(script.readyState))) {
+                  script.onload = script.onreadystatechange = null;
+                  loaded = true;
+                  callback();
+              }
+          }
+      }
+      if (type === 'link') {
+          script.href = src;
+          script.rel = 'stylesheet';
+      } else {
+          script.src = src;
+      }
+      document.getElementsByTagName('head')[0].appendChild(script);
+  }
+  function addVideos(videos) {
+      let host = 'https://s0.pstatp.com/cdn/expire-1-M';
+      let unloadedResourceCount = 4;
+      let callback = (() => {
+          return () => {
+              if (!--unloadedResourceCount) {
+                  createDplayers(videos);
+              }
+          };
+      })(unloadedResourceCount, videos);
+      loadResources(
+          'link',
+          host + '/dplayer/1.25.0/DPlayer.min.css',
+          callback
+      );
+      loadResources(
+          'script',
+          host + '/dplayer/1.25.0/DPlayer.min.js',
+          callback
+      );
+      loadResources(
+          'script',
+          host + '/hls.js/0.12.4/hls.light.min.js',
+          callback
+      );
+      loadResources(
+          'script',
+          host + '/flv.js/1.5.0/flv.min.js',
+          callback
+      );
+  }
+  function createDplayers(videos) {
+      for (i = 0; i < videos.length; i++) {
+          console.log(videos[i]);
+          new DPlayer({
+              container: document.getElementById('video-a' + i),
+              screenshot: true,
+              video: {
+                  url: videos[i]
+              }
+          });
+      }
+  }
+  addVideos(["#!FileEncodeUrl!#"]);
 #!IsvideoFileEnd!#
 #!IspdfFileStart!#
-    pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdn.bootcss.com/pdf.js/2.3.200/pdf.worker.min.js';
-    var loadingTask = pdfjsLib.getDocument({
-        url: "#!FileDownUrl!#",
-        cMapUrl: "//cdn.jsdelivr.net/npm/pdfjs-dist@2.2.228/cmaps/",
-        cMapPacked: true,
-        rangeChunkSize: 65535
-    });
-    loadingTask.promise.then(function(pdf) {
-        var pagenum =  pdf.numPages;
-        var pdfContainer = document.getElementById('pdf-d');
-        pdfContainer.innerHTML = '';
-        for (var i=1;i<=pagenum;i++) {
-            var canvasNew = document.createElement('canvas');
-            canvasNew.id = 'pdf-c'+i;
-            pdfContainer.appendChild(canvasNew);
-            renderpage(pdf,i);
-        }
-    });
-    function renderpage(pdf,i)
-    {
-        pdf.getPage(i).then(function(page) { 
-            var scale = 1.5;
-            var viewport = page.getViewport({ scale: scale, });
-            var canvas = document.getElementById('pdf-c'+i);
-            var context = canvas.getContext("2d");
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            var renderContext = {
-                canvasContext: context,
-                viewport: viewport,
-            };
-            page.render(renderContext);
-        });
-    }
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdn.bootcss.com/pdf.js/2.3.200/pdf.worker.min.js';
+  var loadingTask = pdfjsLib.getDocument({
+      url: "#!FileDownUrl!#",
+      cMapUrl: "//cdn.jsdelivr.net/npm/pdfjs-dist@2.2.228/cmaps/",
+      cMapPacked: true,
+      rangeChunkSize: 65535
+  });
+  loadingTask.promise.then(function(pdf) {
+      var pagenum =  pdf.numPages;
+      var pdfContainer = document.getElementById('pdf-d');
+      pdfContainer.innerHTML = '';
+      for (var i=1;i<=pagenum;i++) {
+          var canvasNew = document.createElement('canvas');
+          canvasNew.id = 'pdf-c'+i;
+          pdfContainer.appendChild(canvasNew);
+          renderpage(pdf,i);
+      }
+  });
+  function renderpage(pdf,i)
+  {
+      pdf.getPage(i).then(function(page) { 
+          var scale = 1.5;
+          var viewport = page.getViewport({ scale: scale, });
+          var canvas = document.getElementById('pdf-c'+i);
+          var context = canvas.getContext("2d");
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          var renderContext = {
+              canvasContext: context,
+              viewport: viewport,
+          };
+          page.render(renderContext);
+      });
+  }
 #!IspdfFileEnd!#
 #!IsFileEnd!#
 #!IsFolderStart!#
 #!HeadmdStart!#
-    var $head = document.getElementById('head');
-    if ($head) {
-        //document.getElementById('head-div').parentNode.insertBefore(document.getElementById('head-div'),document.getElementById('list-div'));
-        $head.innerHTML = marked(document.getElementById('head-md').innerText);
-    }
+  var $head = document.getElementById('head');
+  if ($head) {
+      //document.getElementById('head-div').parentNode.insertBefore(document.getElementById('head-div'),document.getElementById('list-div'));
+      $head.innerHTML = marked(document.getElementById('head-md').innerText);
+  }
 #!HeadmdEnd!#
 #!ReadmemdStart!#
-    var $readme = document.getElementById('readme');
-    if ($readme) {
-        $readme.innerHTML = marked(document.getElementById('readme-md').innerText);
-    }
+  var $readme = document.getElementById('readme');
+  if ($readme) {
+      $readme.innerHTML = marked(document.getElementById('readme-md').innerText);
+  }
 #!ReadmemdEnd!#
+#!ShowThumbnailsStart!#
+  function showthumbnails(obj) {
+      images = [#!ImgExts!#];
+      var files=document.getElementsByName('filelist');
+      for ($i=0;$i<files.length;$i++) {
+          str=files[$i].innerText;
+          if (str.substr(-1)==' ') str=str.substr(0,str.length-1);
+          if (!str) continue;
+          strarry=str.split('.');
+          ext=strarry[strarry.length-1].toLowerCase();
+          if (images.indexOf(ext)>-1) {
+              var url=files[$i].href;
+              url=url.substr(0,url.length-8);
+              if (document.getElementById('originalpic').checked==true) {
+                  files[$i].parentNode.parentNode.innerHTML='<td colspan="3"><img src="'+url+'" alt="'+str+'" onload="if (this.offsetWidth>document.getElementById(\'list-div\').offsetWidth) this.style.width=\'100%\';"></td>';
+                  $i--;
+              } else {
+                  url+='?thumbnails';
+                  get_thumbnails_url(url, str, files[$i]);
+              }
+          }
+      }
+      obj.disabled='disabled';
+  }
+  function get_thumbnails_url(url, name, filea) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.send('');
+      xhr.onload = function(e){
+          if (xhr.status==200) {
+              if (xhr.responseText!='') filea.innerHTML='<img src="'+xhr.responseText+'" alt="'+name+'">';
+          } else console.log(xhr.status+'\n'+xhr.responseText);
+      }
+  }
+#!ShowThumbnailsEnd!#
 #!MorePageStart!#
-    function nextpage(num) {
-        document.getElementById('pagenum').value=num;
-        document.getElementById('nextpageform').submit();
-    }
+  function nextpage(num) {
+      document.getElementById('pagenum').value=num;
+      document.getElementById('nextpageform').submit();
+  }
 #!MorePageEnd!#
 #!IsNotHiddenStart!#
-    var sort=0;
-    function sortby(string) {
-        if (string=='a') if (sort!=0) {
-            for (i = 1; i <= #!maxfilenum!#; i++) document.getElementById('tr'+i).parentNode.insertBefore(document.getElementById('tr'+i),document.getElementById('tr'+(i-1)).nextSibling);
-            sort=0;
-            return;
-        } else return;
-        sort1=sort;
-        sortby('a');
-        sort=sort1;
-        var a=[];
-        for (i = 1; i <= #!maxfilenum!#; i++) {
-            a[i]=i;
-            if (!!document.getElementById('folder_'+string+i)) {
-                var td1=document.getElementById('folder_'+string+i);
-                for (j = 1; j < i; j++) {
-                    if (!!document.getElementById('folder_'+string+a[j])) {
-                        var c=false;
-                        if (string=='time') if (sort==-1) {
-                            c=(td1.innerText < document.getElementById('folder_'+string+a[j]).innerText);
-                        } else {
-                            c=(td1.innerText > document.getElementById('folder_'+string+a[j]).innerText);
-                        }
-                        if (string=='size') if (sort==2) {
-                            c=(size_reformat(td1.innerText) < size_reformat(document.getElementById('folder_'+string+a[j]).innerText));
-                        } else {
-                            c=(size_reformat(td1.innerText) > size_reformat(document.getElementById('folder_'+string+a[j]).innerText));
-                        }
-                        if (c) {
-                            document.getElementById('tr'+i).parentNode.insertBefore(document.getElementById('tr'+i),document.getElementById('tr'+a[j]));
-                            for (k = i; k > j; k--) {
-                                a[k]=a[k-1];
-                            }
-                            a[j]=i;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (!!document.getElementById('file_'+string+i)) {
-                var td1=document.getElementById('file_'+string+i);
-                for (j = 1; j < i; j++) {
-                    if (!!document.getElementById('file_'+string+a[j])) {
-                        var c=false;
-                        if (string=='time') if (sort==-1) {
-                            c=(td1.innerText < document.getElementById('file_'+string+a[j]).innerText);
-                        } else {
-                            c=(td1.innerText > document.getElementById('file_'+string+a[j]).innerText);
-                        }
-                        if (string=='size') if (sort==2) {
-                            c=(size_reformat(td1.innerText) < size_reformat(document.getElementById('file_'+string+a[j]).innerText));
-                        } else {
-                            c=(size_reformat(td1.innerText) > size_reformat(document.getElementById('file_'+string+a[j]).innerText));
-                        }
-                        if (c) {
-                            document.getElementById('tr'+i).parentNode.insertBefore(document.getElementById('tr'+i),document.getElementById('tr'+a[j]));
-                            for (k = i; k > j; k--) {
-                                a[k]=a[k-1];
-                            }
-                            a[j]=i;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        if (string=='time') if (sort==-1) {
-            sort=1;
-        } else {
-            sort=-1;
-        }
-        if (string=='size') if (sort==2) {
-            sort=-2;
-        } else {
-            sort=2;
-        }
-    }
-    function size_reformat(str) {
-        if (str.substr(-1)==' ') str=str.substr(0,str.length-1);
-        if (str.substr(-2)=='TB') num=str.substr(0,str.length-3)*1024*1024*1024*1024;
-        if (str.substr(-2)=='GB') num=str.substr(0,str.length-3)*1024*1024*1024;
-        if (str.substr(-2)=='MB') num=str.substr(0,str.length-3)*1024*1024;
-        if (str.substr(-2)=='KB') num=str.substr(0,str.length-3)*1024;
-        if (str.substr(-2)==' B') num=str.substr(0,str.length-2);
-        return num;
-    }
+  var sort=0;
+  function sortby(string) {
+      if (string=='a') if (sort!=0) {
+          for (i = 1; i <= #!maxfilenum!#; i++) document.getElementById('tr'+i).parentNode.insertBefore(document.getElementById('tr'+i),document.getElementById('tr'+(i-1)).nextSibling);
+          sort=0;
+          return;
+      } else return;
+      sort1=sort;
+      sortby('a');
+      sort=sort1;
+      var a=[];
+      for (i = 1; i <= #!maxfilenum!#; i++) {
+          a[i]=i;
+          if (!!document.getElementById('folder_'+string+i)) {
+              var td1=document.getElementById('folder_'+string+i);
+              for (j = 1; j < i; j++) {
+                  if (!!document.getElementById('folder_'+string+a[j])) {
+                      var c=false;
+                      if (string=='time') if (sort==-1) {
+                          c=(td1.innerText < document.getElementById('folder_'+string+a[j]).innerText);
+                      } else {
+                          c=(td1.innerText > document.getElementById('folder_'+string+a[j]).innerText);
+                      }
+                      if (string=='size') if (sort==2) {
+                          c=(size_reformat(td1.innerText) < size_reformat(document.getElementById('folder_'+string+a[j]).innerText));
+                      } else {
+                          c=(size_reformat(td1.innerText) > size_reformat(document.getElementById('folder_'+string+a[j]).innerText));
+                      }
+                      if (c) {
+                          document.getElementById('tr'+i).parentNode.insertBefore(document.getElementById('tr'+i),document.getElementById('tr'+a[j]));
+                          for (k = i; k > j; k--) {
+                              a[k]=a[k-1];
+                          }
+                          a[j]=i;
+                          break;
+                      }
+                  }
+              }
+          }
+          if (!!document.getElementById('file_'+string+i)) {
+              var td1=document.getElementById('file_'+string+i);
+              for (j = 1; j < i; j++) {
+                  if (!!document.getElementById('file_'+string+a[j])) {
+                      var c=false;
+                      if (string=='time') if (sort==-1) {
+                          c=(td1.innerText < document.getElementById('file_'+string+a[j]).innerText);
+                      } else {
+                          c=(td1.innerText > document.getElementById('file_'+string+a[j]).innerText);
+                      }
+                      if (string=='size') if (sort==2) {
+                          c=(size_reformat(td1.innerText) < size_reformat(document.getElementById('file_'+string+a[j]).innerText));
+                      } else {
+                          c=(size_reformat(td1.innerText) > size_reformat(document.getElementById('file_'+string+a[j]).innerText));
+                      }
+                      if (c) {
+                          document.getElementById('tr'+i).parentNode.insertBefore(document.getElementById('tr'+i),document.getElementById('tr'+a[j]));
+                          for (k = i; k > j; k--) {
+                              a[k]=a[k-1];
+                          }
+                          a[j]=i;
+                          break;
+                      }
+                  }
+              }
+          }
+      }
+      if (string=='time') if (sort==-1) {
+          sort=1;
+      } else {
+          sort=-1;
+      }
+      if (string=='size') if (sort==2) {
+          sort=-2;
+      } else {
+          sort=2;
+      }
+  }
+  function size_reformat(str) {
+      if (str.substr(-1)==' ') str=str.substr(0,str.length-1);
+      if (str.substr(-2)=='TB') num=str.substr(0,str.length-3)*1024*1024*1024*1024;
+      if (str.substr(-2)=='GB') num=str.substr(0,str.length-3)*1024*1024*1024;
+      if (str.substr(-2)=='MB') num=str.substr(0,str.length-3)*1024*1024;
+      if (str.substr(-2)=='KB') num=str.substr(0,str.length-3)*1024;
+      if (str.substr(-2)==' B') num=str.substr(0,str.length-2);
+      return num;
+  }
 #!IsNotHiddenEnd!#
 #!IsFolderEnd!#
 #!WriteTimezoneStart!#
-    var nowtime= new Date();
-    var timezone = 0-nowtime.getTimezoneOffset()/60;
-    var expd = new Date();
-    expd.setTime(expd.getTime()+(2*60*60*1000));
-    var expires = "expires="+expd.toGMTString();
-    document.cookie="timezone="+timezone+"; path=/; "+expires;
-    if (timezone!=#!timezone!#) {
-        alert('Your timezone is '+timezone+', reload local timezone.');
-        location.href=location.href;
-    }
+  var nowtime= new Date();
+  var timezone = 0-nowtime.getTimezoneOffset()/60;
+  var expd = new Date();
+  expd.setTime(expd.getTime()+(2*60*60*1000));
+  var expires = "expires="+expd.toGMTString();
+  document.cookie="timezone="+timezone+"; path=/; "+expires;
+  if (timezone!=#!timezone!#) {
+      alert('Your timezone is '+timezone+', reload local timezone.');
+      location.href=location.href;
+  }
 #!WriteTimezoneEnd!#
-    function CopyAllDownloadUrl(str) {
-        var tmptextarea=document.createElement('textarea');
-        document.body.appendChild(tmptextarea);
-        tmptextarea.setAttribute('style','position:absolute;left:-100px;width:0px;height:0px;');
-        document.querySelectorAll(str).forEach(function (e) {
-            tmptextarea.innerHTML+=e.href+"\r\n";
-        });
-        tmptextarea.select();
-        tmptextarea.setSelectionRange(0, tmptextarea.value.length);
-        document.execCommand("copy");
-        alert('Copyed');
-    }
+  function CopyAllDownloadUrl(str) {
+      var tmptextarea=document.createElement('textarea');
+      document.body.appendChild(tmptextarea);
+      tmptextarea.setAttribute('style','position:absolute;left:-100px;width:0px;height:0px;');
+      document.querySelectorAll(str).forEach(function (e) {
+          tmptextarea.innerHTML+=e.href+"\r\n";
+      });
+      tmptextarea.select();
+      tmptextarea.setSelectionRange(0, tmptextarea.value.length);
+      document.execCommand("copy");
+      alert(tmptextarea.innerHTML+"#!i18n@Success!#");
+  }
 #!UploadJsStart!#
-    function size_format(num) {
-        if (num>1024) {
-            num=num/1024;
-        } else {
-            return num.toFixed(2) + ' B';
-        }
-        if (num>1024) {
-            num=num/1024;
-        } else {
-            return num.toFixed(2) + ' KB';
-        }
-        if (num>1024) {
-            num=num/1024;
-        } else {
-            return num.toFixed(2) + ' MB';
-        }
-        return num.toFixed(2) + ' GB';
-    }
-    function seconds2hour(seconds) {
-        let h, m, s;
-        if (parseFloat(seconds)<60) {
-            return seconds + 's';
-        } else {
-            s = (seconds % 60).toFixed(0);
-            m = parseInt(seconds / 60);
-            if (parseInt(m)<60) {
-                return m + 'm' + s + 's';
-            } else {
-                h = parseInt(m / 60);
-                m = m % 60;
-                return h + 'h' + m + 'm' + s + 's';
-            }
-        }
-    }
-    function uploadbuttonhide() {
-        document.getElementById('upload_btns').style.display='none';
-        /*document.getElementById('upload_submit').disabled='disabled';
-        document.getElementById('upload_file').disabled='disabled';
-        document.getElementById('upload_submit').style.display='none';
-        document.getElementById('upload_file').style.display='none';*/
-    }
-    function uploadbuttonshow() {
-        document.getElementById('upload_btns').style.display='';
-        /*document.getElementById('upload_file').disabled='';
-        document.getElementById('upload_submit').disabled='';
-        document.getElementById('upload_submit').style.display='';
-        document.getElementById('upload_file').style.display='';*/
-    }
-    var uploading = new Object();
+  function size_format(num) {
+      if (num>1024) {
+          num=num/1024;
+      } else {
+          return num.toFixed(2) + ' B';
+      }
+      if (num>1024) {
+          num=num/1024;
+      } else {
+          return num.toFixed(2) + ' KB';
+      }
+      if (num>1024) {
+          num=num/1024;
+      } else {
+          return num.toFixed(2) + ' MB';
+      }
+      return num.toFixed(2) + ' GB';
+  }
+  function seconds2hour(seconds) {
+      let h, m, s;
+      if (parseFloat(seconds)<60) {
+          return seconds + 's';
+      } else {
+          s = (seconds % 60).toFixed(0);
+          m = parseInt(seconds / 60);
+          if (parseInt(m)<60) {
+              return m + 'm' + s + 's';
+          } else {
+              h = parseInt(m / 60);
+              m = m % 60;
+              return h + 'h' + m + 'm' + s + 's';
+          }
+      }
+  }
+  function uploadbuttonhide() {
+      document.getElementById('upload_btns').style.display='none';
+      /*document.getElementById('upload_submit').disabled='disabled';
+      document.getElementById('upload_file').disabled='disabled';
+      document.getElementById('upload_submit').style.display='none';
+      document.getElementById('upload_file').style.display='none';*/
+  }
+  function uploadbuttonshow() {
+      document.getElementById('upload_btns').style.display='';
+      /*document.getElementById('upload_file').disabled='';
+      document.getElementById('upload_submit').disabled='';
+      document.getElementById('upload_submit').style.display='';
+      document.getElementById('upload_file').style.display='';*/
+  }
+  var uploading = new Object();
 #!UploadJsEnd!#
 #!OnedriveUploadJsStart!#
-    function preup() {
-        uploadbuttonhide();
-        var files=document.getElementById('upload_file').files;
-	    if (files.length<1) {
-            uploadbuttonshow();
-            return;
-        };
-        var table1=document.createElement('table');
-        document.getElementById('upload_div').appendChild(table1);
-        table1.setAttribute('class','list-table');
-        var timea=new Date().getTime();
-        var i=0;
-        var uploadList = setInterval(function(){
-            if (i<files.length) {
-                if (Object.keys(uploading).length<5) {
-                    getuplink(i);
-                    i++;
-                }// else console.log(Object.keys(uploading).length);
-            } else clearInterval(uploadList);
-        }, 1000);
-        //getuplink(i);
-        function getuplink(i, r=0) {
-            var file=files[i];
-            var td1;
-            var td2;
-            if (r==0) {
-                var tr1=document.createElement('tr');
-                table1.appendChild(tr1);
-                tr1.setAttribute('data-to',1);
-                td1=document.createElement('td');
-                tr1.appendChild(td1);
-                td1.setAttribute('style','width:30%;word-break:break-word;');
-                td1.setAttribute('id','upfile_td1_'+timea+'_'+i);
-                td1.innerHTML=(file.webkitRelativePath||file.name)+'<br>'+size_format(file.size)+' ('+(i+1)+'/'+files.length+')';
-                td2=document.createElement('td');
-                tr1.appendChild(td2);
-                td2.setAttribute('id','upfile_td2_'+timea+'_'+i);
-            }
-            var tdnum = timea+'_'+i;
-            td1=document.getElementById('upfile_td1_'+tdnum);
-            td2=document.getElementById('upfile_td2_'+tdnum);
-            if (file.size>100*1024*1024*1024) {
-                td2.innerHTML='<font color="red">#!i18n@UpFileTooLarge!#</font>';
-                uploadbuttonshow();
-                return;
-            }
-            var upbigfilename = encodeURIComponent((file.webkitRelativePath||file.name));
-            uploading[upbigfilename] = i;
-            var filemd5='';
+  function preup() {
+      uploadbuttonhide();
+      var files=document.getElementById('upload_file').files;
+    if (files.length<1) {
+          uploadbuttonshow();
+          return;
+      };
+      var table1=document.createElement('table');
+      document.getElementById('upload_div').appendChild(table1);
+      table1.setAttribute('class','list-table');
+      var timea=new Date().getTime();
+      var i=0;
+      var uploadList = setInterval(function(){
+          if (i<files.length) {
+              if (Object.keys(uploading).length<5) {
+                  getuplink(i);
+                  i++;
+              }// else console.log(Object.keys(uploading).length);
+          } else clearInterval(uploadList);
+      }, 1000);
+      //getuplink(i);
+      function getuplink(i, r=0) {
+          var file=files[i];
+          var td1;
+          var td2;
+          if (r==0) {
+              var tr1=document.createElement('tr');
+              table1.appendChild(tr1);
+              tr1.setAttribute('data-to',1);
+              td1=document.createElement('td');
+              tr1.appendChild(td1);
+              td1.setAttribute('style','width:30%;word-break:break-word;');
+              td1.setAttribute('id','upfile_td1_'+timea+'_'+i);
+              td1.innerHTML=(file.webkitRelativePath||file.name)+'<br>'+size_format(file.size)+' ('+(i+1)+'/'+files.length+')';
+              td2=document.createElement('td');
+              tr1.appendChild(td2);
+              td2.setAttribute('id','upfile_td2_'+timea+'_'+i);
+          }
+          var tdnum = timea+'_'+i;
+          td1=document.getElementById('upfile_td1_'+tdnum);
+          td2=document.getElementById('upfile_td2_'+tdnum);
+          if (file.size>100*1024*1024*1024) {
+              td2.innerHTML='<font color="red">#!i18n@UpFileTooLarge!#</font>';
+              uploadbuttonshow();
+              return;
+          }
+          var upbigfilename = encodeURIComponent((file.webkitRelativePath||file.name));
+          uploading[upbigfilename] = i;
+          var filemd5='';
 #!GuestStart!#
-            function getext(str) {
-                strarry=str.split('.');
-                if (strarry.length==1) return '';
-                ext=strarry[strarry.length-1].toLowerCase();
-                var reg = new RegExp(".","g");
-                var a = str.replace(reg,"");
-                if (a == ext) ext = "";
-                else ext = "." + ext;
-                return ext;
-            }
-        var ext = getext(file.webkitRelativePath||file.name);
-        var spark = new SparkMD5.ArrayBuffer();
-        var reader = new FileReader();
-        var chunksize=10*1024*1024;
-        var asize = 0;
-        function readblob(start) {
-            var end=start+chunksize;
-            var blob = file.slice(start,end);
-            reader.readAsArrayBuffer(blob);
-        }
-        readblob(asize);
+          function getext(str) {
+              strarry=str.split('.');
+              if (strarry.length==1) return '';
+              ext=strarry[strarry.length-1].toLowerCase();
+              var reg = new RegExp(".","g");
+              var a = str.replace(reg,"");
+              if (a == ext) ext = "";
+              else ext = "." + ext;
+              return ext;
+          }
+      var ext = getext(file.webkitRelativePath||file.name);
+      var spark = new SparkMD5.ArrayBuffer();
+      var reader = new FileReader();
+      var chunksize=10*1024*1024;
+      var asize = 0;
+      function readblob(start) {
+          var end=start+chunksize;
+          var blob = file.slice(start,end);
+          reader.readAsArrayBuffer(blob);
+      }
+      readblob(asize);
 
-        reader.onload = function(e){
-            td2.innerHTML='#!i18n@Calculate!# md5: '+(asize*100/file.size).toFixed(2)+'%';
-            var binary = this.result;
-            spark.append(binary);
-            asize += chunksize;
-            if (asize < file.size) {
-                readblob(asize);
-            } else {
-                filemd5 = spark.end();
-                td2.innerHTML='md5: '+filemd5;
-                delete uploading[upbigfilename];
-                upbigfilename = filemd5+ext;
-                uploading[upbigfilename] = i;
+      reader.onload = function(e){
+          td2.innerHTML='#!i18n@Calculate!# md5: '+(asize*100/file.size).toFixed(2)+'%';
+          var binary = this.result;
+          spark.append(binary);
+          asize += chunksize;
+          if (asize < file.size) {
+              readblob(asize);
+          } else {
+              filemd5 = spark.end();
+              td2.innerHTML='md5: '+filemd5;
+              delete uploading[upbigfilename];
+              upbigfilename = filemd5+ext;
+              uploading[upbigfilename] = i;
 #!GuestEnd!#
-            td2.innerHTML='#!i18n@GetUploadLink!# ...';
-            var xhr1 = new XMLHttpRequest();
-            xhr1.open("POST", '?action=upbigfile');
-            //xhr1.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
-            xhr1.setRequestHeader('x-requested-with','XMLHttpRequest');
-            xhr1.onprogress = function(e){
-                td2.innerHTML+='.';
-            }
-            xhr1.onload = function(e){
-                //console.log(xhr1.status+xhr1.responseText);
-                td2.innerHTML='<font color="red">'+xhr1.responseText+'</font>';
-                if (xhr1.status==200) {
-                    if (xhr1.responseText=='') {
-                        getuplink(i,1);
-                        return;
-                    }
-                    var html=JSON.parse(xhr1.responseText);
-                    if (!html['uploadUrl']) {
-                        td2.innerHTML='<font color="red">'+xhr1.responseText+'</font><br>';
-                    } else {
-                        td2.innerHTML='#!i18n@UploadStart!# ...';
-                        binupfile(file,html['uploadUrl'],timea+'_'+i, upbigfilename);
-                    }
-                } else {
-                    if (xhr1.status==409) {
-                        // td2.innerHTML='nameAlreadyExists';
-                        var html=JSON.parse(xhr1.responseText);
-                        td2.innerHTML=html['error']['code']+': '+html['error']['message'];
+          td2.innerHTML='#!i18n@GetUploadLink!# ...';
+          var xhr1 = new XMLHttpRequest();
+          xhr1.open("POST", '?action=upbigfile');
+          //xhr1.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
+          xhr1.setRequestHeader('x-requested-with','XMLHttpRequest');
+          xhr1.onprogress = function(e){
+              td2.innerHTML+='.';
+          }
+          xhr1.onload = function(e){
+              //console.log(xhr1.status+xhr1.responseText);
+              td2.innerHTML='<font color="red">'+xhr1.responseText+'</font>';
+              if (xhr1.status==200) {
+                  if (xhr1.responseText=='') {
+                      getuplink(i,1);
+                      return;
+                  }
+                  var html=JSON.parse(xhr1.responseText);
+                  if (!html['uploadUrl']) {
+                      td2.innerHTML='<font color="red">'+xhr1.responseText+'</font><br>';
+                  } else {
+                      td2.innerHTML='#!i18n@UploadStart!# ...';
+                      binupfile(file,html['uploadUrl'],timea+'_'+i, upbigfilename);
+                  }
+              } else {
+                  if (xhr1.status==409) {
+                      // td2.innerHTML='nameAlreadyExists';
+                      var html=JSON.parse(xhr1.responseText);
+                      td2.innerHTML=html['error']['code']+': '+html['error']['message'];
 #!GuestStart!#
-                        td2.innerHTML='md5: '+filemd5;
-                        td1.innerHTML='<div style="color:green"><a href="#!base_disk_path!##!Path!#'+upbigfilename+'?preview" id="upfile_a_'+tdnum+'" target="_blank">'+td1.innerHTML+'</a><br><a href="#!base_disk_path!##!Path!#'+upbigfilename+'" id="upfile_a1_'+tdnum+'"></a>#!i18n@UploadComplete!#<button onclick="CopyAllDownloadUrl(\'#upfile_a1_'+tdnum+'\');" id="upfile_cpbt_'+tdnum+'">#!i18n@CopyUrl!#</button></div>';
+                      td2.innerHTML='md5: '+filemd5;
+                      td1.innerHTML='<div style="color:green"><a href="#!base_disk_path!##!Path!#'+upbigfilename+'?preview" id="upfile_a_'+tdnum+'" target="_blank">'+td1.innerHTML+'</a><br><a href="#!base_disk_path!##!Path!#'+upbigfilename+'" id="upfile_a1_'+tdnum+'"></a>#!i18n@UploadComplete!#<button onclick="CopyAllDownloadUrl(\'#upfile_a1_'+tdnum+'\');" id="upfile_cpbt_'+tdnum+'">#!i18n@CopyUrl!#</button></div>';
 #!GuestEnd!#
 #!AdminStart!#
-                        td1.innerHTML='<div style="color:green"><a href="#!base_disk_path!##!Path!#'+(file.webkitRelativePath||file.name)+'?preview" id="upfile_a_'+tdnum+'" target="_blank">'+td1.innerHTML+'</a><br><a href="#!base_disk_path!##!Path!#'+(file.webkitRelativePath||file.name)+'" id="upfile_a1_'+tdnum+'"></a>#!i18n@UploadComplete!#<button onclick="CopyAllDownloadUrl(\'#upfile_a1_'+tdnum+'\');" id="upfile_cpbt_'+tdnum+'" style="display:none">#!i18n@CopyUrl!#</button></div>';
+                      td1.innerHTML='<div style="color:green"><a href="#!base_disk_path!##!Path!#'+(file.webkitRelativePath||file.name)+'?preview" id="upfile_a_'+tdnum+'" target="_blank">'+td1.innerHTML+'</a><br><a href="#!base_disk_path!##!Path!#'+(file.webkitRelativePath||file.name)+'" id="upfile_a1_'+tdnum+'"></a>#!i18n@UploadComplete!#<button onclick="CopyAllDownloadUrl(\'#upfile_a1_'+tdnum+'\');" id="upfile_cpbt_'+tdnum+'" style="display:none">#!i18n@CopyUrl!#</button></div>';
 #!AdminEnd!#
-                    }
-                /*if (i<files.length-1) {
-                    i++;
-                    getuplink(i);
-                }*/
-                    delete uploading[upbigfilename];
-                }
-            }
-            xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified +'&filemd5='+ filemd5 + '&_admin=' + localStorage.getItem("admin"));
+                  }
+              /*if (i<files.length-1) {
+                  i++;
+                  getuplink(i);
+              }*/
+                  delete uploading[upbigfilename];
+              }
+          }
+          xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified +'&filemd5='+ filemd5 + '&_admin=' + localStorage.getItem("admin"));
 #!GuestStart!#
-            }
-        }
+          }
+      }
 #!GuestEnd!#
-        }
-        uploadbuttonshow();
-    }
+      }
+      uploadbuttonshow();
+  }
 
-    function binupfile(file,url,tdnum,filename){
-        var label=document.getElementById('upfile_td2_'+tdnum);
-        var reader = new FileReader();
-        var StartStr='';
-        var MiddleStr='';
-        var StartTime;
-        var EndTime;
-        var newstartsize = 0;
-        if(!!file){
-            var asize=0;
-            var chunksize=10*1024*1024; // chunk size, max 60M. 每小块上传大小，最大60M，微软建议10M
-            var totalsize=file.size;
-            var xhr2 = new XMLHttpRequest();
-            xhr2.open("GET", url);
-                    //xhr2.setRequestHeader('x-requested-with','XMLHttpRequest');
-            xhr2.send(null);
-            xhr2.onload = function(e){
-                if (xhr2.status==200) {
-                    var html = JSON.parse(xhr2.responseText);
-                    var a = html['nextExpectedRanges'][0];
-                    newstartsize = Number( a.slice(0,a.indexOf("-")) );
-                    StartTime = new Date();
-                    asize = newstartsize;
-                    if (newstartsize==0) {
-                        StartStr='#!i18n@UploadStartAt!#:' +StartTime.toLocaleString()+'<br>' ;
-                    } else {
-                        StartStr='#!i18n@LastUpload!#'+size_format(newstartsize)+ '<br>#!i18n@ThisTime!##!i18n@UploadStartAt!#:' +StartTime.toLocaleString()+'<br>' ;
-                    }
-                    function readblob(start) {
-                        var end=start+chunksize;
-                        var blob = file.slice(start,end);
-                        reader.readAsArrayBuffer(blob);
-                    }
-                    readblob(asize);
+  function binupfile(file,url,tdnum,filename){
+      var label=document.getElementById('upfile_td2_'+tdnum);
+      var reader = new FileReader();
+      var StartStr='';
+      var MiddleStr='';
+      var StartTime;
+      var EndTime;
+      var newstartsize = 0;
+      if(!!file){
+          var asize=0;
+          var chunksize=10*1024*1024; // chunk size, max 60M. 每小块上传大小，最大60M，微软建议10M
+          var totalsize=file.size;
+          var xhr2 = new XMLHttpRequest();
+          xhr2.open("GET", url);
+                  //xhr2.setRequestHeader('x-requested-with','XMLHttpRequest');
+          xhr2.send(null);
+          xhr2.onload = function(e){
+              if (xhr2.status==200) {
+                  var html = JSON.parse(xhr2.responseText);
+                  var a = html['nextExpectedRanges'][0];
+                  newstartsize = Number( a.slice(0,a.indexOf("-")) );
+                  StartTime = new Date();
+                  asize = newstartsize;
+                  if (newstartsize==0) {
+                      StartStr='#!i18n@UploadStartAt!#:' +StartTime.toLocaleString()+'<br>' ;
+                  } else {
+                      StartStr='#!i18n@LastUpload!#'+size_format(newstartsize)+ '<br>#!i18n@ThisTime!##!i18n@UploadStartAt!#:' +StartTime.toLocaleString()+'<br>' ;
+                  }
+                  function readblob(start) {
+                      var end=start+chunksize;
+                      var blob = file.slice(start,end);
+                      reader.readAsArrayBuffer(blob);
+                  }
+                  readblob(asize);
 
-                    reader.onload = function(e){
-                        var binary = this.result;
-                        var lastCurrentSpeed;
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("PUT", url, true);
-                        //xhr.setRequestHeader('x-requested-with','XMLHttpRequest');
-                        bsize=asize+e.loaded-1;
-                        xhr.setRequestHeader('Content-Range', 'bytes ' + asize + '-' + bsize +'/'+ totalsize);
-                        xhr.upload.onprogress = function(e){
-                            if (e.lengthComputable) {
-                                let tmptime = new Date();
-                                let tmpspeed = e.loaded*1000/(tmptime.getTime()-C_starttime.getTime());
-                                lastCurrentSpeed = tmpspeed;
-                                let remaintime = (totalsize-asize-e.loaded)/tmpspeed;
-                                label.innerHTML=StartStr+'#!i18n@Upload!# ' +size_format(asize+e.loaded)+ ' / '+size_format(totalsize) + ' = ' + ((asize+e.loaded)*100/totalsize).toFixed(2) + '% #!i18n@AverageSpeed!#:'+size_format((asize+e.loaded-newstartsize)*1000/(tmptime.getTime()-StartTime.getTime()))+'/s<br>#!i18n@CurrentSpeed!# '+size_format(tmpspeed)+'/s #!i18n@Expect!# '+seconds2hour(remaintime.toFixed(1));
-                            }
-                        }
-                        var C_starttime = new Date();
-                        xhr.onload = function(e){
-                            if (xhr.status<500) {
-                            var response=JSON.parse(xhr.responseText);
-                            if (response['size']>0) {
-                                // contain size, upload finish. 有size说明是最终返回，上传结束
-                                if (totalsize>10*1024*1024) {
-                                    var xhr3 = new XMLHttpRequest();
-                                    xhr3.open("GET", '?action=del_upload_cache&filelastModified='+file.lastModified+'&filesize='+file.size+'&filename='+filename);
-                                    xhr3.setRequestHeader('x-requested-with','XMLHttpRequest');
-                                    xhr3.send(null);
-                                    xhr3.onload = function(e){
-                                        console.log(xhr3.responseText+','+xhr3.status);
-                                    }
-                                }
-                                EndTime=new Date();
-                                MiddleStr = '#!i18n@EndAt!#:'+EndTime.toLocaleString()+'<br>';
-                                if (newstartsize==0) {
-                                    MiddleStr += '#!i18n@AverageSpeed!#:'+size_format(totalsize*1000/(EndTime.getTime()-StartTime.getTime()))+'/s<br>';
-                                } else {
-                                    MiddleStr += '#!i18n@ThisTime!##!i18n@AverageSpeed!#:'+size_format((totalsize-newstartsize)*1000/(EndTime.getTime()-StartTime.getTime()))+'/s<br>';
-                                }
-                                delete uploading[filename];
-                                while (filename.indexOf('%2F')>0) filename = filename.replace('%2F', '/');
-                                document.getElementById('upfile_td1_'+tdnum).innerHTML='<div style="color:green"><a href="#!base_disk_path!##!Path!#'+filename+'?preview" id="upfile_a_'+tdnum+'" target="_blank">'+document.getElementById('upfile_td1_'+tdnum).innerHTML+'</a><br><a href="#!base_disk_path!##!Path!#'+filename+'" id="upfile_a1_'+tdnum+'"></a>#!i18n@UploadComplete!#<button onclick="CopyAllDownloadUrl(\'#upfile_a1_'+tdnum+'\');" id="upfile_cpbt_'+tdnum+'" #!AdminStart!# style="display:none"#!AdminEnd!# >#!i18n@CopyUrl!#</button></div>';
-                                label.innerHTML=StartStr+MiddleStr;
-                                label.style.color='green';
-                                
-                                // uploadbuttonshow();
+                  reader.onload = function(e){
+                      var binary = this.result;
+                      var lastCurrentSpeed;
+                      var xhr = new XMLHttpRequest();
+                      xhr.open("PUT", url, true);
+                      //xhr.setRequestHeader('x-requested-with','XMLHttpRequest');
+                      bsize=asize+e.loaded-1;
+                      xhr.setRequestHeader('Content-Range', 'bytes ' + asize + '-' + bsize +'/'+ totalsize);
+                      xhr.upload.onprogress = function(e){
+                          if (e.lengthComputable) {
+                              let tmptime = new Date();
+                              let tmpspeed = e.loaded*1000/(tmptime.getTime()-C_starttime.getTime());
+                              lastCurrentSpeed = tmpspeed;
+                              let remaintime = (totalsize-asize-e.loaded)/tmpspeed;
+                              label.innerHTML=StartStr+'#!i18n@Upload!# ' +size_format(asize+e.loaded)+ ' / '+size_format(totalsize) + ' = ' + ((asize+e.loaded)*100/totalsize).toFixed(2) + '% #!i18n@AverageSpeed!#:'+size_format((asize+e.loaded-newstartsize)*1000/(tmptime.getTime()-StartTime.getTime()))+'/s<br>#!i18n@CurrentSpeed!# '+size_format(tmpspeed)+'/s #!i18n@Expect!# '+seconds2hour(remaintime.toFixed(1));
+                          }
+                      }
+                      var C_starttime = new Date();
+                      xhr.onload = function(e){
+                          if (xhr.status<500) {
+                          var response=JSON.parse(xhr.responseText);
+                          if (response['size']>0) {
+                              // contain size, upload finish. 有size说明是最终返回，上传结束
+                              if (totalsize>10*1024*1024) {
+                                  var xhr3 = new XMLHttpRequest();
+                                  xhr3.open("GET", '?action=del_upload_cache&filelastModified='+file.lastModified+'&filesize='+file.size+'&filename='+filename);
+                                  xhr3.setRequestHeader('x-requested-with','XMLHttpRequest');
+                                  xhr3.send(null);
+                                  xhr3.onload = function(e){
+                                      console.log(xhr3.responseText+','+xhr3.status);
+                                  }
+                              }
+                              EndTime=new Date();
+                              MiddleStr = '#!i18n@EndAt!#:'+EndTime.toLocaleString()+'<br>';
+                              if (newstartsize==0) {
+                                  MiddleStr += '#!i18n@AverageSpeed!#:'+size_format(totalsize*1000/(EndTime.getTime()-StartTime.getTime()))+'/s<br>';
+                              } else {
+                                  MiddleStr += '#!i18n@ThisTime!##!i18n@AverageSpeed!#:'+size_format((totalsize-newstartsize)*1000/(EndTime.getTime()-StartTime.getTime()))+'/s<br>';
+                              }
+                              delete uploading[filename];
+                              while (filename.indexOf('%2F')>0) filename = filename.replace('%2F', '/');
+                              document.getElementById('upfile_td1_'+tdnum).innerHTML='<div style="color:green"><a href="#!base_disk_path!##!Path!#'+filename+'?preview" id="upfile_a_'+tdnum+'" target="_blank">'+document.getElementById('upfile_td1_'+tdnum).innerHTML+'</a><br><a href="#!base_disk_path!##!Path!#'+filename+'" id="upfile_a1_'+tdnum+'"></a>#!i18n@UploadComplete!#<button onclick="CopyAllDownloadUrl(\'#upfile_a1_'+tdnum+'\');" id="upfile_cpbt_'+tdnum+'" #!AdminStart!# style="display:none"#!AdminEnd!# >#!i18n@CopyUrl!#</button></div>';
+                              label.innerHTML=StartStr+MiddleStr;
+                              label.style.color='green';
+                              
+                              // uploadbuttonshow();
 #!AdminStart!#
-                                response.name=file.webkitRelativePath||response.name;
-                                addelement(response);
+                              response.name=file.webkitRelativePath||response.name;
+                              addelement(response);
 #!AdminEnd!#
-                            } else {
-                                if (!response['nextExpectedRanges']) {
-                                    label.innerHTML='<font color="red">'+xhr.responseText+'</font><br>';
-                                    delete uploading[filename];
-                                } else {
-                                    var a=response['nextExpectedRanges'][0];
-                                    asize=Number( a.slice(0,a.indexOf("-")) );
-                                    chunksize = 10*1024*1024;
-                                    if (lastCurrentSpeed>5*1024*1024) chunksize = 20*1024*1024;
-                                    if (lastCurrentSpeed>10*1024*1024) chunksize = 50*1024*1024;
-                                    readblob(asize);
-                                }
-                            } } else readblob(asize);
-                        }
-                        xhr.send(binary);
-                    }
-                } else {
-                    if (window.location.pathname.indexOf('%23')>0||filename.indexOf('%23')>0) {
-                        label.innerHTML='<font color="red">#!i18n@UploadFail23!#</font>';
-                    } else {
-                        label.innerHTML='<font color="red">'+xhr2.responseText+'</font>';
-                    }
-                    delete uploading[filename];
-                    // uploadbuttonshow();
-                }
-            }
-        }
-    }
+                          } else {
+                              if (!response['nextExpectedRanges']) {
+                                  label.innerHTML='<font color="red">'+xhr.responseText+'</font><br>';
+                                  delete uploading[filename];
+                              } else {
+                                  var a=response['nextExpectedRanges'][0];
+                                  asize=Number( a.slice(0,a.indexOf("-")) );
+                                  chunksize = 10*1024*1024;
+                                  if (lastCurrentSpeed>5*1024*1024) chunksize = 20*1024*1024;
+                                  if (lastCurrentSpeed>10*1024*1024) chunksize = 50*1024*1024;
+                                  readblob(asize);
+                              }
+                          } } else readblob(asize);
+                      }
+                      xhr.send(binary);
+                  }
+              } else {
+                  if (window.location.pathname.indexOf('%23')>0||filename.indexOf('%23')>0) {
+                      label.innerHTML='<font color="red">#!i18n@UploadFail23!#</font>';
+                  } else {
+                      label.innerHTML='<font color="red">'+xhr2.responseText+'</font>';
+                  }
+                  delete uploading[filename];
+                  // uploadbuttonshow();
+              }
+          }
+      }
+  }
 #!OnedriveUploadJsEnd!#
+#!ListEnd!#
+  function operatediv_close(operate) {
+      document.getElementById(operate+'_div').style.display='none';
+      document.getElementById('mask').style.display='none';
+  }
+#!AdminStart!#
+  function logout() {
+      var expd = new Date();
+      expd.setTime(expd.getTime()+1000);
+      var expires = "expires="+expd.toGMTString();
+      document.cookie = "admin=; path=#!base_path!#; "+expires;
+      location.href = location.href;
+  }
+  /*for some mobile browser*/
+  function menu_click(e){
+      var ee=document.getElementsByClassName("active");
+      for(var i=0;i<ee.length;i++){
+          ee[i].classList.remove("active");
+      }
+      if(e.type!="mouseout")this.classList.add("active");
+  }
+  (function(){
+      var e=document.getElementsByClassName("operate");
+      document.body.addEventListener("touchstart", menu_click);
+      for(var i=0;i<e.length;i++){
+          e[i].addEventListener("touchstart", menu_click);
+          e[i].addEventListener("mouseout", menu_click);
+      }
+  })();
+#!IsFolderStart!#
+  function showdiv(event,action,num) {
+      var $operatediv=document.getElementsByName('operatediv');
+      for ($i=0;$i<$operatediv.length;$i++) {
+          $operatediv[$i].style.display='none';
+      }
+      document.getElementById('mask').style.display='';
+      //document.getElementById('mask').style.width=document.documentElement.scrollWidth+'px';
+      document.getElementById('mask').style.height='50px';
+      var str;
+      if (num=='') {
+          str = '';
+          num = 0;
+      } else {
+          str = decodeURIComponent(document.getElementById('file_a'+num).href);
+          if (str.substr(-1)==' ') str=str.substr(0, str.length-1);
+          if (str.substr(-1)=='/') str=str.substr(0, str.length-1);
+          if (str.substr(-8)=='?preview') str=str.substr(0, str.length-8);
+          if (str.lastIndexOf('/')>-1) str=str.substr(str.lastIndexOf('/')+1);
+      }
+      var fileid = document.getElementById('file_a'+num).attributes['fileid'].nodeValue;
+      document.getElementById(action + '_div').style.display='';
+      document.getElementById(action + '_label').innerText=str;//.replace(/&/,'&amp;');
+      document.getElementById(action + '_sid').value=num;
+      document.getElementById(action + '_fileid').value=fileid;
+      document.getElementById(action + '_hidden').value=str;
+      if (action=='rename') document.getElementById(action + '_input').value=str;
+      /*var $e = event || window.event;
+      var $scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;*/
+      var $scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+      /*var $x = $e.pageX || $e.clientX + $scrollX;
+      var $y = $e.pageY || $e.clientY + $scrollY;
+      if (action=='create') {*/
+          document.getElementById(action + '_div').style.left=(document.body.clientWidth-document.getElementById(action + '_div').offsetWidth)/2 +'px';
+          document.getElementById(action + '_div').style.top=(window.innerHeight-document.getElementById(action + '_div').offsetHeight)/2+$scrollY +'px';
+      /*} else {
+          if ($x + document.getElementById(action + '_div').offsetWidth > document.body.clientWidth) {
+              if (document.getElementById(action + '_div').offsetWidth > document.body.clientWidth) {
+                  document.getElementById(action + '_div').offsetWidth=document.body.clientWidth+'px';
+                  document.getElementById(action + '_div').style.left='0px';
+              } else {
+                  document.getElementById(action + '_div').style.left=document.body.clientWidth-document.getElementById(action + '_div').offsetWidth+'px';
+              }
+          } else {
+              document.getElementById(action + '_div').style.left=$x+'px';
+          }
+          document.getElementById(action + '_div').style.top=$y+'px';
+      }*/
+      document.getElementById(action + '_input').focus();
+  }
+  function submit_operate(str) {
+      var num=document.getElementById(str+'_sid').value;
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", '');
+      xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
+      xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+      xhr.onload = function(e){
+          var html;
+          if (xhr.status<300) {
+              console.log(xhr.status+','+xhr.responseText);
+              if (str=='rename') {
+                  html=JSON.parse(xhr.responseText);
+                  var file_a = document.getElementById('file_a'+num);
+                  file_a.innerText=html.name;
+                  file_a.href = (file_a.href.substr(-8)=='?preview')?(html.name.replace(/#/,'%23')+'?preview'):(html.name.replace(/#/,'%23')+'/');
+              }
+              if (str=='move'||str=='delete') document.getElementById('tr'+num).parentNode.removeChild(document.getElementById('tr'+num));
+              if (str=='create') {
+                  html=JSON.parse(xhr.responseText);
+                  addelement(html);
+              }
+              //alert('success');
+          } else alert(xhr.status+'\n'+xhr.responseText);
+          document.getElementById(str+'_div').style.display='none';
+          document.getElementById('mask').style.display='none';
+      }
+      xhr.send(serializeForm(str+'_form') + '&_admin=' + localStorage.getItem("admin"));
+      return false;
+  }
+  function addelement(html) {
+      var tr1=document.createElement('tr');
+      tr1.setAttribute('data-to',1);
+      var td1=document.createElement('td');
+      td1.setAttribute('class','file');
+      var a1=document.createElement('a');
+      a1.href='#!base_disk_path!##!Path!#'+html.name.replace(/#/,'%23');
+      a1.innerText=html.name;
+      a1.target='_blank';
+      var td2=document.createElement('td');
+      td2.setAttribute('class','updated_at');
+      if (!!html.time) td2.innerText=html.time.replace(/T/,' ').replace(/Z/,'');
+      var td3=document.createElement('td');
+      td3.setAttribute('class','size');
+      if (!!html.size) td3.innerText=size_format(html.size);
+      else td3.innerText='0 B';
+      if (html.type=='folder') {
+          a1.href+='/';
+          document.getElementById('tr0').parentNode.insertBefore(tr1,document.getElementById('tr0').nextSibling);
+      }
+      if (html.type=='file') {
+          a1.href+='?preview';
+          a1.name='filelist';
+          document.getElementById('tr0').parentNode.appendChild(tr1);
+      }
+      tr1.appendChild(td1);
+      td1.appendChild(a1);
+      tr1.appendChild(td2);
+      tr1.appendChild(td3);
+  }
+  function getElements(formId) {
+      var form = document.getElementById(formId);
+      var elements = new Array();
+      var tagElements = form.getElementsByTagName('input');
+      for (var j = 0; j < tagElements.length; j++){
+          elements.push(tagElements[j]);
+      }
+      var tagElements = form.getElementsByTagName('select');
+      for (var j = 0; j < tagElements.length; j++){
+          elements.push(tagElements[j]);
+      }
+      var tagElements = form.getElementsByTagName('textarea');
+      for (var j = 0; j < tagElements.length; j++){
+          elements.push(tagElements[j]);
+      }
+      return elements;
+  }
+  function serializeElement(element) {
+      var method = element.tagName.toLowerCase();
+      var parameter;
+      if (method == 'select') {
+          parameter = [element.name, element.value];
+      }
+      switch (element.type.toLowerCase()) {
+          case 'submit':
+          case 'hidden':
+          case 'password':
+          case 'text':
+          case 'date':
+          case 'textarea':
+              parameter = [element.name, element.value];
+              break;
+          case 'checkbox':
+          case 'radio':
+              if (element.checked){
+                  parameter = [element.name, element.value];
+              }
+              break;
+      }
+      if (parameter) {
+          var key = encodeURIComponent(parameter[0]);
+          if (key.length == 0) return;
+          if (parameter[1].constructor != Array) parameter[1] = [parameter[1]];
+          var values = parameter[1];
+          var results = [];
+          for (var i = 0; i < values.length; i++) {
+              results.push(key + '=' + encodeURIComponent(values[i]));
+          }
+          return results.join('&');
+      }
+  }
+  function serializeForm(formId) {
+      var elements = getElements(formId);
+      var queryComponents = new Array();
+      for (var i = 0; i < elements.length; i++) {
+          var queryComponent = serializeElement(elements[i]);
+          if (queryComponent) {
+              queryComponents.push(queryComponent);
+          }
+      }
+      return queryComponents.join('&');
+  }
+#!IsFolderEnd!#
+#!AdminEnd!#
+#!EncryptedStart!#
+  document.getElementById('password1').focus();
+#!EncryptedEnd!#
 </script>
-        </div>
     </body>
 <script src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <style>

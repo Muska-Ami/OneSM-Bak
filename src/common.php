@@ -9,16 +9,6 @@ $EnvConfigs = [
     // 1 inner, 0 common
     // 1 showed/enableEdit, 0 hidden/disableEdit
     // 1 base64 to save, 0 not base64
-    'APIKey'            => 0b000, // used in heroku.
-    'SecretId'          => 0b000, // used in SCF/CFC.
-    'SecretKey'         => 0b000, // used in SCF/CFC.
-    'AccessKeyID'       => 0b000, // used in FC.
-    'AccessKeySecret'   => 0b000, // used in FC.
-    'HW_urn'            => 0b000, // used in FG.
-    'HW_key'            => 0b000, // used in FG.
-    'HW_secret'         => 0b000, // used in FG.
-    'HerokuappId'       => 0b000, // used in heroku.
-
     'admin'             => 0b000,
     'adminloginpage'    => 0b010,
     'autoJumpFirstDisk' => 0b010,
@@ -1629,27 +1619,6 @@ output:
         document.getElementById(\'AddDisk_link\').href="?AddDisk=" + d;
     }
 </script>';
-
-        $canOneKeyUpate = 0;
-        if (isset($_SERVER['USER'])&&$_SERVER['USER']==='qcloud') {
-            $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['HEROKU_APP_DIR'])&&$_SERVER['HEROKU_APP_DIR']==='/app') {
-            $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['FC_SERVER_PATH'])&&$_SERVER['FC_SERVER_PATH']==='/var/fc/runtime/php7.2') {
-            $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['BCE_CFC_RUNTIME_NAME'])&&$_SERVER['BCE_CFC_RUNTIME_NAME']=='php7') {
-            $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['_APP_SHARE_DIR'])&&$_SERVER['_APP_SHARE_DIR']==='/var/share/CFF/processrouter') {
-            $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['DOCUMENT_ROOT'])&&$_SERVER['DOCUMENT_ROOT']==='/var/task/user') {
-            $canOneKeyUpate = 1;
-        } else {
-            $tmp = time();
-            if ( mkdir(''.$tmp, 0777) ) {
-                rmdir(''.$tmp);
-                $canOneKeyUpate = 1;
-            }
-        }
             $frame .= '<div style="position: relative; word-wrap: break-word;">
         ' . str_replace("\n", '<br>', $_SERVER['github_ver_new']) . '
 </div>
@@ -1887,7 +1856,7 @@ function render_list($path = '', $files = [])
 
     //if (isset($_COOKIE['theme'])&&$_COOKIE['theme']!='') $theme = $_COOKIE['theme'];
     //if ( !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = '';
-    if ($_SERVER['admin']) $theme = 'classic.html';
+    if ($_SERVER['admin']) $theme = 'defult.html';
     if ( $theme=='' ) {
         $tmp = getConfig('customTheme');
         if ( $tmp!='' ) $theme = $tmp;

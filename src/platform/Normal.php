@@ -240,7 +240,7 @@ function install() {
             xhr4.send(null);
             xhr4.onload = function(e){
                 console.log(xhr4.responseText+","+xhr4.status);
-                if (xhr4.status==200) {
+                if (xhr4.status==201) {
                     document.getElementById("checkrewritebtn").style.display = "none";
                     document.getElementById("submitbtn").disabled = false;
                     document.getElementById("formdiv").style.display = "";

@@ -8,7 +8,7 @@ include './src/common.php';
 //echo '<pre>'. json_encode($_SERVER, JSON_PRETTY_PRINT).'</pre>';
 //echo '<pre>'. json_encode($_ENV, JSON_PRETTY_PRINT).'</pre>';
 if (isset($_SERVER['DOCUMENT_ROOT'])&&$_SERVER['DOCUMENT_ROOT']==='/var/task/user') {
-    if (getenv('ONEMANAGER_CONFIG_SAVE')=='env') include './src/platform/Vercel_env.php';
+    if (getenv('ONESM_CONFIG_SAVE')=='env') include './src/platform/Vercel_env.php';
     else include './src/platform/Vercel.php';
     $path = getpath();
     //echo 'path:'. $path;
