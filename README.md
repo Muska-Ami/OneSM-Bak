@@ -12,7 +12,7 @@
 - 主题功能
 - hCaptcha人机验证
 *****
-演示站: [http://demo.onesm.skimino.cf/](http://demo.onesm.skimino.cf/)  
+演示站: [http://exam.onesm.skimino.cf/](http://exam.onesm.skimino.cf/)  
 有关部署相关，请查看[https://docs.skimino.cf/OneSM](https://docs.skimino.cf/OneSM)
 *****
 ## CloudFlare Workers
