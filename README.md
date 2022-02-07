@@ -1,7 +1,7 @@
 # OneSM - 一个OneDrive管理器
-<img src="https://onesm.skimino.cf/OneSM-Logo.png" /><br />
+<img src="https://onesm.smcloli.ml/OneSM-Logo.png" /><br />
 基于OneManager-php重写，目前仅支持Vercel和云虚拟机 / 服务器部署<br />
-[OneSM - Releases](https://onesm.skimino.cf)
+[OneSM - Releases](https://onesm.smcloli.ml/)
 ### 功能
 - OneDrive直链
 - 在线预览
@@ -12,8 +12,9 @@
 - 主题功能
 - hCaptcha人机验证
 *****
-演示站: [http://exam.onesm.skimino.cf/](http://exam.onesm.skimino.cf/)  
-有关部署相关，请查看[https://docs.skimino.cf/OneSM](https://docs.skimino.cf/OneSM)
+~~演示站: [http://exam.https://onesm.smcloli.ml/](http://exam.onesm.smcloli.ml/)  ~~
+演示站已挂
+有关部署相关，请查看[https://docs.smcloli.ml/OneSM](https://docs.smcloli.ml/OneSM)
 *****
 ## CloudFlare Workers
 使用Workers反代理加速&随机访问
