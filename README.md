@@ -15,7 +15,7 @@
 ~~演示站: [http://exam.https://onesm.smilo.ga/](http://exam.onesm.smilo.ga/)  ~~
 
 演示站已挂
-有关部署相关，请查看[https://docs.onesm.smilo.ga/OneSM/](https://docs.onesm.smilo.ga/OneSM/)
+有关部署相关，请查看[https://docs.smilo.ga/OneSM/](https://docs.onesm.smilo.ga/OneSM/)
 *****
 ## CloudFlare Workers
 使用Workers反代理加速&随机访问
