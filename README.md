@@ -1,3 +1,6 @@
+# 此库已归档
+此库已归档，不再提交任何代码。
+
 # OneSM - 一个OneDrive管理器
 <img src="https://onesm.smilo.ga/OneSM-Logo.png" /><br />
 基于OneManager-php重写，目前仅支持云虚拟机 / 服务器部署<br />
